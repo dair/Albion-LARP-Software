@@ -24,7 +24,7 @@ namespace UI
         {
             InitializeComponent();
         }
-
+        
         private void SettingsView_Load(object sender, EventArgs e)
         {
             LoadSettings();
@@ -56,11 +56,14 @@ namespace UI
         private void applySettings()
         {
             Database.Connection db = getDatabase();
-            db.setIpAddress(hostTextBox.Text);
-            db.setPort(Convert.ToUInt16(portTextBox.Text));
-            db.setUserName(userTextBox.Text);
-            db.setPassword(passwordTextBox.Text);
-            db.setDatabase(dbnameTextBox.Text);
+            if (db != null)
+            {
+                db.setIpAddress(hostTextBox.Text);
+                db.setPort(Convert.ToUInt16(portTextBox.Text));
+                db.setUserName(userTextBox.Text);
+                db.setPassword(passwordTextBox.Text);
+                db.setDatabase(dbnameTextBox.Text);
+            }
         }
 
         private void testButton_Click(object sender, EventArgs e)

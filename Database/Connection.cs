@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data;
 using Npgsql;
 
 namespace Database
@@ -99,6 +100,36 @@ namespace Database
             }
 
             return serverVersion != null;
+        }
+
+        public void fillWithPersons(DataTable table)
+        {
+            table.Columns.Clear();
+            table.Columns.Add("ID");
+            table.Columns.Add("NAME");
+            table.Rows.Clear();
+
+            if (!connect())
+                return;
+
+            NpgsqlCommand command = new NpgsqlCommand("select ID, NAME from PERSON", connection);
+            try
+            {
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(Convert.ToString(rd["ID"]), Convert.ToString(rd["NAME"]));
+                }
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+            finally
+            {
+                disconnect();
+            }
         }
 
         // ----------------------------------------------------------

@@ -14,7 +14,7 @@ namespace UI
 
         public DBObjectForm()
         {
-            MessageBox.Show("This method shouldn't be called: UI.DBObjectForm.DBObjectForm()");
+            //MessageBox.Show("This method shouldn't be called: UI.DBObjectForm.DBObjectForm()");
         }
 
         public DBObjectForm(Database.Connection db)

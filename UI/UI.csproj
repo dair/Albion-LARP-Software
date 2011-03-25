@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A7F41273-AA05-4407-AD8D-D7CF6D0CE6A9}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{4A2CB31A-61EC-4D8B-807A-900C3316CC98}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Master</RootNamespace>
-    <AssemblyName>Master</AssemblyName>
+    <RootNamespace>UI</RootNamespace>
+    <AssemblyName>UI</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -35,6 +35,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -42,41 +44,37 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context.cs" />
-    <Compile Include="MainWindow.cs">
+    <Compile Include="DBDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainWindow.Designer.cs">
-      <DependentUpon>MainWindow.cs</DependentUpon>
+    <Compile Include="DBDialog.Designer.cs">
+      <DependentUpon>DBDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="DBObjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DBObjectUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IDBObject.cs" />
+    <Compile Include="PersonInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PersonInfo.Designer.cs">
+      <DependentUpon>PersonInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PersonList.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="MainWindow.resx">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
+    <Compile Include="SettingsView.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    <Compile Include="SettingsView.designer.cs">
+      <DependentUpon>SettingsView.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -88,10 +86,20 @@
       <Project>{9857B990-F571-4BDA-8EA6-EE46CC03DDA8}</Project>
       <Name>Settings</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UI\UI.csproj">
-      <Project>{4A2CB31A-61EC-4D8B-807A-900C3316CC98}</Project>
-      <Name>UI</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DBDialog.resx">
+      <DependentUpon>DBDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PersonInfo.resx">
+      <DependentUpon>PersonInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PersonList.resx">
+      <DependentUpon>PersonList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingsView.resx">
+      <DependentUpon>SettingsView.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
