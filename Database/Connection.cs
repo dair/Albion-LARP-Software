@@ -194,13 +194,19 @@ namespace Database
                 command.Parameters[0].Value = id;
 
                 ret.properties.Clear();
+                ret.properties.Columns.Add("Название");
+                ret.properties.Columns.Add("Значение");
+
                 rd = command.ExecuteReader();
+
+
+
                 while (rd.Read())
                 {
                     String key = Convert.ToString(rd[0]);
                     String value = Convert.ToString(rd[1]);
 
-                    ret.properties.Add(key, value);
+                    ret.properties.Rows.Add(key, value);
                 }
             }
             catch (Exception ex)

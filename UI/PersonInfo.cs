@@ -12,6 +12,7 @@ namespace UI
     public partial class PersonInfo : DBObjectUserControl
     {
         private Database.FullPersonInfo fullPersonInfo = null;
+        private BindingSource bindingSource = null;
 
         public PersonInfo()
         {
@@ -22,6 +23,9 @@ namespace UI
             : base(db)
         {
             InitializeComponent();
+
+            bindingSource = new BindingSource();
+            propertiesGridView.DataSource = bindingSource;
         }
 
         public void setId(UInt16 id)
@@ -35,11 +39,13 @@ namespace UI
             {
                 this.Enabled = true;
                 fullPersonInfo = getDatabase().getPersonInfo(id);
+
                 this.idBox.Text = Convert.ToString(fullPersonInfo.id);
                 this.nameBox.Text = fullPersonInfo.name;
                 this.moneyBox.Text = Convert.ToString(fullPersonInfo.balance);
-            }
 
+                bindingSource.DataSource = fullPersonInfo.properties;
+            }
         }
     }
 }

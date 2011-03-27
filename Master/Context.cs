@@ -43,6 +43,10 @@ namespace Master
 
                 mainForm.Show();
             }
+            else
+            {
+                ExitThread();
+            }
         }
 
         // ----------------------------------------------------------
