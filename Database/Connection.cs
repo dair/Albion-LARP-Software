@@ -57,8 +57,8 @@ namespace Database
 
         protected bool connect()
         {
-            connection = new NpgsqlConnection(connectionString());
             bool ret = true;
+            connection = new NpgsqlConnection(connectionString());
             try
             {
                 lastException = null;
@@ -77,6 +77,28 @@ namespace Database
         {
             connection.Close();
             connection = null;
+        }
+
+        public Boolean dbToBoolean(object o)
+        {
+            if (!(o is String))
+            {
+                throw new InvalidCastException("Invalid result from DB");
+            }
+
+            String s = Convert.ToString(o);
+            if (s.ToLower()[0].Equals("y"))
+                return true;
+
+            return false;
+        }
+
+        public String booleanToDb(bool b)
+        {
+            if (b)
+                return "Y";
+            else
+                return "N";
         }
 
         public bool test()
@@ -175,7 +197,7 @@ namespace Database
 
             FullPersonInfo ret = new FullPersonInfo();
 
-            NpgsqlCommand command = new NpgsqlCommand("select NAME, BALANCE from PERSON where ID = :value1", connection);
+            NpgsqlCommand command = new NpgsqlCommand("select NAME, GENDER, RACE from PERSON where ID = :value1", connection);
             try
             {
                 command.Parameters.Add(new NpgsqlParameter("value1", NpgsqlTypes.NpgsqlDbType.Numeric));
@@ -186,7 +208,28 @@ namespace Database
                 {
                     ret.id = id;
                     ret.name = Convert.ToString(rd["NAME"]);
-                    ret.balance = Convert.ToUInt32(rd["BALANCE"]);
+                    String sGender = Convert.ToString(rd["GENDER"]);
+                    String sGenome = Convert.ToString(rd["RACE"]);
+
+                    switch (sGender)
+                    {
+                        case "M":
+                            ret.gender = FullPersonInfo.Gender.Male;
+                            break;
+                        case "F":
+                            ret.gender = FullPersonInfo.Gender.Female;
+                            break;
+                    }
+
+                    switch (sGenome)
+                    {
+                        case "H":
+                            ret.genome = FullPersonInfo.Genome.Human;
+                            break;
+                        case "A":
+                            ret.genome = FullPersonInfo.Genome.Android;
+                            break;
+                    }
                 }
 
                 command = new NpgsqlCommand("select PROPERTY.NAME, PERSON_PROP.VALUE from PERSON_PROP, PROPERTY where PERSON_PROP.PERS_ID = :value1 and PERSON_PROP.PROP_ID = PROPERTY.ID", connection);
@@ -199,8 +242,6 @@ namespace Database
 
                 rd = command.ExecuteReader();
 
-
-
                 while (rd.Read())
                 {
                     String key = Convert.ToString(rd[0]);
@@ -209,6 +250,41 @@ namespace Database
                     ret.properties.Rows.Add(key, value);
                 }
             }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return ret;
+        }
+
+        // ----------------------------------------------------------
+        public MoneyInfo getMoneyInfo(UInt16 id)
+        {
+            if (!connect())
+                return null;
+
+            MoneyInfo ret = new MoneyInfo();
+
+            NpgsqlCommand command = new NpgsqlCommand("select BALANCE, PIN, FAILURES from MONEY where ID = :value1", connection);
+            try
+            {
+                command.Parameters.Add(new NpgsqlParameter("value1", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters[0].Value = id;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    ret.balance = Convert.ToUInt32(rd["BALANCE"]);
+                    ret.pinCode = Convert.ToString(rd["PIN"]);
+                    ret.failures = Convert.ToUInt16(rd["FAILURES"]);
+                }
+            }
+
             catch (Exception ex)
             {
                 lastException = ex;
@@ -237,6 +313,84 @@ namespace Database
                 command = new NpgsqlCommand("delete from person where id = :value", connection);
                 command.Parameters.Add(new NpgsqlParameter("value1", NpgsqlTypes.NpgsqlDbType.Numeric));
                 command.Parameters[0].Value = personId;
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        // ----------------------------------------------------------
+        public void fillPropList(DataTable table)
+        {
+            table.Columns.Clear();
+            table.Columns.Add("Название");
+            table.Columns.Add("Видно полиции", Type.GetType("System.Boolean", false, true));
+            table.Rows.Clear();
+
+            if (!connect())
+                return;
+
+            NpgsqlCommand command = new NpgsqlCommand("select NAME, POLICE from PROPERTY", connection);
+            try
+            {
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    object o1 = rd["NAME"];
+                    object o2 = rd["POLICE"];
+
+                    table.Rows.Add(Convert.ToString(o1), dbToBoolean(o2));
+                }
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        // ----------------------------------------------------------
+        public void editProperty(PropertyInfo pInfo)
+        {
+            if (pInfo == null)
+                return;
+
+            if (pInfo.name == null ||
+                pInfo.name.Length == 0)
+                throw new ArgumentNullException("pInfo.name", "name shoudn't be null or empty");
+
+            String req;
+            if (pInfo.id == 0)
+            {
+                req = "INSERT INTO PROPERTY (NAME, POLICE) VALUES (:value1, :value2)";
+            }
+            else
+            {
+                req = "UPDATE PROPERTY SET NAME = :value1, POLICE = :value2 WHERE ID = :value3";
+            }
+
+            if (!connect())
+                return;
+
+            NpgsqlCommand command = new NpgsqlCommand(req, connection);
+            try
+            {
+                command.Parameters.Add(new NpgsqlParameter("value1", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command.Parameters["value1"].Value = pInfo.name;
+                command.Parameters.Add(new NpgsqlParameter("value2", NpgsqlTypes.NpgsqlDbType.Char));
+                command.Parameters["value2"].Value = booleanToDb(pInfo.policeVisibility);
+                command.Parameters.Add(new NpgsqlParameter("value3", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["value3"].Value = pInfo.id;
+
                 command.ExecuteNonQuery();
             }
             catch (Exception ex)

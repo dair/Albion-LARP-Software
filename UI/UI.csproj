@@ -60,6 +60,12 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="IDBObject.cs" />
+    <Compile Include="MoneyInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MoneyInfo.Designer.cs">
+      <DependentUpon>MoneyInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="PersonInfo.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -90,6 +96,9 @@
   <ItemGroup>
     <EmbeddedResource Include="DBDialog.resx">
       <DependentUpon>DBDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MoneyInfo.resx">
+      <DependentUpon>MoneyInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PersonInfo.resx">
       <DependentUpon>PersonInfo.cs</DependentUpon>

@@ -34,8 +34,10 @@
             this.nameBox = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.propertiesGridView = new System.Windows.Forms.DataGridView();
-            this.moneyBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.genderBox = new System.Windows.Forms.ComboBox();
+            this.genomeBox = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.propertiesGridView)).BeginInit();
             this.SuspendLayout();
@@ -66,7 +68,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.idBox.Location = new System.Drawing.Point(54, 3);
             this.idBox.Name = "idBox";
-            this.idBox.Size = new System.Drawing.Size(150, 20);
+            this.idBox.Size = new System.Drawing.Size(250, 20);
             this.idBox.TabIndex = 2;
             // 
             // nameBox
@@ -75,7 +77,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.nameBox.Location = new System.Drawing.Point(54, 29);
             this.nameBox.Name = "nameBox";
-            this.nameBox.Size = new System.Drawing.Size(150, 20);
+            this.nameBox.Size = new System.Drawing.Size(250, 20);
             this.nameBox.TabIndex = 3;
             // 
             // groupBox1
@@ -84,9 +86,9 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.propertiesGridView);
-            this.groupBox1.Location = new System.Drawing.Point(3, 81);
+            this.groupBox1.Location = new System.Drawing.Point(3, 110);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(207, 146);
+            this.groupBox1.Size = new System.Drawing.Size(307, 207);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Свойства";
@@ -102,33 +104,64 @@
             this.propertiesGridView.Location = new System.Drawing.Point(6, 19);
             this.propertiesGridView.Name = "propertiesGridView";
             this.propertiesGridView.ReadOnly = true;
-            this.propertiesGridView.Size = new System.Drawing.Size(195, 121);
+            this.propertiesGridView.Size = new System.Drawing.Size(295, 182);
             this.propertiesGridView.TabIndex = 0;
-            // 
-            // moneyBox
-            // 
-            this.moneyBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.moneyBox.Location = new System.Drawing.Point(54, 55);
-            this.moneyBox.Name = "moneyBox";
-            this.moneyBox.Size = new System.Drawing.Size(150, 20);
-            this.moneyBox.TabIndex = 6;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 58);
+            this.label3.Location = new System.Drawing.Point(19, 59);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.Size = new System.Drawing.Size(30, 13);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Бабло:";
+            this.label3.Text = "Пол:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // genderBox
+            // 
+            this.genderBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.genderBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.genderBox.FormattingEnabled = true;
+            this.genderBox.Items.AddRange(new object[] {
+            "Неизвестно",
+            "Мальчик",
+            "Девочка"});
+            this.genderBox.Location = new System.Drawing.Point(54, 56);
+            this.genderBox.Name = "genderBox";
+            this.genderBox.Size = new System.Drawing.Size(250, 21);
+            this.genderBox.TabIndex = 6;
+            // 
+            // genomeBox
+            // 
+            this.genomeBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.genomeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.genomeBox.Items.AddRange(new object[] {
+            "Человек",
+            "Андроид"});
+            this.genomeBox.Location = new System.Drawing.Point(54, 83);
+            this.genomeBox.Name = "genomeBox";
+            this.genomeBox.Size = new System.Drawing.Size(250, 21);
+            this.genomeBox.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 85);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(42, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Геном:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // PersonInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.moneyBox);
+            this.Controls.Add(this.genomeBox);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.genderBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.nameBox);
@@ -136,7 +169,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "PersonInfo";
-            this.Size = new System.Drawing.Size(213, 230);
+            this.Size = new System.Drawing.Size(313, 320);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.propertiesGridView)).EndInit();
             this.ResumeLayout(false);
@@ -152,7 +185,9 @@
         private System.Windows.Forms.TextBox nameBox;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView propertiesGridView;
-        private System.Windows.Forms.TextBox moneyBox;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox genderBox;
+        private System.Windows.Forms.ComboBox genomeBox;
+        private System.Windows.Forms.Label label4;
     }
 }

@@ -7,7 +7,21 @@ namespace Database
 {
     public class FullPersonInfo: PersonInfo
     {
-        public UInt32 balance;
+        public enum Gender
+        {
+            Unknown,
+            Male,
+            Female
+        };
+        public Gender gender;
+
+        public enum Genome
+        {
+            Human,
+            Android
+        };
+        public Genome genome;
+
         public DataTable properties;
 
         public FullPersonInfo()
@@ -22,7 +36,10 @@ namespace Database
             if (!ret)
                 return ret;
 
-            if (balance != p.balance)
+            if (gender != p.gender)
+                return false;
+
+            if (genome != p.genome)
                 return false;
 
             if (!properties.Equals(p.properties))

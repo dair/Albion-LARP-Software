@@ -21,15 +21,5 @@ namespace Master
         {
             InitializeComponent();
         }
-
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-            personList.Retrieve();
-        }
-
-        private void personList_SelectionChanged(object sender, EventArgs e)
-        {
-            personInfo.setId(personList.getId());
-        }
     }
 }

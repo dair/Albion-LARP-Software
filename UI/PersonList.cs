@@ -69,7 +69,6 @@ namespace UI
             this.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         public UInt16 getId()

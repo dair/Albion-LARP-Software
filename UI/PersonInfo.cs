@@ -42,7 +42,29 @@ namespace UI
 
                 this.idBox.Text = Convert.ToString(fullPersonInfo.id);
                 this.nameBox.Text = fullPersonInfo.name;
-                this.moneyBox.Text = Convert.ToString(fullPersonInfo.balance);
+
+                switch (fullPersonInfo.gender)
+                {
+                    case Database.FullPersonInfo.Gender.Female:
+                        genderBox.SelectedIndex = 2;
+                        break;
+                    case Database.FullPersonInfo.Gender.Male:
+                        genderBox.SelectedIndex = 1;
+                        break;
+                    case Database.FullPersonInfo.Gender.Unknown:
+                        genderBox.SelectedIndex = 0;
+                        break;
+                }
+
+                switch (fullPersonInfo.genome)
+                {
+                    case Database.FullPersonInfo.Genome.Android:
+                        genomeBox.SelectedIndex = 1;
+                        break;
+                    case Database.FullPersonInfo.Genome.Human:
+                        genomeBox.SelectedIndex = 0;
+                        break;
+                }
 
                 bindingSource.DataSource = fullPersonInfo.properties;
             }
