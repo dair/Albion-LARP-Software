@@ -109,6 +109,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование свойства";
+            this.Load += new System.EventHandler(this.PropertyEditWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

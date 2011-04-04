@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
-using System.Data;
 using Npgsql;
 
 namespace Database
@@ -87,7 +87,7 @@ namespace Database
             }
 
             String s = Convert.ToString(o);
-            if (s.ToLower()[0].Equals("y"))
+            if (s.ToLower()[0] == 'y')
                 return true;
 
             return false;
@@ -134,7 +134,7 @@ namespace Database
             if (!connect())
                 return;
 
-            NpgsqlCommand command = new NpgsqlCommand("select ID, NAME from PERSON", connection);
+            NpgsqlCommand command = new NpgsqlCommand("select ID, NAME from PERSON ORDER BY ID ASC", connection);
             try
             {
 
@@ -232,7 +232,7 @@ namespace Database
                     }
                 }
 
-                command = new NpgsqlCommand("select PROPERTY.NAME, PERSON_PROP.VALUE from PERSON_PROP, PROPERTY where PERSON_PROP.PERS_ID = :value1 and PERSON_PROP.PROP_ID = PROPERTY.ID", connection);
+                command = new NpgsqlCommand("select PROPERTY.NAME, PERSON_PROP.VALUE from PERSON_PROP, PROPERTY where PERSON_PROP.PERS_ID = :value1 and PERSON_PROP.PROP_ID = PROPERTY.ID ORDER BY PROPERTY.NAME ASC", connection);
                 command.Parameters.Add(new NpgsqlParameter("value1", NpgsqlTypes.NpgsqlDbType.Numeric));
                 command.Parameters[0].Value = id;
 
@@ -270,7 +270,7 @@ namespace Database
 
             MoneyInfo ret = new MoneyInfo();
 
-            NpgsqlCommand command = new NpgsqlCommand("select BALANCE, PIN, FAILURES from MONEY where ID = :value1", connection);
+            NpgsqlCommand command = new NpgsqlCommand("select BALANCE, PIN, FAILURES from MONEY where ID = :value1 ORDER BY ID ASC", connection);
             try
             {
                 command.Parameters.Add(new NpgsqlParameter("value1", NpgsqlTypes.NpgsqlDbType.Numeric));
@@ -329,6 +329,7 @@ namespace Database
         public void fillPropList(DataTable table)
         {
             table.Columns.Clear();
+            table.Columns.Add("ID", Type.GetType("System.UInt16"));
             table.Columns.Add("Название");
             table.Columns.Add("Видно полиции", Type.GetType("System.Boolean", false, true));
             table.Rows.Clear();
@@ -336,16 +337,17 @@ namespace Database
             if (!connect())
                 return;
 
-            NpgsqlCommand command = new NpgsqlCommand("select NAME, POLICE from PROPERTY", connection);
+            NpgsqlCommand command = new NpgsqlCommand("select ID, NAME, POLICE from PROPERTY order by ID ASC", connection);
             try
             {
                 NpgsqlDataReader rd = command.ExecuteReader();
                 while (rd.Read())
                 {
+                    object o0 = rd["ID"];
                     object o1 = rd["NAME"];
                     object o2 = rd["POLICE"];
 
-                    table.Rows.Add(Convert.ToString(o1), dbToBoolean(o2));
+                    table.Rows.Add(Convert.ToUInt16(o0), Convert.ToString(o1), dbToBoolean(o2));
                 }
             }
             catch (Exception ex)
@@ -390,6 +392,35 @@ namespace Database
                 command.Parameters["value2"].Value = booleanToDb(pInfo.policeVisibility);
                 command.Parameters.Add(new NpgsqlParameter("value3", NpgsqlTypes.NpgsqlDbType.Numeric));
                 command.Parameters["value3"].Value = pInfo.id;
+
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        // ----------------------------------------------------------
+        public void deleteProperty(PropertyInfo pInfo)
+        {
+            if (pInfo == null)
+                return;
+            if (!connect())
+                return;
+
+            String req;
+            req = "DELETE FROM PROPERTY WHERE ID = :value1";
+
+            NpgsqlCommand command = new NpgsqlCommand(req, connection);
+            try
+            {
+                command.Parameters.Add(new NpgsqlParameter("value1", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["value1"].Value = pInfo.id;
 
                 command.ExecuteNonQuery();
             }
