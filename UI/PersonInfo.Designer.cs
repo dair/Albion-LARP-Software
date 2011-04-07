@@ -33,6 +33,9 @@
             this.idBox = new System.Windows.Forms.TextBox();
             this.nameBox = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.deletePropButton = new System.Windows.Forms.Button();
+            this.editPropButton = new System.Windows.Forms.Button();
+            this.addPropButton = new System.Windows.Forms.Button();
             this.propertiesGridView = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
             this.genderBox = new System.Windows.Forms.ComboBox();
@@ -85,6 +88,9 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.deletePropButton);
+            this.groupBox1.Controls.Add(this.editPropButton);
+            this.groupBox1.Controls.Add(this.addPropButton);
             this.groupBox1.Controls.Add(this.propertiesGridView);
             this.groupBox1.Location = new System.Drawing.Point(3, 110);
             this.groupBox1.Name = "groupBox1";
@@ -92,6 +98,39 @@
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Свойства";
+            // 
+            // deletePropButton
+            // 
+            this.deletePropButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deletePropButton.Location = new System.Drawing.Point(226, 19);
+            this.deletePropButton.Name = "deletePropButton";
+            this.deletePropButton.Size = new System.Drawing.Size(75, 23);
+            this.deletePropButton.TabIndex = 3;
+            this.deletePropButton.Text = "Удалить";
+            this.deletePropButton.UseVisualStyleBackColor = true;
+            this.deletePropButton.Click += new System.EventHandler(this.deletePropButton_Click);
+            // 
+            // editPropButton
+            // 
+            this.editPropButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.editPropButton.Location = new System.Drawing.Point(124, 19);
+            this.editPropButton.Name = "editPropButton";
+            this.editPropButton.Size = new System.Drawing.Size(96, 23);
+            this.editPropButton.TabIndex = 2;
+            this.editPropButton.Text = "Редактировать";
+            this.editPropButton.UseVisualStyleBackColor = true;
+            this.editPropButton.Click += new System.EventHandler(this.editPropButton_Click);
+            // 
+            // addPropButton
+            // 
+            this.addPropButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.addPropButton.Location = new System.Drawing.Point(43, 19);
+            this.addPropButton.Name = "addPropButton";
+            this.addPropButton.Size = new System.Drawing.Size(75, 23);
+            this.addPropButton.TabIndex = 1;
+            this.addPropButton.Text = "Добавить";
+            this.addPropButton.UseVisualStyleBackColor = true;
+            this.addPropButton.Click += new System.EventHandler(this.addPropButton_Click);
             // 
             // propertiesGridView
             // 
@@ -101,10 +140,11 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.propertiesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.propertiesGridView.Location = new System.Drawing.Point(6, 19);
+            this.propertiesGridView.Location = new System.Drawing.Point(6, 48);
             this.propertiesGridView.Name = "propertiesGridView";
             this.propertiesGridView.ReadOnly = true;
-            this.propertiesGridView.Size = new System.Drawing.Size(295, 182);
+            this.propertiesGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.propertiesGridView.Size = new System.Drawing.Size(295, 153);
             this.propertiesGridView.TabIndex = 0;
             // 
             // label3
@@ -189,5 +229,8 @@
         private System.Windows.Forms.ComboBox genderBox;
         private System.Windows.Forms.ComboBox genomeBox;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button deletePropButton;
+        private System.Windows.Forms.Button editPropButton;
+        private System.Windows.Forms.Button addPropButton;
     }
 }

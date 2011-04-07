@@ -81,6 +81,26 @@ namespace Database
             connection = null;
         }
 
+        protected void begin()
+        {
+            NpgsqlCommand command = new NpgsqlCommand("begin transaction", connection);
+            command.ExecuteNonQuery();
+        }
+
+        protected void commit()
+        {
+            NpgsqlCommand command = new NpgsqlCommand("commit", connection);
+            command.ExecuteNonQuery();
+        }
+
+        protected void rollback()
+        {
+            NpgsqlCommand command = new NpgsqlCommand("rollback", connection);
+            command.ExecuteNonQuery();
+        }
+
+
+
         public static Boolean dbToBoolean(object o)
         {
             if (!(o is String))
@@ -246,22 +266,19 @@ namespace Database
                     }
                 }
 
-                command = new NpgsqlCommand("select PROPERTY.NAME, PERSON_PROP.VALUE from PERSON_PROP, PROPERTY where PERSON_PROP.PERS_ID = :value1 and PERSON_PROP.PROP_ID = PROPERTY.ID ORDER BY PROPERTY.NAME ASC", connection);
+                command = new NpgsqlCommand("select PROPERTY.ID, PROPERTY.NAME, PERSON_PROP.VALUE from PERSON_PROP, PROPERTY where PERSON_PROP.PERS_ID = :value1 and PERSON_PROP.PROP_ID = PROPERTY.ID ORDER BY PROPERTY.NAME ASC", connection);
                 command.Parameters.Add(new NpgsqlParameter("value1", NpgsqlTypes.NpgsqlDbType.Numeric));
                 command.Parameters[0].Value = id;
-
-                ret.properties.Clear();
-                ret.properties.Columns.Add("Название");
-                ret.properties.Columns.Add("Значение");
 
                 rd = command.ExecuteReader();
 
                 while (rd.Read())
                 {
-                    String key = Convert.ToString(rd[0]);
-                    String value = Convert.ToString(rd[1]);
+                    UInt16 propId = Convert.ToUInt16(rd[0]);
+                    String key = Convert.ToString(rd[1]);
+                    String value = Convert.ToString(rd[2]);
 
-                    ret.properties.Rows.Add(key, value);
+                    ret.properties.Rows.Add(propId, key, value);
                 }
             }
             catch (Exception ex)
@@ -358,6 +375,8 @@ namespace Database
 
             try
             {
+                begin();
+
                 String query;
                 if (id == 0)
                     query = "insert into person (id, name, gender, race) values (:newid, :name, :g, :r)";
@@ -399,6 +418,26 @@ namespace Database
                 }
                 command.Parameters["r"].Value = r;
                 command.ExecuteNonQuery();
+
+                command = new NpgsqlCommand("delete from person_prop where pers_id = :persId", connection);
+                command.Parameters.Add(new NpgsqlParameter("persId", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["persId"].Value = fpInfo.getId();
+                command.ExecuteNonQuery();
+
+                foreach (DataRow row in fpInfo.properties.Rows)
+                {
+                    command = new NpgsqlCommand("insert into person_prop (prop_id, pers_id, value) values (:propId, :persId, :value)", connection);
+                    command.Parameters.Add(new NpgsqlParameter("persId", NpgsqlTypes.NpgsqlDbType.Numeric));
+                    command.Parameters["persId"].Value = fpInfo.getId();
+                    command.Parameters.Add(new NpgsqlParameter("propId", NpgsqlTypes.NpgsqlDbType.Numeric));
+                    command.Parameters["propId"].Value = Convert.ToUInt16(row[0]);
+                    command.Parameters.Add(new NpgsqlParameter("value", NpgsqlTypes.NpgsqlDbType.Varchar));
+                    command.Parameters["value"].Value = Convert.ToString(row[2]);
+
+                    command.ExecuteNonQuery();
+                }
+
+                commit();
             }
             catch (Exception ex)
             {
@@ -459,6 +498,88 @@ namespace Database
                 disconnect();
             }
 
+        }
+
+        // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IList<PropertyInfo> getPropertyList()
+        {
+            List<PropertyInfo> ret = new List<PropertyInfo>();
+
+            if (!connect())
+                return null;
+
+            NpgsqlCommand command = new NpgsqlCommand("select ID, NAME, POLICE from PROPERTY order by NAME ASC", connection);
+            try
+            {
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    PropertyInfo info = new PropertyInfo();
+                    info.id = Convert.ToUInt16(rd["ID"]);
+                    info.name = Convert.ToString(rd["NAME"]);
+                    info.policeVisibility = dbToBoolean(rd["POLICE"]);
+                    ret.Add(info);
+                }
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return ret;
+        }
+
+        // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void setPersonProperty(UInt16 personId, UInt16 oldPropId, PersonProperty prop)
+        {
+            if (!connect())
+                return;
+
+            NpgsqlCommand command = new NpgsqlCommand("select count(*) from person_prop where pers_id = :persId and prop_id = :prop_id", connection);
+            try
+            {
+                command.Parameters.Add(new NpgsqlParameter("persId", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["persId"].Value = personId;
+                command.Parameters.Add(new NpgsqlParameter("propId", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["propId"].Value = oldPropId;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                UInt32 count = 0;
+                while (rd.Read())
+                {
+                    count = Convert.ToUInt32(rd[0]);
+                }
+                String query;
+                if (count == 0)
+                    query = "insert into person_prop (prop_id, pers_id, value) values (:propId, :persId, :value)";
+                else
+                    query = "update person_prop set prop_id = :propId, value = :value where pers_id = :persId and prop_id = :oldPropId";
+
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("propId", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["propId"].Value = prop.propertyId;
+                command.Parameters.Add(new NpgsqlParameter("oldPropId", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["oldPropId"].Value = oldPropId;
+                command.Parameters.Add(new NpgsqlParameter("persId", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["persId"].Value = personId;
+                command.Parameters.Add(new NpgsqlParameter("value", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command.Parameters["value"].Value = prop.value;
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+            finally
+            {
+                disconnect();
+            }
         }
 
         // ----------------------------------------------------------

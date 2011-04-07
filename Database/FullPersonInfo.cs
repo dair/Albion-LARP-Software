@@ -28,6 +28,9 @@ namespace Database
             : base()
         {
             properties = new DataTable();
+            properties.Columns.Add("ID");
+            properties.Columns.Add("Название");
+            properties.Columns.Add("Значение");
         }
 
         public bool Equals(FullPersonInfo p)

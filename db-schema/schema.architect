@@ -4,16 +4,7 @@
  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
-   <property key="Logical" value="(Целевая база данных)" />
-   <property key="Connection Type" value="PostgreSQL" />
-   <property key="JDBC URL" value="jdbc:postgresql://192.168.142.128:5432/BLADERUNNER" />
-   <property key="UID" value="blademaster" />
-   <property key="PWD" value="gfhjkm" />
-   <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
-   <property key="ca.sqlpower.architect.etl.kettle.port" value="" />
-   <property key="ca.sqlpower.architect.etl.kettle.hostname" value="" />
-   <property key="ca.sqlpower.architect.etl.kettle.repos.login" value="" />
-   <property key="ca.sqlpower.architect.etl.kettle.repos.password" value="" />
+   <property key="Logical" value="PlayPen Database" />
   </data-source>
   <data-source id="DS2">
    <property key="Connection Type" value="PostgreSQL" />
@@ -41,13 +32,13 @@
      <table id="TAB6" populated="true" UUID="289117db-362a-4e2e-bf6d-dd95b66c43f1" name="person" objectType="TABLE" physicalName="person" >
       <remarks></remarks>
       <folder id="FOLTAB61" populated="true" name="Columns" physicalName="Columns" type="1">
-       <column id="COL7" populated="true" UUID="d7c6a137-4991-4978-a0cf-b099c0614806" autoIncrement="false" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="numeric" type="2" >
+       <column id="COL7" populated="true" UUID="d7c6a137-4991-4978-a0cf-b099c0614806" autoIncrement="false" defaultValue="" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="numeric" type="2" >
         <remarks></remarks>
        </column>
-       <column id="COL8" populated="true" UUID="3f4f9403-b012-473c-b037-b092cf14c41c" autoIncrement="false" name="name" nullable="0" physicalName="name" precision="50" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+       <column id="COL8" populated="true" UUID="3f4f9403-b012-473c-b037-b092cf14c41c" autoIncrement="false" defaultValue="" name="name" nullable="0" physicalName="name" precision="50" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
         <remarks></remarks>
        </column>
-       <column id="COL9" populated="true" UUID="e19662f8-35d7-45b8-bc29-d29a772afeb2" autoIncrement="false" name="gender" nullable="0" physicalName="gender" precision="1" referenceCount="1" scale="0" sourceDataTypeName="bpchar" type="1" >
+       <column id="COL9" populated="true" UUID="e19662f8-35d7-45b8-bc29-d29a772afeb2" autoIncrement="false" defaultValue="" name="gender" nullable="0" physicalName="gender" precision="1" referenceCount="1" scale="0" sourceDataTypeName="bpchar" type="1" >
         <remarks></remarks>
        </column>
        <column id="COL10" populated="true" UUID="321c765f-0daf-40e0-ab2d-f6293469a322" autoIncrement="false" defaultValue="&apos;H&apos;::bpchar" name="race" nullable="0" physicalName="race" precision="1" referenceCount="1" scale="0" sourceDataTypeName="bpchar" type="1" >
@@ -67,13 +58,13 @@
      <table id="TAB13" populated="true" UUID="0a0feaf2-de5e-42ee-94d8-d03030178b89" name="person_prop" objectType="TABLE" physicalName="person_prop" >
       <remarks></remarks>
       <folder id="FOLTAB131" populated="true" name="Columns" physicalName="Columns" type="1">
-       <column id="COL14" populated="true" UUID="38c54545-ec71-40da-903d-867fd8b51d32" autoIncrement="false" name="prop_id" nullable="0" physicalName="prop_id" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="numeric" type="2" >
+       <column id="COL14" populated="true" UUID="38c54545-ec71-40da-903d-867fd8b51d32" autoIncrement="false" defaultValue="" name="prop_id" nullable="0" physicalName="prop_id" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="numeric" type="2" >
         <remarks></remarks>
        </column>
-       <column id="COL15" populated="true" UUID="01f049cf-d947-4fbf-a596-5e19013e26ca" autoIncrement="false" name="pers_id" nullable="0" physicalName="pers_id" precision="10" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="numeric" type="2" >
+       <column id="COL15" populated="true" UUID="01f049cf-d947-4fbf-a596-5e19013e26ca" autoIncrement="false" defaultValue="" name="pers_id" nullable="0" physicalName="pers_id" precision="10" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="numeric" type="2" >
         <remarks></remarks>
        </column>
-       <column id="COL16" populated="true" UUID="79a9ba4a-7614-445d-947b-4f52fb7c088f" autoIncrement="false" name="value" nullable="0" physicalName="value" precision="2048" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+       <column id="COL16" populated="true" UUID="79a9ba4a-7614-445d-947b-4f52fb7c088f" autoIncrement="false" defaultValue="" name="value" nullable="0" physicalName="value" precision="2048" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
         <remarks></remarks>
        </column>
        </folder>
@@ -94,7 +85,7 @@
        <column id="COL21" populated="true" UUID="a43afd5d-3ba8-4a89-b2a0-7a6937e0d027" autoIncrement="false" defaultValue="nextval(&apos;property_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="numeric" type="2" >
         <remarks></remarks>
        </column>
-       <column id="COL22" populated="true" UUID="49e11b88-6c68-43c4-a5c7-ed919513bd10" autoIncrement="false" name="name" nullable="0" physicalName="name" precision="50" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+       <column id="COL22" populated="true" UUID="49e11b88-6c68-43c4-a5c7-ed919513bd10" autoIncrement="false" defaultValue="" name="name" nullable="0" physicalName="name" precision="50" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
         <remarks></remarks>
        </column>
        <column id="COL23" populated="true" UUID="93d94b96-73ae-424e-a6c2-3da8b76a4433" autoIncrement="false" defaultValue="&apos;N&apos;::bpchar" name="police" nullable="1" physicalName="police" precision="1" referenceCount="1" scale="0" sourceDataTypeName="bpchar" type="1" >
@@ -114,13 +105,13 @@
      <table id="TAB26" populated="false" UUID="57015ff5-4e3b-4883-8fe2-f3ae053e83f1" name="money" objectType="TABLE" physicalName="money" >
       <remarks></remarks>
       <folder id="FOLTAB261" populated="true" name="Columns" physicalName="Columns" type="1">
-       <column id="COL27" populated="true" UUID="adca307e-035a-4967-84d7-e79a8dae1438" autoIncrement="false" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="numeric" type="2" >
+       <column id="COL27" populated="true" UUID="adca307e-035a-4967-84d7-e79a8dae1438" autoIncrement="false" defaultValue="" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="numeric" type="2" >
         <remarks></remarks>
        </column>
        <column id="COL28" populated="true" UUID="ee0680e3-a7aa-447e-97b8-664e2c2d9ce3" autoIncrement="false" defaultValue="0" name="balance" nullable="0" physicalName="balance" precision="10" referenceCount="1" scale="0" sourceDataTypeName="numeric" type="2" >
         <remarks></remarks>
        </column>
-       <column id="COL29" populated="true" UUID="fa5ab19f-c50b-4662-955a-ef7cebf1b61a" autoIncrement="false" name="pin" nullable="0" physicalName="pin" precision="5" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+       <column id="COL29" populated="true" UUID="fa5ab19f-c50b-4662-955a-ef7cebf1b61a" autoIncrement="false" defaultValue="" name="pin" nullable="0" physicalName="pin" precision="5" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
         <remarks></remarks>
        </column>
        <column id="COL30" populated="true" UUID="406d8098-c6ec-4c9a-9fcb-50fa12b7176b" autoIncrement="false" defaultValue="0" name="failures" nullable="0" physicalName="failures" precision="1" referenceCount="1" scale="0" sourceDataTypeName="numeric" type="2" >
@@ -140,13 +131,13 @@
      <table id="TAB33" populated="false" UUID="21692e7b-d746-4a1c-8131-51795cc1dc47" name="vk_answer" objectType="TABLE" physicalName="vk_answer" >
       <remarks></remarks>
       <folder id="FOLTAB331" populated="true" name="Columns" physicalName="Columns" type="1">
-       <column id="COL34" populated="true" UUID="48bd21df-b38f-4aed-8c19-f397ed002dda" autoIncrement="false" name="question_id" nullable="0" physicalName="question_id" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="numeric" type="2" >
+       <column id="COL34" populated="true" UUID="48bd21df-b38f-4aed-8c19-f397ed002dda" autoIncrement="false" defaultValue="" name="question_id" nullable="0" physicalName="question_id" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="numeric" type="2" >
         <remarks></remarks>
        </column>
-       <column id="COL35" populated="true" UUID="b3fec91e-2fed-4945-9f31-17c9472928dd" autoIncrement="false" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="1" referenceCount="1" scale="0" sourceDataTypeName="numeric" type="2" >
+       <column id="COL35" populated="true" UUID="b3fec91e-2fed-4945-9f31-17c9472928dd" autoIncrement="false" defaultValue="" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="1" referenceCount="1" scale="0" sourceDataTypeName="numeric" type="2" >
         <remarks></remarks>
        </column>
-       <column id="COL36" populated="true" UUID="857b173c-64e2-4073-a592-6c270d499325" autoIncrement="false" name="text" nullable="0" physicalName="text" precision="256" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+       <column id="COL36" populated="true" UUID="857b173c-64e2-4073-a592-6c270d499325" autoIncrement="false" defaultValue="" name="text" nullable="0" physicalName="text" precision="256" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
         <remarks></remarks>
        </column>
        </folder>
@@ -174,7 +165,7 @@
        <column id="COL43" populated="true" UUID="c4133db7-55b8-41d2-97a5-387965ae7f9e" autoIncrement="false" defaultValue="nextval(&apos;vk_question_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="numeric" type="2" >
         <remarks></remarks>
        </column>
-       <column id="COL44" populated="true" UUID="5dfbd67a-54fc-4ce9-aba5-b032026606a4" autoIncrement="false" name="text" nullable="0" physicalName="text" precision="256" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+       <column id="COL44" populated="true" UUID="5dfbd67a-54fc-4ce9-aba5-b032026606a4" autoIncrement="false" defaultValue="" name="text" nullable="0" physicalName="text" precision="256" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
         <remarks></remarks>
        </column>
        </folder>
@@ -379,21 +370,21 @@
    </folder>
   </table>
   <relationships>
-   <relationship id="REL104" populated="true" UUID="2c36d365-3656-4015-b441-1a9b4328fe27" deferrability="7" deleteRule="0" fk-table-ref="TAB63" fkCardinality="3" identifying="true" name="PERSON_MONEY_fk" physicalName="person_money_fk" pk-table-ref="TAB56" pkCardinality="2" updateRule="0" >
-    <column-mapping id="CMP105" populated="true" UUID="fff61882-91c0-45cb-a3b0-ea6d0b3bfa9e" fk-column-ref="COL64" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL57" />
+   <relationship id="REL104" populated="true" UUID="2c36d365-3656-4015-b441-1a9b4328fe27" deferrability="7" deleteRule="0" fk-table-ref="TAB63" fkCardinality="3" identifying="true" name="PERSON_MONEY_fk" physicalName="PERSON_MONEY_fk" pk-table-ref="TAB56" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP105" populated="true" UUID="2b6d4125-a741-41ff-87c8-c45e8602930b" fk-column-ref="COL64" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL57" />
    </relationship>
-   <relationship id="REL106" populated="true" UUID="ce31b816-0392-47a4-87f2-39b864632acd" deferrability="7" deleteRule="3" fk-table-ref="TAB76" fkCardinality="7" identifying="true" name="person_person_prop_fk" physicalName="person_person_prop_fk" pk-table-ref="TAB56" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP107" populated="true" UUID="511788dc-341e-4a10-9fef-3ad3f38405e6" fk-column-ref="COL78" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL57" />
+   <relationship id="REL106" populated="true" UUID="ce31b816-0392-47a4-87f2-39b864632acd" deferrability="7" deleteRule="0" fk-table-ref="TAB76" fkCardinality="7" identifying="true" name="person_person_prop_fk" physicalName="person_person_prop_fk" pk-table-ref="TAB56" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP107" populated="true" UUID="31a749bf-a749-4249-9abd-9c6463d8fe32" fk-column-ref="COL78" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL57" />
    </relationship>
-   <relationship id="REL108" populated="true" UUID="0b516e17-01dc-43b2-8ff1-dbb1b9d8afc5" deferrability="7" deleteRule="3" fk-table-ref="TAB76" fkCardinality="7" identifying="true" name="property_person_prop_fk" physicalName="property_person_prop_fk" pk-table-ref="TAB70" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP109" populated="true" UUID="19e45ad4-f4e5-4426-979f-1406b5aacf16" fk-column-ref="COL77" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL71" />
+   <relationship id="REL108" populated="true" UUID="0b516e17-01dc-43b2-8ff1-dbb1b9d8afc5" deferrability="7" deleteRule="1" fk-table-ref="TAB76" fkCardinality="7" identifying="true" name="property_person_prop_fk" physicalName="property_person_prop_fk" pk-table-ref="TAB70" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP109" populated="true" UUID="b3a633f2-a1ad-49e3-b166-946abc276138" fk-column-ref="COL77" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL71" />
    </relationship>
-   <relationship id="REL110" populated="true" UUID="f092f562-9516-4b89-a085-657eb0121a82" deferrability="7" deleteRule="3" fk-table-ref="TAB88" fkCardinality="7" identifying="true" name="vk_question_vk_answer_fk" physicalName="vk_question_vk_answer_fk" pk-table-ref="TAB83" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP111" populated="true" UUID="5cc6c875-4f09-4d59-b0a8-73cc8483f34e" fk-column-ref="COL89" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL84" />
+   <relationship id="REL110" populated="true" UUID="f092f562-9516-4b89-a085-657eb0121a82" deferrability="7" deleteRule="1" fk-table-ref="TAB88" fkCardinality="7" identifying="true" name="vk_question_vk_answer_fk" physicalName="vk_question_vk_answer_fk" pk-table-ref="TAB83" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP111" populated="true" UUID="369b396c-de33-4c55-8018-a4ca1371dbbd" fk-column-ref="COL89" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL84" />
    </relationship>
-   <relationship id="REL112" populated="true" UUID="ef356277-2111-4f67-ba9e-920b11c4e93c" deferrability="7" deleteRule="3" fk-table-ref="TAB95" fkCardinality="7" identifying="true" name="vk_answer_vk_answer_value_fk" physicalName="vk_answer_vk_answer_value_fk" pk-table-ref="TAB88" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP113" populated="true" UUID="08fe66a2-78ea-449d-b902-458cdb506635" fk-column-ref="COL96" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL89" />
-    <column-mapping id="CMP114" populated="true" UUID="6a25144b-ee07-413e-9bae-4164ee5b9200" fk-column-ref="COL97" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL90" />
+   <relationship id="REL112" populated="true" UUID="ef356277-2111-4f67-ba9e-920b11c4e93c" deferrability="7" deleteRule="1" fk-table-ref="TAB95" fkCardinality="7" identifying="true" name="vk_answer_vk_answer_value_fk" physicalName="vk_answer_vk_answer_value_fk" pk-table-ref="TAB88" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP113" populated="true" UUID="b76696c9-ca07-490f-a246-56aa4e7d823c" fk-column-ref="COL96" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL89" />
+    <column-mapping id="CMP114" populated="true" UUID="bd21a460-56e5-4828-8d78-2eb9da134547" fk-column-ref="COL97" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL90" />
    </relationship>
   </relationships>
  </target-database>
@@ -410,7 +401,7 @@
   <table-pane table-ref="TAB95" x="642" y="563" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-link relationship-ref="REL104" pkConnection="0.6833333333333333" fkConnection="0.30158730158730157" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
   <table-link relationship-ref="REL108" pkConnection="0.0" fkConnection="1.0" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
-  <table-link relationship-ref="REL106" pkConnection="1.0" fkConnection="0.0" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
+  <table-link relationship-ref="REL106" pkConnection="0.9764705882352941" fkConnection="0.0" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
   <table-link relationship-ref="REL110" pkConnection="1.0" fkConnection="0.0" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
   <table-link relationship-ref="REL112" pkConnection="1.0" fkConnection="0.0" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
  </play-pen>

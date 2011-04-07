@@ -95,6 +95,8 @@ namespace Master
 
                 getDatabase().updatePerson(oldId, fpInfo);
                 getDatabase().updateMoney(fpInfo.getId(), mInfo);
+
+                RefreshData();
             }
         }
 
