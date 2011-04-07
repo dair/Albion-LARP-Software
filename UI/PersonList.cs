@@ -12,6 +12,7 @@ namespace UI
 {
     public partial class PersonList : DataGridView, IDBObject
     {
+        public DataTable dataTable = new DataTable();
         private Database.Connection database = null;
         private BindingSource bindingSource = null;
 
@@ -43,9 +44,8 @@ namespace UI
             if (database == null)
                 return;
 
-            DataTable table = new DataTable();
-            database.fillWithPersons(table);
-            bindingSource.DataSource = table;
+            database.fillWithPersons(dataTable);
+            bindingSource.DataSource = dataTable;
 
             AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
         }
@@ -66,19 +66,30 @@ namespace UI
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.BackgroundColor = System.Drawing.SystemColors.Window;
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.MultiSelect = false;
             this.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
+
         }
 
-        public UInt16 getId()
+        public Database.PersonInfo getCurrentPersonInfo()
         {
             if (SelectedRows.Count != 1)
             {
-                return 0;
+                return null;
             }
 
-            return Convert.ToUInt16(SelectedRows[0].Cells[0].Value);
+            if (SelectedRows[0].Cells[0].Value is DBNull)
+            {
+                return null;
+            }
+
+            Database.PersonInfo ret = new Database.PersonInfo();
+            ret.id = Convert.ToUInt16(SelectedRows[0].Cells[0].Value);
+            ret.name = Convert.ToString(SelectedRows[0].Cells[1].Value);
+            return ret;
         }
+
     }
 }

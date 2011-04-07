@@ -26,14 +26,81 @@ namespace Master
 
         private void PersonEditor_Load(object sender, EventArgs e)
         {
+            RefreshData();
+        }
+
+        private void RefreshData()
+        {
+            personList.SelectionChanged -= personList_SelectionChanged;
             personList.Retrieve();
+            personList.SelectionChanged += personList_SelectionChanged;
+            personList_SelectionChanged(personList, null);
         }
 
         void personList_SelectionChanged(object sender, EventArgs e)
         {
-            UInt16 id = personList.getId();
+            Database.PersonInfo pInfo = personList.getCurrentPersonInfo();
+            UInt16 id = 0;
+            if (pInfo != null)
+                id = pInfo.getId();
             personInfo.setId(id);
             moneyInfo.setId(id);
+        }
+
+        private void addButton_Click(object sender, EventArgs e)
+        {
+            DataRow row = personList.dataTable.Rows.Add();
+            personList.Rows[personList.Rows.Count - 1].Selected = true;
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            Database.PersonInfo pInfo = personList.getCurrentPersonInfo();
+            if (pInfo == null)
+            {
+                MessageBox.Show("Некого удалять", "Тишина", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            String name = "без имени";
+            if (pInfo.getName() != null || pInfo.getName().Trim().Equals(""))
+                name = "по имени " + pInfo.getName();
+
+            if (MessageBox.Show("Удалить неудачника " + name + "?", "Удалить?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                getDatabase().deletePerson(pInfo.getId());
+                
+                RefreshData();
+            }
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            Database.FullPersonInfo fpInfo = personInfo.getFullPersonInfo();
+            Database.MoneyInfo mInfo = moneyInfo.getMoneyInfo();
+
+            if (fpInfo != null &&
+                mInfo != null)
+            {
+                if (fpInfo.id == 0)
+                {
+                    MessageBox.Show("Надо обязательно указать номер!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                Database.PersonInfo pInfo = personList.getCurrentPersonInfo();
+                UInt16 oldId = 0;
+                if (pInfo != null)
+                    oldId = pInfo.getId();
+
+                getDatabase().updatePerson(oldId, fpInfo);
+                getDatabase().updateMoney(fpInfo.getId(), mInfo);
+            }
+        }
+
+        private void refreshButton_Click(object sender, EventArgs e)
+        {
+            RefreshData();
         }
     }
 }

@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Settings", "..\Settings\Set
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "..\UI\UI.csproj", "{4A2CB31A-61EC-4D8B-807A-900C3316CC98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "..\Logger\Logger.csproj", "{10A455E6-4509-48A0-82C9-267D2A1CA47A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{4A2CB31A-61EC-4D8B-807A-900C3316CC98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A2CB31A-61EC-4D8B-807A-900C3316CC98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A2CB31A-61EC-4D8B-807A-900C3316CC98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10A455E6-4509-48A0-82C9-267D2A1CA47A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10A455E6-4509-48A0-82C9-267D2A1CA47A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10A455E6-4509-48A0-82C9-267D2A1CA47A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10A455E6-4509-48A0-82C9-267D2A1CA47A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

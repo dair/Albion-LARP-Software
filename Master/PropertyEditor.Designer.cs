@@ -32,6 +32,7 @@
             this.addButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.editButton = new System.Windows.Forms.Button();
+            this.refreshBitton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -85,10 +86,21 @@
             this.editButton.UseVisualStyleBackColor = true;
             this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
+            // refreshBitton
+            // 
+            this.refreshBitton.Location = new System.Drawing.Point(4, 4);
+            this.refreshBitton.Name = "refreshBitton";
+            this.refreshBitton.Size = new System.Drawing.Size(75, 23);
+            this.refreshBitton.TabIndex = 4;
+            this.refreshBitton.Text = "Обновить";
+            this.refreshBitton.UseVisualStyleBackColor = true;
+            this.refreshBitton.Click += new System.EventHandler(this.refreshBitton_Click);
+            // 
             // PropertyEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.refreshBitton);
             this.Controls.Add(this.editButton);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.addButton);
@@ -107,5 +119,6 @@
         private System.Windows.Forms.Button addButton;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button editButton;
+        private System.Windows.Forms.Button refreshBitton;
     }
 }

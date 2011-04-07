@@ -33,7 +33,11 @@ namespace UI
             if (id == 0)
             {
                 fullPersonInfo = null;
-                this.Enabled = false;
+                this.idBox.Text = "";
+                this.nameBox.Text = "";
+                genderBox.SelectedIndex = 0;
+                genomeBox.SelectedIndex = 0;
+                bindingSource.DataSource = null;
             }
             else
             {
@@ -68,6 +72,39 @@ namespace UI
 
                 bindingSource.DataSource = fullPersonInfo.properties;
             }
+        }
+
+        public Database.FullPersonInfo getFullPersonInfo()
+        {
+            Database.FullPersonInfo ret = new Database.FullPersonInfo();
+
+            ret.id = Convert.ToUInt16(idBox.Text);
+
+            ret.name = nameBox.Text.Trim();
+            switch (genderBox.SelectedIndex)
+            {
+                case 0:
+                    ret.gender = Database.FullPersonInfo.Gender.Unknown;
+                    break;
+                case 1:
+                    ret.gender = Database.FullPersonInfo.Gender.Male;
+                    break;
+                case 2:
+                    ret.gender = Database.FullPersonInfo.Gender.Female;
+                    break;
+            }
+
+            switch (genomeBox.SelectedIndex)
+            {
+                case 0:
+                    ret.genome = Database.FullPersonInfo.Genome.Human;
+                    break;
+                case 1:
+                    ret.genome = Database.FullPersonInfo.Genome.Android;
+                    break;
+            }
+
+            return ret;
         }
     }
 }

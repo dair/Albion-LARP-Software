@@ -115,5 +115,10 @@ namespace Master
                 RefreshData();
             }
         }
+
+        private void refreshBitton_Click(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
     }
 }

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Runtime.CompilerServices;
 using Npgsql;
+using Logger;
 
 namespace Database
 {
@@ -79,7 +81,7 @@ namespace Database
             connection = null;
         }
 
-        public Boolean dbToBoolean(object o)
+        public static Boolean dbToBoolean(object o)
         {
             if (!(o is String))
             {
@@ -93,7 +95,7 @@ namespace Database
             return false;
         }
 
-        public String booleanToDb(bool b)
+        public static String booleanToDb(bool b)
         {
             if (b)
                 return "Y";
@@ -101,6 +103,7 @@ namespace Database
                 return "N";
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool test()
         {
             if (!connect())
@@ -124,6 +127,7 @@ namespace Database
             return serverVersion != null;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void fillWithPersons(DataTable table)
         {
             table.Columns.Clear();
@@ -131,6 +135,7 @@ namespace Database
             table.Columns.Add("NAME");
             table.Rows.Clear();
 
+            Logging.log("fillWithPersons\n");
             if (!connect())
                 return;
 
@@ -152,9 +157,12 @@ namespace Database
             {
                 disconnect();
             }
+            Logging.log("!fillWithPersons\n");
+
         }
 
         // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public ICollection<IPerson> getPersons()
         {
             if (!connect())
@@ -190,8 +198,11 @@ namespace Database
         }
 
         // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public FullPersonInfo getPersonInfo(UInt16 id)
         {
+            Logging.log("getPersonInfo\n");
+
             if (!connect())
                 return null;
 
@@ -218,6 +229,9 @@ namespace Database
                             break;
                         case "F":
                             ret.gender = FullPersonInfo.Gender.Female;
+                            break;
+                        default:
+                            ret.gender = FullPersonInfo.Gender.Unknown;
                             break;
                     }
 
@@ -258,11 +272,13 @@ namespace Database
             {
                 disconnect();
             }
+            Logging.log("!getPersonInfo\n");
 
             return ret;
         }
 
         // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public MoneyInfo getMoneyInfo(UInt16 id)
         {
             if (!connect())
@@ -298,6 +314,7 @@ namespace Database
         }
 
         // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void deletePerson(UInt16 personId)
         {
             if (!connect())
@@ -306,12 +323,12 @@ namespace Database
             try
             {
                 NpgsqlCommand command = new NpgsqlCommand("delete from person_prop where pers_id = :value", connection);
-                command.Parameters.Add(new NpgsqlParameter("value1", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters.Add(new NpgsqlParameter("value", NpgsqlTypes.NpgsqlDbType.Numeric));
                 command.Parameters[0].Value = personId;
                 command.ExecuteNonQuery();
 
                 command = new NpgsqlCommand("delete from person where id = :value", connection);
-                command.Parameters.Add(new NpgsqlParameter("value1", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters.Add(new NpgsqlParameter("value", NpgsqlTypes.NpgsqlDbType.Numeric));
                 command.Parameters[0].Value = personId;
                 command.ExecuteNonQuery();
             }
@@ -326,6 +343,126 @@ namespace Database
         }
 
         // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void insertPerson(FullPersonInfo fpInfo)
+        {
+            updatePerson(0, fpInfo);
+        }
+
+        // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void updatePerson(UInt16 id, FullPersonInfo fpInfo)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                String query;
+                if (id == 0)
+                    query = "insert into person (id, name, gender, race) values (:newid, :name, :g, :r)";
+                else
+                    query = "update person set id = :newid, name = :name, gender = :g, race = :r where id = :id";
+
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("newid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["newid"].Value = fpInfo.getId();
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["id"].Value = id;
+                command.Parameters.Add(new NpgsqlParameter("name", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command.Parameters["name"].Value = fpInfo.name;
+                command.Parameters.Add(new NpgsqlParameter("g", NpgsqlTypes.NpgsqlDbType.Char));
+                String g = "?";
+                switch (fpInfo.gender)
+                {
+                    case FullPersonInfo.Gender.Unknown:
+                        g = "?";
+                        break;
+                    case FullPersonInfo.Gender.Male:
+                        g = "M";
+                        break;
+                    case FullPersonInfo.Gender.Female:
+                        g = "F";
+                        break;
+                }
+                command.Parameters["g"].Value = g;
+                command.Parameters.Add(new NpgsqlParameter("r", NpgsqlTypes.NpgsqlDbType.Varchar));
+                String r = null;
+                switch (fpInfo.genome)
+                {
+                    case FullPersonInfo.Genome.Android:
+                        r = "A";
+                        break;
+                    case FullPersonInfo.Genome.Human:
+                        r = "H";
+                        break;
+                }
+                command.Parameters["r"].Value = r;
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void updateMoney(UInt16 id, MoneyInfo mInfo)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                NpgsqlCommand command = new NpgsqlCommand("select count(*) from money where id = :id", connection);
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["id"].Value = id;
+                NpgsqlDataReader rd = command.ExecuteReader();
+                UInt32 count = 0;
+                while (rd.Read())
+                {
+                    count = Convert.ToUInt32(rd[0]);
+                }
+
+                String query;
+                if (count == 0)
+                {
+                    query = "insert into money (id, balance, pin, failures) values (:id, :b, :p, :f)";
+                }
+                else
+                {
+                    query = "update money set balance = :b, pin = :p, failures = :f where id = :id";
+                }
+
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["id"].Value = id;
+                command.Parameters.Add(new NpgsqlParameter("b", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["b"].Value = mInfo.balance;
+                command.Parameters.Add(new NpgsqlParameter("p", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command.Parameters["p"].Value = mInfo.pinCode;
+                command.Parameters.Add(new NpgsqlParameter("f", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["f"].Value = mInfo.failures;
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+            finally
+            {
+                disconnect();
+            }
+
+        }
+
+        // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void fillPropList(DataTable table)
         {
             table.Columns.Clear();
@@ -361,6 +498,7 @@ namespace Database
         }
 
         // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void editProperty(PropertyInfo pInfo)
         {
             if (pInfo == null)
@@ -406,6 +544,7 @@ namespace Database
         }
 
         // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void deleteProperty(PropertyInfo pInfo)
         {
             if (pInfo == null)

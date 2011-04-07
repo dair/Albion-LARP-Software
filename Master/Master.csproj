@@ -111,6 +111,10 @@
       <Project>{D3CDC2F0-E27C-45B6-B49E-8B0A7D78652D}</Project>
       <Name>Database</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{10A455E6-4509-48A0-82C9-267D2A1CA47A}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Settings\Settings.csproj">
       <Project>{9857B990-F571-4BDA-8EA6-EE46CC03DDA8}</Project>
       <Name>Settings</Name>

@@ -12,6 +12,7 @@ namespace Master
     {
         private UI.DBDialog settingsForm;
         private MainWindow mainForm;
+        private Logger.Logging logging;
 
         private Database.Connection database;
 
@@ -19,8 +20,10 @@ namespace Master
         public Context()
         {
             database = new Database.Connection();
-
             Application.ApplicationExit += new EventHandler(this.OnApplicationExit);
+
+            logging = new Logger.Logging();
+            logging.Show();
 
             settingsForm = new UI.DBDialog(database);
             settingsForm.Closed += new EventHandler(this.settingsForm_Closed);
