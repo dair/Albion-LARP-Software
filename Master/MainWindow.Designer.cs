@@ -100,7 +100,8 @@
             this.ClientSize = new System.Drawing.Size(544, 363);
             this.Controls.Add(this.tabControl);
             this.Name = "MainWindow";
-            this.Text = "MainWindow";
+            this.Text = "Bladerunner-1993: Мастерская";
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.tabControl.ResumeLayout(false);
             this.personPage.ResumeLayout(false);
             this.propPage.ResumeLayout(false);

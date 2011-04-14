@@ -14,6 +14,7 @@ namespace Settings
         {
             String name = form.Name;
             String key = SUBKEY_WINDOW + "\\" + name;
+            SetData(key, "state", Convert.ToString(form.WindowState));
             SetData(key, "x", Convert.ToString(form.Location.X));
             SetData(key, "y", Convert.ToString(form.Location.Y));
             SetData(key, "w", Convert.ToString(form.Size.Width));

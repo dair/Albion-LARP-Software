@@ -31,10 +31,13 @@ namespace Master
 
         private void RefreshData()
         {
+            Database.PersonInfo pInfo = personList.getCurrentPersonInfo();
             personList.SelectionChanged -= personList_SelectionChanged;
             personList.Retrieve();
             personList.SelectionChanged += personList_SelectionChanged;
-            personList_SelectionChanged(personList, null);
+            if (pInfo != null)
+                personList.setCurrentPersonId(pInfo.getId());
+//            personList_SelectionChanged(personList, null);
         }
 
         void personList_SelectionChanged(object sender, EventArgs e)

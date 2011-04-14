@@ -347,7 +347,7 @@
     <column id="COL96" populated="true" UUID="4adbd0ff-3252-4c73-b2eb-75f18ae68a8a" autoIncrement="false" autoIncrementSequenceName="vk_question_question_id_seq_1" defaultValue="" name="question_id" nullable="0" physicalName="question_id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="2" userDefinedTypeUUID="115245ce-612c-4d6a-b559-6dd903dd959a" >
      <remarks></remarks>
     </column>
-    <column id="COL97" populated="true" UUID="22c4ea1b-60ab-4934-837e-0c9afd01eb4f" autoIncrement="false" autoIncrementSequenceName="vk_answer_id_seq_1" defaultValue="" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="2" userDefinedTypeUUID="115245ce-612c-4d6a-b559-6dd903dd959a" >
+    <column id="COL97" populated="true" UUID="22c4ea1b-60ab-4934-837e-0c9afd01eb4f" autoIncrement="false" autoIncrementSequenceName="vk_answer_answer_id_seq_1" defaultValue="" name="answer_id" nullable="0" physicalName="answer_id" precision="10" primaryKeySeq="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="2" userDefinedTypeUUID="115245ce-612c-4d6a-b559-6dd903dd959a" >
      <remarks></remarks>
     </column>
     <column id="COL98" populated="true" UUID="a6a27025-6de5-4c41-97b9-a1a81a865cb7" autoIncrement="false" autoIncrementSequenceName="vk_answer_value_race_seq" defaultValue="&apos;H&apos;" name="race" nullable="0" physicalName="race" precision="1" primaryKeySeq="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
@@ -364,7 +364,7 @@
     <folder id="FOLTAB954" populated="true" name="Indices" physicalName="Indices" type="4">
     <index id="IDX100" populated="true" UUID="1c896e7a-abda-4a27-be55-676755b67262" clustered="false" name="vk_answer_value_pk" physicalName="vk_answer_value_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC101" populated="true" UUID="8d10d436-244d-4e77-ad45-cfa3bbaf564a" ascendingOrDescending="UNSPECIFIED" column-ref="COL96" name="question_id" physicalName="question_id" />
-     <index-column id="IDC102" populated="true" UUID="a63dee4a-aa2a-46af-ab23-273dc580838e" ascendingOrDescending="UNSPECIFIED" column-ref="COL97" name="id" physicalName="id" />
+     <index-column id="IDC102" populated="true" UUID="a63dee4a-aa2a-46af-ab23-273dc580838e" ascendingOrDescending="UNSPECIFIED" column-ref="COL97" name="answer_id" physicalName="answer_id" />
      <index-column id="IDC103" populated="true" UUID="2f9d3647-5824-4150-a399-4c1e821e0418" ascendingOrDescending="UNSPECIFIED" column-ref="COL98" name="race" physicalName="race" />
     </index>
    </folder>
@@ -388,7 +388,7 @@
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">

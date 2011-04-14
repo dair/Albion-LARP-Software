@@ -21,5 +21,17 @@ namespace Master
         {
             InitializeComponent();
         }
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            Settings.UI.restoreForm(this);
+
+            this.FormClosing += new FormClosingEventHandler(MainWindow_Closing);
+        }
+
+        private void MainWindow_Closing(object sender, FormClosingEventArgs e)
+        {
+            Settings.UI.storeForm(this);
+        }
     }
 }

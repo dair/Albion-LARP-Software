@@ -66,7 +66,9 @@ namespace UI
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.BackgroundColor = System.Drawing.SystemColors.Window;
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.MultiSelect = false;
+            this.ReadOnly = true;
             this.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
@@ -89,6 +91,33 @@ namespace UI
             ret.id = Convert.ToUInt16(SelectedRows[0].Cells[0].Value);
             ret.name = Convert.ToString(SelectedRows[0].Cells[1].Value);
             return ret;
+        }
+
+        public void setCurrentPersonId(UInt16 id)
+        {
+            bool somethingSelected = false;
+            foreach (DataGridViewRow row in Rows)
+            {
+                UInt16 cellId = Convert.ToUInt16(row.Cells[0].Value);
+
+                if (cellId == id)
+                {
+                    FirstDisplayedScrollingRowIndex = row.Index;
+                    Refresh();
+                    CurrentCell = row.Cells[0];
+                    row.Selected = true;
+                    somethingSelected = true;
+
+                }
+            }
+
+            if (!somethingSelected)
+            {
+                if (Rows.Count > 0)
+                {
+                    Rows[0].Selected = true;
+                }
+            }
         }
 
     }
