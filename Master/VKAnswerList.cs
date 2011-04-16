@@ -100,10 +100,9 @@ namespace Master
             }
 
             Database.VKAnswerInfo info = new Database.VKAnswerInfo();
-            info.answerId = Convert.ToUInt16(SelectedRows[0].Cells[0].Value);
-            info.text = Convert.ToString(SelectedRows[0].Cells[1].Value);
-            info.humanValue = Convert.ToInt16(SelectedRows[0].Cells[2].Value);
-            info.androidValue = Convert.ToInt16(SelectedRows[0].Cells[3].Value);
+            info.text = Convert.ToString(SelectedRows[0].Cells["TEXT"].Value);
+            info.humanValue = Convert.ToInt16(SelectedRows[0].Cells["HUMAN"].Value);
+            info.androidValue = Convert.ToInt16(SelectedRows[0].Cells["ANDROID"].Value);
 
             return info;
         }
