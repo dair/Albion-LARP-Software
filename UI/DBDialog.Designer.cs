@@ -80,6 +80,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DBDialog";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Подключение к БД";
             this.ResumeLayout(false);
 

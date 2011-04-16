@@ -99,8 +99,6 @@ namespace Database
             command.ExecuteNonQuery();
         }
 
-
-
         public static Boolean dbToBoolean(object o)
         {
             if (!(o is String))
@@ -692,6 +690,269 @@ namespace Database
             {
                 disconnect();
             }
+        }
+
+        // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void fillWithVKQuestions(DataTable table)
+        {
+            table.Columns.Clear();
+            table.Columns.Add("ID", Type.GetType("System.UInt16"));
+            table.Columns.Add("TEXT");
+            table.Rows.Clear();
+
+            Logging.log("fillWithVKQuestions\n");
+            if (!connect())
+                return;
+
+            NpgsqlCommand command = new NpgsqlCommand("select ID, TEXT from VK_QUESTION ORDER BY ID ASC", connection);
+            try
+            {
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(Convert.ToUInt16(rd["ID"]), Convert.ToString(rd["TEXT"]));
+                }
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+            finally
+            {
+                disconnect();
+            }
+            Logging.log("!fillWithVKQuestions\n");
+        }
+
+        // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void fillWithVKAnswers(UInt16 questionId, DataTable table)
+        {
+            table.Columns.Clear();
+            table.Columns.Add("TEXT");
+            table.Columns.Add("HUMAN");
+            table.Columns.Add("ANDROID");
+            table.Rows.Clear();
+
+            Logging.log("fillWithVKAnswers\n");
+            if (!connect())
+                return;
+
+            NpgsqlCommand command = new NpgsqlCommand("select TEXT, HUMAN_VALUE, ANDROID_VALUE from VK_ANSWER WHERE question_id = :qid ORDER BY ID ASC", connection);
+            command.Parameters.Add(new NpgsqlParameter("qid", NpgsqlTypes.NpgsqlDbType.Numeric));
+            command.Parameters["qid"].Value = questionId;
+
+            try
+            {
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(Convert.ToString(rd["TEXT"]), Convert.ToInt16(rd["HUMAN_VALUE"]), Convert.ToInt16(rd["ANDROID_VALUE"]));
+                }
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+            finally
+            {
+                disconnect();
+            }
+            Logging.log("!fillWithVKAnswers\n");
+        }
+
+        // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public VKQuestionInfo getQuestionInfo(UInt16 questionId)
+        {
+            Logging.log("getQuestionInfo\n");
+            if (!connect())
+                return null;
+
+            NpgsqlCommand command = new NpgsqlCommand("select ID, TEXT, GENDER from VK_QUESTION WHERE id = :qid", connection);
+            command.Parameters.Add(new NpgsqlParameter("qid", NpgsqlTypes.NpgsqlDbType.Numeric));
+            command.Parameters["qid"].Value = questionId;
+
+            VKQuestionInfo ret = null;
+
+            try
+            {
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    ret = new VKQuestionInfo();
+                    ret.id = Convert.ToUInt16(rd["ID"]);
+                    ret.text = Convert.ToString(rd["TEXT"]);
+                    String g = Convert.ToString(rd["GENDER"]);
+                    switch (g)
+                    {
+                        case "M":
+                            ret.gender = VKQuestionInfo.Gender.Male;
+                            break;
+                        case "F":
+                            ret.gender = VKQuestionInfo.Gender.Female;
+                            break;
+                        default:
+                            ret.gender = VKQuestionInfo.Gender.All;
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+            finally
+            {
+                disconnect();
+            }
+            Logging.log("!getQuestionInfo\n");
+            return ret;
+        }
+
+        // ----------------------------------------------------------
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public UInt16 editQuestion(VKQuestionInfo info)
+        {
+            if (!connect())
+                return 0;
+            String query = null;
+            if (info.id == 0)
+                query = "insert into VK_QUESTION (text, gender) values (:text, :gender) RETURNING id";
+            else
+                query = "update VK_QUESTION set text = :text, gender = :gender where id = :qid";
+
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+            command.Parameters.Add(new NpgsqlParameter("text", NpgsqlTypes.NpgsqlDbType.Varchar));
+            command.Parameters["text"].Value = info.text;
+            String gender;
+            switch (info.gender)
+            {
+                case VKQuestionInfo.Gender.Female:
+                    gender = "F";
+                    break;
+                case VKQuestionInfo.Gender.Male:
+                    gender = "M";
+                    break;
+                default:
+                    gender = "A";
+                    break;
+            }
+            command.Parameters.Add(new NpgsqlParameter("gender", NpgsqlTypes.NpgsqlDbType.Char));
+            command.Parameters["gender"].Value = gender;
+            if (info.id != 0)
+            {
+                command.Parameters.Add(new NpgsqlParameter("qid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["qid"].Value = info.id;
+            }
+
+            UInt16 retId = 0;
+
+            try
+            {
+                if (info.id == 0)
+                {
+                    NpgsqlDataReader rd = command.ExecuteReader();
+                    while (rd.Read())
+                    {
+                        retId = Convert.ToUInt16(rd["ID"]);
+                    }
+                }
+                else
+                {
+                    command.ExecuteNonQuery();
+                    retId = info.id;
+                }
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return retId;
+        }
+
+        public void deleteQuestion(UInt16 qid)
+        {
+            if (!connect())
+                return;
+            String query = "delete from VK_QUESTION where id = :qid";
+
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+            command.Parameters.Add(new NpgsqlParameter("qid", NpgsqlTypes.NpgsqlDbType.Numeric));
+            command.Parameters["qid"].Value = qid;
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void setAnswers(UInt16 qid, DataTable table)
+        {
+            if (qid == 0)
+            {
+                return;
+            }
+
+            if (!connect())
+                return;
+
+            try
+            {
+                begin();
+
+                String query = "delete from VK_ANSWER where question_id = :qid";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("qid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["qid"].Value = qid;
+                command.ExecuteNonQuery();
+
+                query = "insert into VK_ANSWER (question_id, id, text, human_value, android_value) values (:qid, :aid, :text, :human, :android)";
+
+                UInt16 aid = 0;
+                foreach (DataRow row in table.Rows)
+                {
+                    aid++;
+
+                    command = new NpgsqlCommand(query, connection);
+                    command.Parameters.Add(new NpgsqlParameter("qid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                    command.Parameters["qid"].Value = qid;
+                    command.Parameters.Add(new NpgsqlParameter("aid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                    command.Parameters["aid"].Value = aid;
+                    command.Parameters.Add(new NpgsqlParameter("text", NpgsqlTypes.NpgsqlDbType.Varchar));
+                    command.Parameters["text"].Value = row["TEXT"];
+                    command.Parameters.Add(new NpgsqlParameter("human", NpgsqlTypes.NpgsqlDbType.Integer));
+                    command.Parameters["human"].Value = row["HUMAN"];
+                    command.Parameters.Add(new NpgsqlParameter("android", NpgsqlTypes.NpgsqlDbType.Integer));
+                    command.Parameters["android"].Value = row["ANDROID"];
+                    command.ExecuteNonQuery();
+                }
+
+                commit();
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+                rollback();
+            }
+            finally
+            {
+                disconnect();
+            }
+            Logging.log("!fillWithVKAnswers\n");
         }
     }
 }

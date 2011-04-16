@@ -25,6 +25,7 @@ namespace UI
         private void okButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
+            settingsView1.SaveSettings();
             this.Close();
         }
 

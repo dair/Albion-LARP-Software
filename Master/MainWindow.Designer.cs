@@ -28,25 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.personEditor = new Master.PersonEditor(getDatabase());
             this.tabControl = new System.Windows.Forms.TabControl();
             this.personPage = new System.Windows.Forms.TabPage();
+            this.personEditor = new Master.PersonEditor(getDatabase());
             this.propPage = new System.Windows.Forms.TabPage();
             this.propertyEditor1 = new Master.PropertyEditor(getDatabase());
+            this.vkPage = new System.Windows.Forms.TabPage();
+            this.vkEditor = new Master.VKEditor(getDatabase());
             this.tabControl.SuspendLayout();
             this.personPage.SuspendLayout();
             this.propPage.SuspendLayout();
+            this.vkPage.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // personEditor
-            // 
-            this.personEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.personEditor.Location = new System.Drawing.Point(0, 0);
-            this.personEditor.Name = "personEditor";
-            this.personEditor.Size = new System.Drawing.Size(512, 313);
-            this.personEditor.TabIndex = 0;
             // 
             // tabControl
             // 
@@ -55,6 +48,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.personPage);
             this.tabControl.Controls.Add(this.propPage);
+            this.tabControl.Controls.Add(this.vkPage);
             this.tabControl.Location = new System.Drawing.Point(12, 12);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -71,6 +65,16 @@
             this.personPage.TabIndex = 0;
             this.personPage.Text = "Персонажи";
             this.personPage.UseVisualStyleBackColor = true;
+            // 
+            // personEditor
+            // 
+            this.personEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.personEditor.Location = new System.Drawing.Point(0, 0);
+            this.personEditor.Name = "personEditor";
+            this.personEditor.Size = new System.Drawing.Size(512, 313);
+            this.personEditor.TabIndex = 0;
             // 
             // propPage
             // 
@@ -93,6 +97,27 @@
             this.propertyEditor1.Size = new System.Drawing.Size(500, 301);
             this.propertyEditor1.TabIndex = 0;
             // 
+            // vkPage
+            // 
+            this.vkPage.Controls.Add(this.vkEditor);
+            this.vkPage.Location = new System.Drawing.Point(4, 22);
+            this.vkPage.Name = "vkPage";
+            this.vkPage.Padding = new System.Windows.Forms.Padding(3);
+            this.vkPage.Size = new System.Drawing.Size(512, 313);
+            this.vkPage.TabIndex = 2;
+            this.vkPage.Text = "Войт-Кампф";
+            this.vkPage.UseVisualStyleBackColor = true;
+            // 
+            // vkEditor
+            // 
+            this.vkEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.vkEditor.Location = new System.Drawing.Point(6, 6);
+            this.vkEditor.Name = "vkEditor";
+            this.vkEditor.Size = new System.Drawing.Size(500, 301);
+            this.vkEditor.TabIndex = 0;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -105,6 +130,7 @@
             this.tabControl.ResumeLayout(false);
             this.personPage.ResumeLayout(false);
             this.propPage.ResumeLayout(false);
+            this.vkPage.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -116,6 +142,7 @@
         private System.Windows.Forms.TabPage personPage;
         private System.Windows.Forms.TabPage propPage;
         private PropertyEditor propertyEditor1;
-
+        private System.Windows.Forms.TabPage vkPage;
+        private VKEditor vkEditor;
     }
 }

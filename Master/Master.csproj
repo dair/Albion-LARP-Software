@@ -49,6 +49,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context.cs" />
+    <Compile Include="VKAnswerEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VKAnswerEdit.Designer.cs">
+      <DependentUpon>VKAnswerEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VKAnswerList.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +72,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="VKAnswerEdit.resx">
+      <DependentUpon>VKAnswerEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VKAnswerList.resx">
+      <DependentUpon>VKAnswerList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -79,6 +94,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PropertyEditWindow.resx">
       <DependentUpon>PropertyEditWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VKEditor.resx">
+      <DependentUpon>VKEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VKQuestionList.resx">
+      <DependentUpon>VKQuestionList.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -104,6 +125,15 @@
     </Compile>
     <Compile Include="PropertyEditWindow.Designer.cs">
       <DependentUpon>PropertyEditWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VKEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VKEditor.Designer.cs">
+      <DependentUpon>VKEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VKQuestionList.cs">
+      <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
