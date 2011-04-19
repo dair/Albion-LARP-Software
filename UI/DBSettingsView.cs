@@ -11,15 +11,15 @@ using Database;
 
 namespace UI
 {
-    public partial class SettingsView : DBObjectUserControl
+    public partial class DBSettingsView : DBObjectUserControl
     {
-        public SettingsView()
+        public DBSettingsView()
             : base()
         {
             InitializeComponent();
         }
 
-        public SettingsView(Database.Connection db)
+        public DBSettingsView(Database.Connection db)
             : base(db)
         {
             InitializeComponent();

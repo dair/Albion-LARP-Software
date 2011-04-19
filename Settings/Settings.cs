@@ -17,13 +17,17 @@ namespace Settings
             myKey.SetValue(name, value);
         }
 
-        protected static String GetData(String subKey, String name)
+        protected static String GetData(String subKey, String name, String defValue)
         {
             RegistryKey myKey = Registry.CurrentUser.OpenSubKey("Software\\Bladerunner\\" + subKey, true);
             if (myKey == null)
-                return null;
-
+                return defValue;
             return Convert.ToString(myKey.GetValue(name));
+        }
+
+        protected static String GetData(String subKey, String name)
+        {
+            return GetData(subKey, name, null);
         }
 
         protected static bool HasSettings(String subKey)
@@ -32,6 +36,10 @@ namespace Settings
             return myKey != null;
         }
 
-
+        public static bool HasSettings()
+        {
+            RegistryKey myKey = Registry.CurrentUser.OpenSubKey("Software\\Bladerunner");
+            return myKey != null;
+        }
     }
 }

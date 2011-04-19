@@ -30,7 +30,7 @@
         {
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.settingsView1 = new UI.SettingsView(getDatabase());
+            this.settingsView1 = new UI.DBSettingsView(getDatabase());
             this.SuspendLayout();
             // 
             // okButton
@@ -90,6 +90,6 @@
 
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button cancelButton;
-        private SettingsView settingsView1;
+        private DBSettingsView settingsView1;
     }
 }

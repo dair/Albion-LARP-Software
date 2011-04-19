@@ -4,7 +4,16 @@
  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
-   <property key="Logical" value="PlayPen Database" />
+   <property key="Logical" value="cats-shadow" />
+   <property key="Connection Type" value="PostgreSQL" />
+   <property key="JDBC URL" value="jdbc:postgresql://cats-shadow.spb.ru:5432/BLADERUNNER" />
+   <property key="UID" value="blademaster" />
+   <property key="PWD" value="gfhjkm" />
+   <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.port" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.hostname" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.login" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.password" value="" />
   </data-source>
   <data-source id="DS2">
    <property key="Connection Type" value="PostgreSQL" />
@@ -18,7 +27,7 @@
    <property key="ca.sqlpower.architect.etl.kettle.repos.login" value="" />
    <property key="ca.sqlpower.architect.etl.kettle.repos.password" value="" />
   </data-source>
-  <data-source id="DS4">
+  <data-source id="DS0">
    <property key="Connection Type" value="PostgreSQL" />
    <property key="Logical" value="cats-shadow" />
    <property key="JDBC URL" value="jdbc:postgresql://cats-shadow.spb.ru:5432/BLADERUNNER" />
@@ -251,7 +260,7 @@
     </relationship>
    </relationships>
   </database>
-  <database id="DB71" populated="true" UUID="6287c024-7a09-4348-84ac-bff3e8edb27f" dbcs-ref="DS4" name="cats-shadow" physicalName="cats-shadow" >
+  <database id="DB71" populated="true" UUID="6287c024-7a09-4348-84ac-bff3e8edb27f" dbcs-ref="DS0" name="cats-shadow" physicalName="cats-shadow" >
    <catalog id="CAT72" populated="true" UUID="de67a325-3cd7-4a23-8044-01d606d77082" name="BLADERUNNER" nativeTerm="database" physicalName="BLADERUNNER" >
     <schema id="SCH73" populated="false" UUID="eea1a5a9-a7a3-4c3a-8b46-c40d02da1ce1" name="information_schema" nativeTerm="schema" physicalName="information_schema" >
     </schema>
@@ -468,7 +477,7 @@
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">

@@ -1,6 +1,6 @@
 ﻿namespace UI
 {
-    partial class SettingsView
+    partial class DBSettingsView
     {
         /// <summary> 
         /// Required designer variable.
