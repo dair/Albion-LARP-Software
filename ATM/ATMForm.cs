@@ -17,8 +17,8 @@ namespace ATM
             InitializeComponent();
         }
 
-        public ATMForm(Database.Connection db)
-            : base(db)
+        public ATMForm(Database.Connection db, ClientSettings s, BarCode.ReaderControl r)
+            : base(db, s, r)
         {
             InitializeComponent();
 

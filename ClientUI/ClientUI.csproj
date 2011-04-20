@@ -87,6 +87,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BarCode\BarCode.csproj">
+      <Project>{20AAC0F5-B194-4B16-B8BC-58171DE789F3}</Project>
+      <Name>BarCode</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UI\UI.csproj">
       <Project>{4A2CB31A-61EC-4D8B-807A-900C3316CC98}</Project>
       <Name>UI</Name>

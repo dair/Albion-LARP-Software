@@ -111,7 +111,7 @@
             ""});
             this.portBox.Location = new System.Drawing.Point(65, 9);
             this.portBox.Name = "portBox";
-            this.portBox.Size = new System.Drawing.Size(82, 21);
+            this.portBox.Size = new System.Drawing.Size(126, 21);
             this.portBox.TabIndex = 5;
             // 
             // baudRateBox
@@ -132,7 +132,7 @@
             "36600"});
             this.baudRateBox.Location = new System.Drawing.Point(65, 36);
             this.baudRateBox.Name = "baudRateBox";
-            this.baudRateBox.Size = new System.Drawing.Size(82, 21);
+            this.baudRateBox.Size = new System.Drawing.Size(126, 21);
             this.baudRateBox.TabIndex = 6;
             // 
             // parityBox
@@ -147,7 +147,7 @@
             "Odd"});
             this.parityBox.Location = new System.Drawing.Point(65, 63);
             this.parityBox.Name = "parityBox";
-            this.parityBox.Size = new System.Drawing.Size(82, 21);
+            this.parityBox.Size = new System.Drawing.Size(126, 21);
             this.parityBox.TabIndex = 7;
             // 
             // dataBitsBox
@@ -162,7 +162,7 @@
             "9"});
             this.dataBitsBox.Location = new System.Drawing.Point(65, 90);
             this.dataBitsBox.Name = "dataBitsBox";
-            this.dataBitsBox.Size = new System.Drawing.Size(82, 21);
+            this.dataBitsBox.Size = new System.Drawing.Size(126, 21);
             this.dataBitsBox.TabIndex = 8;
             // 
             // stopBitsBox
@@ -177,7 +177,7 @@
             "2"});
             this.stopBitsBox.Location = new System.Drawing.Point(65, 117);
             this.stopBitsBox.Name = "stopBitsBox";
-            this.stopBitsBox.Size = new System.Drawing.Size(82, 21);
+            this.stopBitsBox.Size = new System.Drawing.Size(126, 21);
             this.stopBitsBox.TabIndex = 9;
             // 
             // BSSettingsView
@@ -194,9 +194,9 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.MaximumSize = new System.Drawing.Size(0, 150);
             this.MinimumSize = new System.Drawing.Size(150, 150);
             this.Name = "BSSettingsView";
+            this.Size = new System.Drawing.Size(194, 150);
             this.Load += new System.EventHandler(this.BSSettingsView_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

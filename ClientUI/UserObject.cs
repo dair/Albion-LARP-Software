@@ -21,7 +21,7 @@ namespace ClientUI
             : base(db)
         {
             InitializeComponent();
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UserObject_KeyDown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
         }
 
         public event EventHandler<UserObjectEventArgs> NextObjectEvent;
@@ -39,20 +39,20 @@ namespace ClientUI
             
         }
 
-        public virtual void UserObject_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        public virtual void OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             if (e.KeyCode == Keys.O && e.Modifiers == Keys.Control)
             {
                 e.Handled = true;
-//                if (ParentWindow != null)
-//                    ParentWindow.OpenSettings();
+                if (ParentForm is ClientForm)
+                {
+                    (ParentForm as ClientForm).showSettings();
+                }
             }
-            else
-            {
-//                if (sender != ParentWindow)
-//                    ParentWindow.MainWindow_KeyDown(sender, e);
-            }
-            
+        }
+
+        public virtual void OnBarCodeEvent(BarCode.BarCodeEventArgs e)
+        {
         }
 
         // Common methods

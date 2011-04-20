@@ -99,6 +99,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BarCode\BarCode.csproj">
+      <Project>{20AAC0F5-B194-4B16-B8BC-58171DE789F3}</Project>
+      <Name>BarCode</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ClientUI\ClientUI.csproj">
       <Project>{77FE10C0-54F2-4653-9F46-DF3C6E8560F8}</Project>
       <Name>ClientUI</Name>

@@ -25,7 +25,7 @@ namespace BarCode
     }
 
 
-    class BarCode
+    public class BarCode
     {
         ~BarCode()
         {

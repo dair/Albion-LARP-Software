@@ -6,9 +6,9 @@ using System.Windows.Forms;
 
 namespace BarCode
 {
-    class ReaderControl
+    public class ReaderControl
     {
-        public static BarCode BarCodeObject = new BarCode();
+        public BarCode BarCodeObject = new BarCode();
         private Thread thread = null;
 
         public ReaderControl()

@@ -19,6 +19,7 @@ namespace ClientUI
         public ClientSettings(Database.Connection db)
             : base(db)
         {
+            InitializeComponent();
         }
 
         private void okButton_Click(object sender, EventArgs e)
@@ -26,6 +27,12 @@ namespace ClientUI
             dbSettingsView.SaveSettings();
             bsSettingsView.SaveSettings();
             DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
     }

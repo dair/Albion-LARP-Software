@@ -99,6 +99,20 @@ namespace UI
             }
             Settings.BarCode.SetStopBits(sb);
 
+            System.IO.Ports.Parity parity = System.IO.Ports.Parity.None;
+            switch (parityBox.SelectedIndex)
+            {
+                case 1:
+                    parity = System.IO.Ports.Parity.Even;
+                    break;
+                case 2:
+                    parity = System.IO.Ports.Parity.Odd;
+                    break;
+            }
+
+            Settings.BarCode.SetParity(parity);
+
         }
+
     }
 }

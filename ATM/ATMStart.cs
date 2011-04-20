@@ -16,5 +16,10 @@ namespace ATM
         {
             InitializeComponent();
         }
+
+        public override void OnBarCodeEvent(BarCode.BarCodeEventArgs e)
+        {
+            infoLabel.Text = Convert.ToString(e.Code);
+        }
     }
 }

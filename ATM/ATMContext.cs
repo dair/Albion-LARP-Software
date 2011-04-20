@@ -11,6 +11,8 @@ namespace ATM
     {
         private Database.Connection database;
         ClientUI.ClientSettings settings;
+        BarCode.ReaderControl RC = null;
+
         ATMForm mainForm;
 
         // ----------------------------------------------------------
@@ -20,34 +22,37 @@ namespace ATM
             Application.ApplicationExit += new EventHandler(this.OnApplicationExit);
 
             settings = new ClientUI.ClientSettings(database);
-            mainForm = new ATMForm(database);
 
-            if (!Settings.Settings.HasSettings())
-            {
-                settings.Closed += new EventHandler(settings_Closed);
-                settings.Show();
-            }
-            else
+            if (settings.ShowDialog() == DialogResult.OK)
             {
                 showMainWindow();
             }
+            else
+            {
+                ExitThread();
+            }
         }
 
-        void settings_Closed(object sender, EventArgs e)
+        void mainForm_Closed(object sender, EventArgs e)
         {
-            settings.Closed -= new EventHandler(settings_Closed);
-            showMainWindow();
+            ExitThread();
         }
 
         void showMainWindow()
         {
+            RC = new BarCode.ReaderControl();
+
+            mainForm = new ATMForm(database, settings, RC);
+            mainForm.Closed += new EventHandler(mainForm_Closed);
+
             mainForm.Show();
         }
 
         // ----------------------------------------------------------
         public void OnApplicationExit(object sender, EventArgs e)
         {
+            if (RC != null)
+                RC.Stop();
         }
-
     }
 }
