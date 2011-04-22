@@ -41,6 +41,7 @@ namespace ClientUI
 
         public virtual void OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
+            (ParentForm as ClientForm).RecordActivity();
             if (e.KeyCode == Keys.O && e.Modifiers == Keys.Control)
             {
                 e.Handled = true;
@@ -49,28 +50,37 @@ namespace ClientUI
                     (ParentForm as ClientForm).showSettings();
                 }
             }
-        }
-
-        public virtual void OnBarCodeEvent(BarCode.BarCodeEventArgs e)
-        {
+            else if (e.KeyCode == Keys.L && (e.Modifiers == (Keys.Control | Keys.Shift)))
+            {
+                e.Handled = true;
+                if (ParentForm is ClientForm)
+                {
+                    (ParentForm as ClientForm).toggleLog();
+                }
+            }
+            else if (e.KeyCode == Keys.Escape && e.Modifiers == Keys.None)
+            {
+                e.Handled = true;
+                if (ParentForm is ClientForm)
+                {
+                    (ParentForm as ClientForm).toStart();
+                }
+            }
         }
 
         // Common methods
-        public virtual void Init( UserObjectEventArgs args )
+        public virtual void Init(UserObjectEventArgs args)
         {
-            MessageBox.Show("UserObject::Init");
         }
 
         public virtual void Deinit()
         {
-            MessageBox.Show("UserObject::Deinit");
         }
 
         public virtual void BarCodeScanned(UInt64 code)
         {
-            MessageBox.Show("UserObject::BarCodeScanned");
+            (ParentForm as ClientForm).RecordActivity();
         }
-
     }
 
     public class UserObjectEventArgs : EventArgs

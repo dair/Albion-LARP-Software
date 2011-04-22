@@ -7,8 +7,8 @@ namespace Database
 {
     public class MoneyInfo
     {
-        public UInt16 id;
-        public UInt32 balance;
+        public UInt64 id;
+        public UInt64 balance;
         public String pinCode;
         public UInt16 failures;
     }

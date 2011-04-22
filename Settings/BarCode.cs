@@ -17,7 +17,11 @@ namespace Settings
 
         public static string Name()
         {
-            return GetData(SUBKEY_BARCODE, "COMName", "COM5");
+            String str = GetData(SUBKEY_BARCODE, "COMName", "COM5").Trim();
+            if (str == "")
+                return "COM5";
+            else
+                return str;
         }
 
         public static void SetName(string n)
@@ -27,7 +31,18 @@ namespace Settings
 
         public static Int32 BaudRate()
         {
-            return Convert.ToInt32(GetData(SUBKEY_BARCODE, "COMBaud", "9600"));
+            String str = GetData(SUBKEY_BARCODE, "COMBaud", "9600");
+            Int32 ret = 9600;
+            try
+            {
+                ret = Convert.ToInt32(str);
+            }
+            catch (Exception)
+            {
+                ret = 9600;
+            }
+
+            return ret;
         }
 
         public static void SetBaudRate(Int32 r)
@@ -80,10 +95,20 @@ namespace Settings
 
         public static UInt16 DataBits()
         {
-            UInt16 n = Convert.ToUInt16(GetData(SUBKEY_BARCODE, "COMDataBits", "8"));
-            if (n > 9) n = 9;
-            if (n < 7) n = 7;
-            return n;
+            String str = GetData(SUBKEY_BARCODE, "COMDataBits", "8");
+            UInt16 ret = 8;
+            try
+            {
+                ret = Convert.ToUInt16(str);
+            }
+            catch (Exception)
+            {
+                ret = 8;
+            }
+            
+            if (ret > 9) ret = 9;
+            if (ret < 7) ret = 7;
+            return ret;
         }
 
         public static void SetDataBits(UInt16 nn)
@@ -97,25 +122,29 @@ namespace Settings
 
         public static StopBits StopBits()
         {
-            UInt16 n = Convert.ToUInt16(GetData(SUBKEY_BARCODE, "COMStopBits", "1"));
+            String str = GetData(SUBKEY_BARCODE, "COMStopBits", "1");
+
+            UInt16 n = 1;
+            try
+            {
+                n = Convert.ToUInt16(str);
+            }
+            catch (Exception)
+            {
+            }
+
             StopBits b;
             switch (n)
             {
-                case 0:
-                    b = System.IO.Ports.StopBits.None;
-                    break;
-                case 1:
-                    b = System.IO.Ports.StopBits.One;
-                    break;
                 case 2:
                     b = System.IO.Ports.StopBits.Two;
                     break;
+                case 1:
                 default:
-                    b = System.IO.Ports.StopBits.None;
+                    b = System.IO.Ports.StopBits.One;
                     break;
             }
             return b;
-
         }
 
         public static void SetStopBits(StopBits b)

@@ -50,6 +50,7 @@
             this.Controls.Add(this.textBox);
             this.Name = "Logging";
             this.Text = "Logging";
+            this.Load += new System.EventHandler(this.Logging_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

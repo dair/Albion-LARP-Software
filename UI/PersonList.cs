@@ -93,12 +93,12 @@ namespace UI
             return ret;
         }
 
-        public void setCurrentPersonId(UInt16 id)
+        public void setCurrentPersonId(UInt64 id)
         {
             bool somethingSelected = false;
             foreach (DataGridViewRow row in Rows)
             {
-                UInt16 cellId = Convert.ToUInt16(row.Cells[0].Value);
+                UInt64 cellId = Convert.ToUInt64(row.Cells[0].Value);
 
                 if (cellId == id)
                 {

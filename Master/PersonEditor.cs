@@ -43,7 +43,7 @@ namespace Master
         void personList_SelectionChanged(object sender, EventArgs e)
         {
             Database.PersonInfo pInfo = personList.getCurrentPersonInfo();
-            UInt16 id = 0;
+            UInt64 id = 0;
             if (pInfo != null)
                 id = pInfo.getId();
             personInfo.setId(id);
@@ -92,7 +92,7 @@ namespace Master
                 }
 
                 Database.PersonInfo pInfo = personList.getCurrentPersonInfo();
-                UInt16 oldId = 0;
+                UInt64 oldId = 0;
                 if (pInfo != null)
                     oldId = pInfo.getId();
 

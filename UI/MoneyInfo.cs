@@ -24,7 +24,7 @@ namespace UI
             InitializeComponent();
         }
 
-        public void setId(UInt16 id)
+        public void setId(UInt64 id)
         {
             if (getDatabase() == null)
                 return;

@@ -59,16 +59,17 @@ namespace Database
 
         protected bool connect()
         {
-            bool ret = true;
+            bool ret = false;
             connection = new NpgsqlConnection(connectionString());
             try
             {
                 lastException = null;
                 connection.Open();
+                ret = true;
             }
             catch (NpgsqlException ex)
             {
-                lastException = ex;
+                HandleException(ex);
                 ret = false;
             }
 
@@ -79,6 +80,15 @@ namespace Database
         {
             connection.Close();
             connection = null;
+        }
+
+        protected void HandleException(Exception ex)
+        {
+            lastException = ex;
+            if (lastException != null)
+            {
+                Logger.Logging.log(ex.ToString());
+            }
         }
 
         protected void begin()
@@ -135,7 +145,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -169,7 +179,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -195,7 +205,7 @@ namespace Database
                 NpgsqlDataReader rd = command.ExecuteReader();
                 while (rd.Read())
                 {
-                    UInt16 id = Convert.ToUInt16(rd["ID"]);
+                    UInt64 id = Convert.ToUInt64(rd["ID"]);
                     String name = Convert.ToString(rd["NAME"]);
                     PersonInfo info = new PersonInfo(id, name);
                     list.Add(info);
@@ -205,7 +215,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -217,7 +227,7 @@ namespace Database
 
         // ----------------------------------------------------------
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public FullPersonInfo getPersonInfo(UInt16 id)
+        public FullPersonInfo getPersonInfo(UInt64 id)
         {
             Logging.log("getPersonInfo\n");
 
@@ -281,7 +291,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -294,7 +304,7 @@ namespace Database
 
         // ----------------------------------------------------------
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public MoneyInfo getMoneyInfo(UInt16 id)
+        public MoneyInfo getMoneyInfo(UInt64 id)
         {
             if (!connect())
                 return null;
@@ -310,7 +320,7 @@ namespace Database
                 NpgsqlDataReader rd = command.ExecuteReader();
                 while (rd.Read())
                 {
-                    ret.balance = Convert.ToUInt32(rd["BALANCE"]);
+                    ret.balance = Convert.ToUInt64(rd["BALANCE"]);
                     ret.pinCode = Convert.ToString(rd["PIN"]);
                     ret.failures = Convert.ToUInt16(rd["FAILURES"]);
                 }
@@ -318,7 +328,7 @@ namespace Database
 
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -330,7 +340,7 @@ namespace Database
 
         // ----------------------------------------------------------
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void deletePerson(UInt16 personId)
+        public void deletePerson(UInt64 personId)
         {
             if (!connect())
                 return;
@@ -349,7 +359,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -366,7 +376,7 @@ namespace Database
 
         // ----------------------------------------------------------
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void updatePerson(UInt16 id, FullPersonInfo fpInfo)
+        public void updatePerson(UInt64 id, FullPersonInfo fpInfo)
         {
             if (!connect())
                 return;
@@ -439,7 +449,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -449,7 +459,7 @@ namespace Database
 
         // ----------------------------------------------------------
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void updateMoney(UInt16 id, MoneyInfo mInfo)
+        public void updateMoney(UInt64 id, MoneyInfo mInfo)
         {
             if (!connect())
                 return;
@@ -489,7 +499,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -522,7 +532,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -534,7 +544,7 @@ namespace Database
 
         // ----------------------------------------------------------
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void setPersonProperty(UInt16 personId, UInt16 oldPropId, PersonProperty prop)
+        public void setPersonProperty(UInt64 personId, UInt64 oldPropId, PersonProperty prop)
         {
             if (!connect())
                 return;
@@ -572,7 +582,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -608,7 +618,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -654,7 +664,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -684,7 +694,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -716,7 +726,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -753,7 +763,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -801,7 +811,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -867,7 +877,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -892,7 +902,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
             }
             finally
             {
@@ -945,7 +955,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                lastException = ex;
+                HandleException(ex);
                 rollback();
             }
             finally
@@ -953,6 +963,160 @@ namespace Database
                 disconnect();
             }
             Logging.log("!fillWithVKAnswers\n");
+        }
+
+        public ATMLoginInfo ATMLoginInfo(UInt64 id)
+        {
+            ATMLoginInfo ret = new ATMLoginInfo();
+
+            if (id == 0)
+                return ret;
+
+            if (!connect())
+                return ret;
+
+            String query = "SELECT PERSON.NAME AS NAME, MONEY.BALANCE AS BALANCE, MONEY.PIN AS PIN, MONEY.FAILURES AS FAILURES from PERSON, MONEY where PERSON.ID = :id and PERSON.ID = MONEY.ID";
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+            try
+            {
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters[0].Value = id;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    ret.id = id;
+                    ret.name = Convert.ToString(rd["NAME"]);
+                    ret.balance = Convert.ToUInt32(rd["BALANCE"]);
+                    ret.pinCode = Convert.ToString(rd["PIN"]);
+                    ret.failures = Convert.ToUInt16(rd["FAILURES"]);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return ret;
+        }
+
+        public void CorrectPinEntered(UInt64 id)
+        {
+            if (id == 0)
+                return;
+
+            if (!connect())
+                return;
+
+            String query = "UPDATE MONEY SET FAILURES = 0 WHERE ID = :id";
+
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+            try
+            {
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters[0].Value = id;
+
+                command.ExecuteNonQuery();
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return;
+        }
+
+        public void WrongPinEntered(UInt64 id)
+        {
+            if (id == 0)
+                return;
+
+            if (!connect())
+                return;
+
+            String query = "UPDATE MONEY SET FAILURES = FAILURES + 1 WHERE ID = :id";
+
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+            try
+            {
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters[0].Value = id;
+
+                command.ExecuteNonQuery();
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return;
+        }
+
+        public bool moneyTransfer(UInt64 senderId, UInt64 recvId, UInt64 amount)
+        {
+            if (!connect())
+                return false;
+            bool ret = false;
+
+            begin();
+
+            String query = "UPDATE MONEY SET BALANCE = BALANCE - :amount WHERE ID = :id";
+            try
+            {
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["id"].Value = senderId;
+                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["amount"].Value = amount;
+                command.ExecuteNonQuery();
+
+                query = "UPDATE MONEY SET BALANCE = BALANCE + :amount WHERE ID = :id";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["id"].Value = recvId;
+                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["amount"].Value = amount;
+                command.ExecuteNonQuery();
+
+                query = "INSERT INTO MONEY_HISTORY (SENDER_ID, RECEIVER_ID, VALUE) VALUES (:sid, :rid, :amount)";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("sid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["sid"].Value = senderId;
+                command.Parameters.Add(new NpgsqlParameter("rid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["rid"].Value = recvId;
+                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["amount"].Value = amount;
+                command.ExecuteNonQuery();
+
+                commit();
+                ret = true;
+            }
+            catch (Exception ex)
+            {
+                rollback();
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return ret;
         }
     }
 }

@@ -48,6 +48,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ATMAmount.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ATMAmount.Designer.cs">
+      <DependentUpon>ATMAmount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ATMBalance.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ATMBalance.Designer.cs">
+      <DependentUpon>ATMBalance.cs</DependentUpon>
+    </Compile>
     <Compile Include="ATMContext.cs" />
     <Compile Include="ATMForm.cs">
       <SubType>Form</SubType>
@@ -61,22 +73,64 @@
     <Compile Include="ATMObject.Designer.cs">
       <DependentUpon>ATMObject.cs</DependentUpon>
     </Compile>
+    <Compile Include="ATMPinCode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ATMPinCode.designer.cs">
+      <DependentUpon>ATMPinCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ATMSelect.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ATMSelect.Designer.cs">
+      <DependentUpon>ATMSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="ATMStart.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ATMStart.Designer.cs">
       <DependentUpon>ATMStart.cs</DependentUpon>
     </Compile>
+    <Compile Include="ATMTransfer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ATMTransfer.designer.cs">
+      <DependentUpon>ATMTransfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ATMVerify.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ATMVerify.designer.cs">
+      <DependentUpon>ATMVerify.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ATMAmount.resx">
+      <DependentUpon>ATMAmount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ATMBalance.resx">
+      <DependentUpon>ATMBalance.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ATMForm.resx">
       <DependentUpon>ATMForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ATMObject.resx">
       <DependentUpon>ATMObject.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ATMPinCode.resx">
+      <DependentUpon>ATMPinCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ATMSelect.resx">
+      <DependentUpon>ATMSelect.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ATMStart.resx">
       <DependentUpon>ATMStart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ATMTransfer.resx">
+      <DependentUpon>ATMTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ATMVerify.resx">
+      <DependentUpon>ATMVerify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -111,6 +165,10 @@
       <Project>{D3CDC2F0-E27C-45B6-B49E-8B0A7D78652D}</Project>
       <Name>Database</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{10A455E6-4509-48A0-82C9-267D2A1CA47A}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Settings\Settings.csproj">
       <Project>{9857B990-F571-4BDA-8EA6-EE46CC03DDA8}</Project>
       <Name>Settings</Name>
@@ -124,7 +182,7 @@
     <None Include="Resources\NewsfpdSeal.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="sf_seal_orig_gold_large.png" />
+    <None Include="Resources\sf_seal_orig_gold_large.png" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -32,7 +32,7 @@ namespace BarCode
 //            Deinit();
         }
 
-        public bool Continue = true;
+        public bool Continue = false;
         public bool Ready = false;
 
         private SerialPort portObject;
@@ -93,8 +93,22 @@ namespace BarCode
 
             try
             {
-                while (Continue)
-                    Read();
+                while (true)
+                {
+                    if (Continue)
+                    {
+                        lock (this)
+                        {
+                            if (Continue)
+                                Read();
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
             }
             catch (ThreadAbortException)
             {
@@ -108,12 +122,13 @@ namespace BarCode
         {
 //            Program.Log("BarCode::Init()");
             Ready = false;
+
             portObject = new SerialPort(
                 Settings.BarCode.Name(),
                 Settings.BarCode.BaudRate(),
                 Settings.BarCode.Parity(),
                 Settings.BarCode.DataBits(),
-                Settings.BarCode.StopBits() );
+                Settings.BarCode.StopBits());
             portObject.ReadTimeout = 300;
 
             try

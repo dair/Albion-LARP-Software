@@ -31,7 +31,10 @@ namespace BarCode
         public void Stop()
         {
             if (thread == null) return;
-            BarCodeObject.Continue = false;
+            lock (BarCodeObject)
+            {
+                BarCodeObject.Continue = false;
+            }
             thread.Join();
             thread = null;
         }

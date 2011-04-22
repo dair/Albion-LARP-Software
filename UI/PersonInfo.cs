@@ -28,7 +28,7 @@ namespace UI
             propertiesGridView.DataSource = bindingSource;
         }
 
-        public void setId(UInt16 id)
+        public void setId(UInt64 id)
         {
             if (id == 0)
             {

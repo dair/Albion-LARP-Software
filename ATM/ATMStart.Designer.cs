@@ -31,7 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.infoLabel = new System.Windows.Forms.Label();
+            this.infoLabel = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,7 +44,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(434, 127);
             this.label1.TabIndex = 12;
-            this.label1.Text = "Добро пожаловать в платёжную систему Сан-Франциско!";
+            this.label1.Text = "Добро пожаловать в финансовую систему Сан-Франциско!";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
@@ -73,14 +73,12 @@
             // 
             // infoLabel
             // 
-            this.infoLabel.BackColor = System.Drawing.Color.Transparent;
-            this.infoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.infoLabel.BackColor = System.Drawing.Color.Black;
             this.infoLabel.ForeColor = System.Drawing.Color.White;
-            this.infoLabel.Location = new System.Drawing.Point(363, 214);
+            this.infoLabel.Location = new System.Drawing.Point(404, 267);
             this.infoLabel.Name = "infoLabel";
-            this.infoLabel.Size = new System.Drawing.Size(420, 143);
+            this.infoLabel.Size = new System.Drawing.Size(347, 20);
             this.infoLabel.TabIndex = 15;
-            this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ATMStart
             // 
@@ -99,6 +97,7 @@
             this.Controls.SetChildIndex(this.infoLabel, 0);
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -107,6 +106,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label infoLabel;
+        private System.Windows.Forms.TextBox infoLabel;
     }
 }

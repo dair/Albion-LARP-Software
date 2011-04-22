@@ -17,12 +17,19 @@ namespace ATM
             InitializeComponent();
         }
 
-        public ATMForm(Database.Connection db, ClientSettings s, BarCode.ReaderControl r)
-            : base(db, s, r)
+        public ATMForm(Database.Connection db, ClientSettings s, BarCode.ReaderControl r, Logger.Logging logger)
+            : base(db, s, r, logger)
         {
             InitializeComponent();
 
             userObjects["START"] = new ATMStart(db);
+            userObjects["PINCODE"] = new ATMPinCode(db);
+            userObjects["SELECT"] = new ATMSelect(db);
+            userObjects["BALANCE"] = new ATMBalance(db);
+            userObjects["TRANSFER"] = new ATMTransfer(db);
+            userObjects["AMOUNT"] = new ATMAmount(db);
+            userObjects["VERIFY"] = new ATMVerify(db);
+
             startupObjectKey = "START";
         }
 

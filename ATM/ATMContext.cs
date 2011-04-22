@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Settings;
+using Logger;
 
 namespace ATM
 {
@@ -12,7 +13,7 @@ namespace ATM
         private Database.Connection database;
         ClientUI.ClientSettings settings;
         BarCode.ReaderControl RC = null;
-
+        Logging logger = null;
         ATMForm mainForm;
 
         // ----------------------------------------------------------
@@ -21,9 +22,11 @@ namespace ATM
             database = new Database.Connection();
             Application.ApplicationExit += new EventHandler(this.OnApplicationExit);
 
+            logger = new Logging();
+
             settings = new ClientUI.ClientSettings(database);
 
-            if (settings.ShowDialog() == DialogResult.OK)
+            if (Settings.Settings.HasSettings() || settings.ShowDialog() == DialogResult.OK)
             {
                 showMainWindow();
             }
@@ -42,7 +45,13 @@ namespace ATM
         {
             RC = new BarCode.ReaderControl();
 
-            mainForm = new ATMForm(database, settings, RC);
+            database.setIpAddress(Settings.Database.GetDBHost());
+            database.setDatabase(Settings.Database.GetDBName());
+            database.setPassword(Settings.Database.GetDBPassword());
+            database.setPort(Settings.Database.GetDBPort());
+            database.setUserName(Settings.Database.GetDBUser());
+
+            mainForm = new ATMForm(database, settings, RC, logger);
             mainForm.Closed += new EventHandler(mainForm_Closed);
 
             mainForm.Show();

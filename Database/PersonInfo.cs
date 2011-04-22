@@ -6,7 +6,7 @@ namespace Database
 {
     public class PersonInfo: IPerson
     {
-        public UInt16 id;
+        public UInt64 id;
         public String name;
 
         public PersonInfo()
@@ -15,13 +15,13 @@ namespace Database
             name = null;
         }
 
-        public PersonInfo(UInt16 i, String n)
+        public PersonInfo(UInt64 i, String n)
         {
             id = i;
             name = n;
         }
 
-        public UInt16 getId()
+        public UInt64 getId()
         {
             return id;
         }

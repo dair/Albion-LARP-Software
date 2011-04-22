@@ -6,7 +6,7 @@ namespace Database
 {
     public interface IPerson
     {
-        UInt16 getId();
+        UInt64 getId();
         String getName();
 
         bool Equals(IPerson p);

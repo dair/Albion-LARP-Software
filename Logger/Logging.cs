@@ -26,5 +26,16 @@ namespace Logger
                 logging.textBox.Text += dt.ToString() + ": " + str + "\r\n";
             }
         }
+
+        private void Logging_Load(object sender, EventArgs e)
+        {
+            this.Closing += new CancelEventHandler(Logging_Closing);
+        }
+
+        void Logging_Closing(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Visible = false;
+        }
     }
 }

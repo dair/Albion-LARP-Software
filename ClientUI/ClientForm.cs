@@ -16,7 +16,8 @@ namespace ClientUI
         protected String currentObjectKey = null;
         protected ClientSettings settings = null;
         protected BarCode.ReaderControl RC = null;
-
+        protected Logger.Logging logger = null;
+        protected Timer inactivityTimer;
 
 
         public ClientForm()
@@ -24,12 +25,17 @@ namespace ClientUI
             InitializeComponent();
         }
 
-        public ClientForm(Database.Connection db, ClientSettings s, BarCode.ReaderControl r)
+        public ClientForm(Database.Connection db, ClientSettings s, BarCode.ReaderControl r, Logger.Logging l)
             : base(db)
         {
             userObjects = new Dictionary<String, UserObject>();
             settings = s;
             RC = r;
+            logger = l;
+            inactivityTimer = new Timer();
+            inactivityTimer.Tick += new EventHandler(inactivityTimer_Tick);
+            inactivityTimer.Interval = 120000;
+
             InitializeComponent();
             if (RC != null)
             {
@@ -37,12 +43,28 @@ namespace ClientUI
             }
         }
 
+        void inactivityTimer_Tick(object sender, EventArgs e)
+        {
+            toStart();
+        }
+
         void HandleBarCodeEvent(object sender, BarCode.BarCodeEventArgs e)
         {
             if (currentObjectKey != null &&
                 userObjects[currentObjectKey] != null)
             {
-                userObjects[currentObjectKey].OnBarCodeEvent(e);
+                UserObject uo = userObjects[currentObjectKey];
+                if (uo.InvokeRequired)
+                {
+                    uo.Invoke((MethodInvoker)delegate
+                    {
+                        uo.BarCodeScanned(e.Code);
+                    });
+                }
+                else
+                {
+                    uo.BarCodeScanned(e.Code);
+                }
             }
         }
 
@@ -52,6 +74,14 @@ namespace ClientUI
             {
                 if (RC != null)
                     RC.Reload();
+            }
+        }
+
+        public void toggleLog()
+        {
+            if (logger != null && !logger.Visible)
+            {
+                logger.Show();
             }
         }
 
@@ -68,20 +98,54 @@ namespace ClientUI
 
                 obj.Location = new Point((Size.Width - obj.Size.Width) / 2,
                                          (Size.Height - obj.Size.Height) / 2);
-                if (key.Equals(startupObjectKey))
-                {
-                    currentObjectKey = startupObjectKey;
-                    obj.Show();
-                }
-                else
-                {
-                    obj.Hide();
-                }
+                obj.Hide();
 
-                if (RC != null)
-                {
-                    RC.Reload();
-                }
+            }
+
+            if (RC != null)
+            {
+                RC.Reload();
+            }
+
+            SetCurrentKey(startupObjectKey, null);
+        }
+
+        void SetCurrentKey(String newKey, UserObjectEventArgs e)
+        {
+            if (currentObjectKey != null && userObjects[currentObjectKey] != null)
+            {
+                userObjects[currentObjectKey].NextObjectEvent -= new EventHandler<UserObjectEventArgs>(HandleNextObjectEvent);
+                userObjects[currentObjectKey].Deinit();
+                userObjects[currentObjectKey].Hide();
+            }
+            currentObjectKey = newKey;
+            if (currentObjectKey != null && userObjects[currentObjectKey] != null)
+            {
+                userObjects[currentObjectKey].Init(e);
+                userObjects[currentObjectKey].Show();
+                userObjects[currentObjectKey].NextObjectEvent += new EventHandler<UserObjectEventArgs>(HandleNextObjectEvent);
+                userObjects[currentObjectKey].Focus();
+
+                RecordActivity();
+            }
+        }
+
+        void HandleNextObjectEvent(object sender, UserObjectEventArgs e)
+        {
+            SetCurrentKey(e.NextObject, e);
+        }
+
+        public void toStart()
+        {
+            SetCurrentKey(startupObjectKey, null);
+        }
+
+        public void RecordActivity()
+        {
+            inactivityTimer.Stop();
+            if (currentObjectKey != startupObjectKey)
+            {
+                inactivityTimer.Start();
             }
         }
     }
