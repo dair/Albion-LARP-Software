@@ -31,7 +31,6 @@ namespace Master
 
             bindingSource = new BindingSource();
             DataSource = bindingSource;
-
         }
 
         public Database.Connection getDatabase()

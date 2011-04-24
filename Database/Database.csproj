@@ -52,6 +52,7 @@
     <Compile Include="FullPersonInfo.cs" />
     <Compile Include="IPerson.cs" />
     <Compile Include="MoneyInfo.cs" />
+    <Compile Include="NewsInfo.cs" />
     <Compile Include="PersonInfo.cs" />
     <Compile Include="PersonProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

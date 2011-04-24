@@ -1118,5 +1118,100 @@ namespace Database
 
             return ret;
         }
+
+        public void fillWithNews(DataTable table)
+        {
+            table.Clear();
+            table.Columns.Clear();
+            
+            table.Columns.Add("ID", Type.GetType("System.UInt64"));
+            table.Columns.Add("TIME", Type.GetType("System.DateTime"));
+            table.Columns.Add("TITLE", Type.GetType("System.String"));
+            table.Columns.Add("TEXT", Type.GetType("System.String"));
+
+            if (!connect())
+                return;
+
+            try
+            {
+                String query = "select ID, PUBLISH_TIME, TITLE, NTEXT from STOCK_NEWS ORDER BY PUBLISH_TIME DESC";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(Convert.ToUInt64(rd["ID"]), Convert.ToDateTime(rd["PUBLISH_TIME"]), Convert.ToString(rd["TITLE"]), Convert.ToString(rd["NTEXT"]));
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void editNews(NewsInfo info)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                String query;
+                if (info.id == 0)
+                {
+                    query = "INSERT INTO STOCK_NEWS (PUBLISH_TIME, TITLE, NTEXT) VALUES (:dt, :title, :txt)";
+                }
+                else
+                {
+                    query = "UPDATE STOCK_NEWS SET PUBLISH_TIME = :dt, TITLE = :title, NTEXT = :txt WHERE ID = :id";
+                }
+
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["id"].Value = info.id;
+                command.Parameters.Add(new NpgsqlParameter("dt", NpgsqlTypes.NpgsqlDbType.Timestamp));
+                command.Parameters["dt"].Value = info.date;
+                command.Parameters.Add(new NpgsqlParameter("title", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command.Parameters["title"].Value = info.title;
+                command.Parameters.Add(new NpgsqlParameter("txt", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command.Parameters["txt"].Value = info.text;
+                command.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void deleteNews(UInt64 nid)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                String query = "DELETE FROM STOCK_NEWS WHERE ID = :nid";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("nid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["nid"].Value = nid;
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
     }
 }
