@@ -49,6 +49,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context.cs" />
+    <Compile Include="CompaniesEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CompaniesEditor.Designer.cs">
+      <DependentUpon>CompaniesEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockCompanyEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockCompanyEditForm.Designer.cs">
+      <DependentUpon>StockCompanyEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +81,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CompaniesEditor.resx">
+      <DependentUpon>CompaniesEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockCompanyEditForm.resx">
+      <DependentUpon>StockCompanyEditForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>

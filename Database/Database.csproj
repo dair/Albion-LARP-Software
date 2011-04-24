@@ -57,6 +57,7 @@
     <Compile Include="PersonProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyInfo.cs" />
+    <Compile Include="StockCompanyInfo.cs" />
     <Compile Include="VKAnswerInfo.cs" />
     <Compile Include="VKQuestionInfo.cs" />
   </ItemGroup>

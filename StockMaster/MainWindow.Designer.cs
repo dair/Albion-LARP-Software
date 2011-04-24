@@ -32,8 +32,11 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.newsEditor = new StockMaster.NewsEditor(getDatabase());
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.companiesEditor = new StockMaster.CompaniesEditor(getDatabase());
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -43,6 +46,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -80,6 +84,25 @@
             this.newsEditor.Size = new System.Drawing.Size(554, 317);
             this.newsEditor.TabIndex = 1;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.companiesEditor);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(560, 323);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Компании";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // companiesEditor
+            // 
+            this.companiesEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.companiesEditor.Location = new System.Drawing.Point(3, 3);
+            this.companiesEditor.Name = "companiesEditor";
+            this.companiesEditor.Size = new System.Drawing.Size(554, 317);
+            this.companiesEditor.TabIndex = 0;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -91,6 +114,7 @@
             this.Text = "Bladerunner-1993: Биржа";
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -101,6 +125,8 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private NewsEditor newsEditor;
+        private System.Windows.Forms.TabPage tabPage3;
+        private CompaniesEditor companiesEditor;
     }
 }
 

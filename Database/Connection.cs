@@ -1213,5 +1213,101 @@ namespace Database
                 disconnect();
             }
         }
+
+        public void fillWithCompanies(DataTable table)
+        {
+            table.Clear();
+            table.Columns.Clear();
+
+            table.Columns.Add("TICKER", Type.GetType("System.String"));
+            table.Columns.Add("NAME", Type.GetType("System.String"));
+            table.Columns.Add("STOCK", Type.GetType("System.UInt64"));
+
+            if (!connect())
+                return;
+
+            try
+            {
+                String query = "select KEY, NAME, TOTAL_STOCK from STOCK_COMPANY ORDER BY KEY ASC";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(rd["KEY"], rd["NAME"], rd["TOTAL_STOCK"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void editCompany(String oldKey, StockCompanyInfo info)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                String query;
+                if (oldKey == null || oldKey.Trim().Length == 0)
+                {
+                    query = "INSERT INTO STOCK_COMPANY (KEY, NAME, TOTAL_STOCK) VALUES (:key, :name, :amount)";
+                }
+                else
+                {
+                    query = "UPDATE STOCK_COMPANY SET KEY = :key, NAME = :name, TOTAL_STOCK = :amount WHERE KEY = :old_key";
+                }
+
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("key", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command.Parameters["key"].Value = info.key;
+                command.Parameters.Add(new NpgsqlParameter("name", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command.Parameters["name"].Value = info.name;
+                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["amount"].Value = info.stockAmount;
+                command.Parameters.Add(new NpgsqlParameter("old_key", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command.Parameters["old_key"].Value = oldKey;
+                command.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void deleteCompany(String key)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                String query = "DELETE FROM STOCK_COMPANY WHERE KEY = :nid";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("nid", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command.Parameters["nid"].Value = key;
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+
     }
 }
