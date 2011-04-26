@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.refreshButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.addButton = new System.Windows.Forms.Button();
             this.personList = new UI.PersonList(getDatabase());
@@ -38,7 +39,6 @@
             this.personInfo = new UI.PersonInfo(getDatabase());
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.moneyInfo = new UI.MoneyInfo(getDatabase());
-            this.refreshButton = new System.Windows.Forms.Button();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -72,13 +72,23 @@
             this.splitContainer1.SplitterDistance = 257;
             this.splitContainer1.TabIndex = 2;
             // 
+            // refreshButton
+            // 
+            this.refreshButton.Location = new System.Drawing.Point(3, 4);
+            this.refreshButton.Name = "refreshButton";
+            this.refreshButton.Size = new System.Drawing.Size(75, 23);
+            this.refreshButton.TabIndex = 1;
+            this.refreshButton.Text = "Обновить";
+            this.refreshButton.UseVisualStyleBackColor = true;
+            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+            // 
             // deleteButton
             // 
             this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteButton.Location = new System.Drawing.Point(175, 4);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(75, 23);
-            this.deleteButton.TabIndex = 2;
+            this.deleteButton.TabIndex = 3;
             this.deleteButton.Text = "Удалить";
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
@@ -89,7 +99,7 @@
             this.addButton.Location = new System.Drawing.Point(94, 4);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(75, 23);
-            this.addButton.TabIndex = 1;
+            this.addButton.TabIndex = 2;
             this.addButton.Text = "Добавить";
             this.addButton.UseVisualStyleBackColor = true;
             this.addButton.Click += new System.EventHandler(this.addButton_Click);
@@ -103,7 +113,7 @@
             this.personList.Location = new System.Drawing.Point(3, 33);
             this.personList.Name = "personList";
             this.personList.Size = new System.Drawing.Size(247, 248);
-            this.personList.TabIndex = 0;
+            this.personList.TabIndex = 4;
             // 
             // saveButton
             // 
@@ -111,7 +121,7 @@
             this.saveButton.Location = new System.Drawing.Point(113, 3);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
-            this.saveButton.TabIndex = 2;
+            this.saveButton.TabIndex = 6;
             this.saveButton.Text = "Сохранить";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
@@ -127,7 +137,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(184, 271);
-            this.tabControl1.TabIndex = 1;
+            this.tabControl1.TabIndex = 5;
             // 
             // tabPage1
             // 
@@ -156,7 +166,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(211, 245);
+            this.tabPage2.Size = new System.Drawing.Size(176, 245);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Деньги";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -165,18 +175,8 @@
             // 
             this.moneyInfo.Location = new System.Drawing.Point(0, 0);
             this.moneyInfo.Name = "moneyInfo";
-            this.moneyInfo.Size = new System.Drawing.Size(251, 251);
+            this.moneyInfo.Size = new System.Drawing.Size(176, 245);
             this.moneyInfo.TabIndex = 0;
-            // 
-            // refreshButton
-            // 
-            this.refreshButton.Location = new System.Drawing.Point(3, 4);
-            this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Size = new System.Drawing.Size(75, 23);
-            this.refreshButton.TabIndex = 3;
-            this.refreshButton.Text = "Обновить";
-            this.refreshButton.UseVisualStyleBackColor = true;
-            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
             // PersonEditor
             // 

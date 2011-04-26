@@ -31,6 +31,8 @@
             this.logBox = new System.Windows.Forms.TextBox();
             this.testButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.deviceIdBox = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.dbnameTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
@@ -69,6 +71,8 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.deviceIdBox);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.logBox);
             this.groupBox1.Controls.Add(this.testButton);
             this.groupBox1.Controls.Add(this.dbnameTextBox);
@@ -83,10 +87,30 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(296, 173);
+            this.groupBox1.Size = new System.Drawing.Size(296, 197);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Database";
+            // 
+            // deviceIdBox
+            // 
+            this.deviceIdBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.deviceIdBox.Enabled = false;
+            this.deviceIdBox.Location = new System.Drawing.Point(68, 171);
+            this.deviceIdBox.Name = "deviceIdBox";
+            this.deviceIdBox.ReadOnly = true;
+            this.deviceIdBox.Size = new System.Drawing.Size(222, 20);
+            this.deviceIdBox.TabIndex = 15;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 174);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(56, 13);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "device ID:";
             // 
             // dbnameTextBox
             // 
@@ -179,13 +203,13 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Host:";
             // 
-            // SettingsView
+            // DBSettingsView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
-            this.Name = "SettingsView";
-            this.Size = new System.Drawing.Size(302, 179);
+            this.Name = "DBSettingsView";
+            this.Size = new System.Drawing.Size(302, 203);
             this.Load += new System.EventHandler(this.SettingsView_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -208,5 +232,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox hostTextBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox deviceIdBox;
+        private System.Windows.Forms.Label label6;
     }
 }

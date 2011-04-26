@@ -38,7 +38,9 @@ namespace UI
             }
             else
             {
-                moneyBox.Text = Convert.ToString(moneyInfo.balance);
+                Decimal inDollars = moneyInfo.balance;
+                inDollars = inDollars / 100;
+                moneyBox.Text = Convert.ToString(inDollars);
                 pinCodeBox.Text = moneyInfo.pinCode;
                 failuresBox.Text = Convert.ToString(moneyInfo.failures);
             }
@@ -51,7 +53,8 @@ namespace UI
                 ret.id = moneyInfo.id;
             try
             {
-                ret.balance = Convert.ToUInt32(moneyBox.Text);
+                decimal inDollars = Convert.ToDecimal(moneyBox.Text);
+                ret.balance = (UInt64)(inDollars * 100);
             }
             catch (Exception ex)
             {
@@ -73,5 +76,6 @@ namespace UI
 
             return ret;
         }
+
     }
 }

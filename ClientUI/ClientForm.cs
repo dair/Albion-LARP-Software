@@ -85,6 +85,12 @@ namespace ClientUI
             }
         }
 
+        virtual public void positionObject(UserObject obj)
+        {
+            obj.Location = new Point((Size.Width - obj.Size.Width) / 2,
+                                     (Size.Height - obj.Size.Height) / 2);
+        }
+
         private void ClientForm_Load(object sender, EventArgs e)
         {
             if (startupObjectKey == null || userObjects == null ||
@@ -96,8 +102,8 @@ namespace ClientUI
                 UserObject obj = userObjects[key];
                 this.Controls.Add(obj);
 
-                obj.Location = new Point((Size.Width - obj.Size.Width) / 2,
-                                         (Size.Height - obj.Size.Height) / 2);
+                positionObject(obj);
+
                 obj.Hide();
 
             }

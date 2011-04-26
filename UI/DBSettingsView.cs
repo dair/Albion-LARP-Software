@@ -13,6 +13,8 @@ namespace UI
 {
     public partial class DBSettingsView : DBObjectUserControl
     {
+
+
         public DBSettingsView()
             : base()
         {
@@ -24,7 +26,13 @@ namespace UI
         {
             InitializeComponent();
         }
-        
+
+        public void setDeviceIdEnabled(bool d)
+        {
+            deviceIdBox.Enabled = d;
+            deviceIdBox.ReadOnly = !d;
+        }
+
         private void SettingsView_Load(object sender, EventArgs e)
         {
             LoadSettings();
@@ -39,7 +47,10 @@ namespace UI
             userTextBox.Text = Settings.Database.GetDBUser();
             passwordTextBox.Text = Settings.Database.GetDBPassword();
             dbnameTextBox.Text = Settings.Database.GetDBName();
-
+            if (deviceIdBox.Enabled)
+            {
+                deviceIdBox.Text = Convert.ToString(Settings.Database.GetDeviceId());
+            }
             applySettings();
         }
 
@@ -50,6 +61,10 @@ namespace UI
             Settings.Database.SetDBUser(userTextBox.Text);
             Settings.Database.SetDBPassword(passwordTextBox.Text);
             Settings.Database.SetDBPort(Convert.ToUInt16(portTextBox.Text));
+            if (deviceIdBox.Enabled)
+            {
+                Settings.Database.SetDeviceId(Convert.ToUInt64(deviceIdBox.Text));
+            }
             applySettings();
         }
 

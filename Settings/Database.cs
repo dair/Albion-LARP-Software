@@ -74,5 +74,25 @@ namespace Settings
             return port;
         }
 
+        public static void SetDeviceId(UInt64 did)
+        {
+            SetData(SUBKEY_DATABASE, "deviceId", Convert.ToString(did));
+        }
+
+        public static UInt64 GetDeviceId()
+        {
+            String didString = GetData(SUBKEY_DATABASE, "deviceId");
+            UInt64 deviceId = 0;
+            try
+            {
+                deviceId = Convert.ToUInt64(didString);
+            }
+            catch (Exception)
+            {
+                // do nothing
+            }
+            return deviceId;
+        }
+
     }
 }

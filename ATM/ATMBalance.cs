@@ -25,7 +25,9 @@ namespace ATM
         public override void Init(ClientUI.UserObjectEventArgs args)
         {
             base.Init(args);
-            balanceLabel.Text = "$" + Convert.ToString(info.balance);
+            decimal inDollars = (decimal)info.balance / 100;
+
+            balanceLabel.Text = "$" + inDollars.ToString("N");
         }
 
         public override void OnKeyDown(object sender, KeyEventArgs e)

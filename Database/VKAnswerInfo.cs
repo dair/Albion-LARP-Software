@@ -7,8 +7,8 @@ namespace Database
 {
     public class VKAnswerInfo
     {
-        public UInt16 questionId;
-        public UInt16 answerId;
+        public UInt64 questionId;
+        public UInt64 answerId;
 
         public String text;
         public Int16 humanValue;

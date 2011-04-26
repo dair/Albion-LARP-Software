@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D06C3D57-B36B-4D5D-A474-FB013C40E9D5}</ProjectGuid>
+    <ProjectGuid>{A5B94BE4-05E5-48A7-950C-A0B94D34252C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StockMaster</RootNamespace>
-    <AssemblyName>StockMaster</AssemblyName>
+    <RootNamespace>VKTest</RootNamespace>
+    <AssemblyName>VKTest</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationFramework">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -51,76 +48,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context.cs" />
-    <Compile Include="CompaniesEditor.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="VerticalProgressBar.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CompaniesEditor.Designer.cs">
-      <DependentUpon>CompaniesEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockCycleEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockCycleEditor.Designer.cs">
-      <DependentUpon>StockCycleEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EditCycleForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EditCycleForm.Designer.cs">
-      <DependentUpon>EditCycleForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockCompanyEditForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StockCompanyEditForm.Designer.cs">
-      <DependentUpon>StockCompanyEditForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MainWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainWindow.Designer.cs">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NewsEditForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NewsEditForm.Designer.cs">
-      <DependentUpon>NewsEditForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NewsEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="NewsEditor.Designer.cs">
-      <DependentUpon>NewsEditor.cs</DependentUpon>
-    </Compile>
+    <Compile Include="VKContext.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CompaniesEditor.resx">
-      <DependentUpon>CompaniesEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockCycleEditor.resx">
-      <DependentUpon>StockCycleEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="EditCycleForm.resx">
-      <DependentUpon>EditCycleForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockCompanyEditForm.resx">
-      <DependentUpon>StockCompanyEditForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainWindow.resx">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NewsEditForm.resx">
-      <DependentUpon>NewsEditForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NewsEditor.resx">
-      <DependentUpon>NewsEditor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VerticalProgressBar.resx">
+      <DependentUpon>VerticalProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VKForm.resx">
+      <DependentUpon>VKForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VKObject.resx">
+      <DependentUpon>VKObject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VKQuestion.resx">
+      <DependentUpon>VKQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VKStart.resx">
+      <DependentUpon>VKStart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VKWaiting.resx">
+      <DependentUpon>VKWaiting.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -135,8 +90,46 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="VKForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VKForm.Designer.cs">
+      <DependentUpon>VKForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VKObject.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VKObject.Designer.cs">
+      <DependentUpon>VKObject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VKQuestion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VKQuestion.Designer.cs">
+      <DependentUpon>VKQuestion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VKStart.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VKStart.Designer.cs">
+      <DependentUpon>VKStart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VKWaiting.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VKWaiting.Designer.cs">
+      <DependentUpon>VKWaiting.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BarCode\BarCode.csproj">
+      <Project>{20AAC0F5-B194-4B16-B8BC-58171DE789F3}</Project>
+      <Name>BarCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ClientUI\ClientUI.csproj">
+      <Project>{77FE10C0-54F2-4653-9F46-DF3C6E8560F8}</Project>
+      <Name>ClientUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Database\Database.csproj">
       <Project>{D3CDC2F0-E27C-45B6-B49E-8B0A7D78652D}</Project>
       <Name>Database</Name>

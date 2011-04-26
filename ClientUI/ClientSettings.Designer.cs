@@ -50,7 +50,7 @@
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(714, 224);
+            this.tabControl.Size = new System.Drawing.Size(714, 248);
             this.tabControl.TabIndex = 0;
             // 
             // tabPage1
@@ -59,7 +59,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(706, 198);
+            this.tabPage1.Size = new System.Drawing.Size(706, 222);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Database";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -71,7 +71,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.dbSettingsView.Location = new System.Drawing.Point(9, 7);
             this.dbSettingsView.Name = "dbSettingsView";
-            this.dbSettingsView.Size = new System.Drawing.Size(689, 182);
+            this.dbSettingsView.Size = new System.Drawing.Size(689, 206);
             this.dbSettingsView.TabIndex = 0;
             // 
             // tabPage2
@@ -82,7 +82,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(704, 198);
+            this.tabPage2.Size = new System.Drawing.Size(706, 198);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "BarCode";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -120,7 +120,7 @@
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(627, 238);
+            this.cancelButton.Location = new System.Drawing.Point(627, 262);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 1;
@@ -131,7 +131,7 @@
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(546, 238);
+            this.okButton.Location = new System.Drawing.Point(546, 262);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 2;
@@ -145,7 +145,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(714, 273);
+            this.ClientSize = new System.Drawing.Size(714, 297);
             this.ControlBox = false;
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.cancelButton);

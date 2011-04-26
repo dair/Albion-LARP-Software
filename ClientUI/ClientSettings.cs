@@ -22,6 +22,11 @@ namespace ClientUI
             InitializeComponent();
         }
 
+        public void setDeviceIdEnabled(bool b)
+        {
+            dbSettingsView.setDeviceIdEnabled(b);
+        }
+
         private void okButton_Click(object sender, EventArgs e)
         {
             dbSettingsView.SaveSettings();

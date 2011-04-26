@@ -72,7 +72,7 @@
             this.idBox.Location = new System.Drawing.Point(54, 3);
             this.idBox.Name = "idBox";
             this.idBox.Size = new System.Drawing.Size(250, 20);
-            this.idBox.TabIndex = 2;
+            this.idBox.TabIndex = 1;
             // 
             // nameBox
             // 
@@ -81,7 +81,7 @@
             this.nameBox.Location = new System.Drawing.Point(54, 29);
             this.nameBox.Name = "nameBox";
             this.nameBox.Size = new System.Drawing.Size(250, 20);
-            this.nameBox.TabIndex = 3;
+            this.nameBox.TabIndex = 2;
             // 
             // groupBox1
             // 
@@ -105,7 +105,7 @@
             this.deletePropButton.Location = new System.Drawing.Point(226, 19);
             this.deletePropButton.Name = "deletePropButton";
             this.deletePropButton.Size = new System.Drawing.Size(75, 23);
-            this.deletePropButton.TabIndex = 3;
+            this.deletePropButton.TabIndex = 7;
             this.deletePropButton.Text = "Удалить";
             this.deletePropButton.UseVisualStyleBackColor = true;
             this.deletePropButton.Click += new System.EventHandler(this.deletePropButton_Click);
@@ -116,7 +116,7 @@
             this.editPropButton.Location = new System.Drawing.Point(124, 19);
             this.editPropButton.Name = "editPropButton";
             this.editPropButton.Size = new System.Drawing.Size(96, 23);
-            this.editPropButton.TabIndex = 2;
+            this.editPropButton.TabIndex = 6;
             this.editPropButton.Text = "Редактировать";
             this.editPropButton.UseVisualStyleBackColor = true;
             this.editPropButton.Click += new System.EventHandler(this.editPropButton_Click);
@@ -127,7 +127,7 @@
             this.addPropButton.Location = new System.Drawing.Point(43, 19);
             this.addPropButton.Name = "addPropButton";
             this.addPropButton.Size = new System.Drawing.Size(75, 23);
-            this.addPropButton.TabIndex = 1;
+            this.addPropButton.TabIndex = 5;
             this.addPropButton.Text = "Добавить";
             this.addPropButton.UseVisualStyleBackColor = true;
             this.addPropButton.Click += new System.EventHandler(this.addPropButton_Click);
@@ -145,7 +145,7 @@
             this.propertiesGridView.ReadOnly = true;
             this.propertiesGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.propertiesGridView.Size = new System.Drawing.Size(295, 153);
-            this.propertiesGridView.TabIndex = 0;
+            this.propertiesGridView.TabIndex = 8;
             // 
             // label3
             // 
@@ -170,7 +170,7 @@
             this.genderBox.Location = new System.Drawing.Point(54, 56);
             this.genderBox.Name = "genderBox";
             this.genderBox.Size = new System.Drawing.Size(250, 21);
-            this.genderBox.TabIndex = 6;
+            this.genderBox.TabIndex = 3;
             // 
             // genomeBox
             // 
@@ -183,7 +183,7 @@
             this.genomeBox.Location = new System.Drawing.Point(54, 83);
             this.genomeBox.Name = "genomeBox";
             this.genomeBox.Size = new System.Drawing.Size(250, 21);
-            this.genomeBox.TabIndex = 8;
+            this.genomeBox.TabIndex = 4;
             // 
             // label4
             // 

@@ -26,6 +26,7 @@ namespace UI
 
             bindingSource = new BindingSource();
             propertiesGridView.DataSource = bindingSource;
+            propertiesGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
         }
 
         public void setId(UInt64 id)
@@ -72,7 +73,9 @@ namespace UI
 
             }
             bindingSource.DataSource = fullPersonInfo.properties;
-            propertiesGridView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
+            propertiesGridView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            propertiesGridView.Columns[2].Width = propertiesGridView.Width * 4 / 5;
+            propertiesGridView.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
         }
 
         public Database.FullPersonInfo getFullPersonInfo()

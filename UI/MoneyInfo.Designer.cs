@@ -31,9 +31,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.moneyBox = new System.Windows.Forms.TextBox();
             this.pinCodeBox = new System.Windows.Forms.TextBox();
             this.failuresBox = new System.Windows.Forms.TextBox();
+            this.moneyBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -66,15 +66,6 @@
             this.label3.Text = "Ошибок:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // moneyBox
-            // 
-            this.moneyBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.moneyBox.Location = new System.Drawing.Point(59, 3);
-            this.moneyBox.Name = "moneyBox";
-            this.moneyBox.Size = new System.Drawing.Size(309, 20);
-            this.moneyBox.TabIndex = 3;
-            // 
             // pinCodeBox
             // 
             this.pinCodeBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -93,13 +84,22 @@
             this.failuresBox.Size = new System.Drawing.Size(309, 20);
             this.failuresBox.TabIndex = 5;
             // 
+            // moneyBox
+            // 
+            this.moneyBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.moneyBox.Location = new System.Drawing.Point(59, 3);
+            this.moneyBox.Name = "moneyBox";
+            this.moneyBox.Size = new System.Drawing.Size(309, 20);
+            this.moneyBox.TabIndex = 6;
+            // 
             // MoneyInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.moneyBox);
             this.Controls.Add(this.failuresBox);
             this.Controls.Add(this.pinCodeBox);
-            this.Controls.Add(this.moneyBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -115,8 +115,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox moneyBox;
         private System.Windows.Forms.TextBox pinCodeBox;
         private System.Windows.Forms.TextBox failuresBox;
+        private System.Windows.Forms.TextBox moneyBox;
     }
 }

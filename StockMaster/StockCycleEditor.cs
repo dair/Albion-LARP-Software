@@ -10,17 +10,17 @@ using System.Windows.Forms;
 
 namespace StockMaster
 {
-    public partial class NewsEditor : UI.DBObjectUserControl
+    public partial class StockCycleEditor : UI.DBObjectUserControl
     {
         private DataTable table = new DataTable();
         private BindingSource bindingSource = null;
 
-        public NewsEditor()
+        public StockCycleEditor()
         {
             InitializeComponent();
         }
 
-        public NewsEditor(Database.Connection db)
+        public StockCycleEditor(Database.Connection db)
             : base(db)
         {
             InitializeComponent();
@@ -29,7 +29,7 @@ namespace StockMaster
             Retrieve();
         }
 
-        private void NewsEditor_Load(object sender, EventArgs e)
+        private void CompaniesEditor_Load(object sender, EventArgs e)
         {
             if (getDatabase() == null)
                 return;
@@ -42,7 +42,7 @@ namespace StockMaster
             if (getDatabase() == null)
                 return;
 
-            getDatabase().fillWithNews(table);
+            getDatabase().fillWithStockCycles(table);
             bindingSource.DataSource = table;
 
             dataGridView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
@@ -51,54 +51,54 @@ namespace StockMaster
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            NewsEditForm nf = new NewsEditForm();
+            StockCompanyEditForm nf = new StockCompanyEditForm();
             if (nf.ShowDialog(this) == DialogResult.OK)
             {
-                getDatabase().editNews(nf.info);
+                getDatabase().editCompany(null, nf.info);
                 Retrieve();
             }
         }
 
         private void editButton_Click(object sender, EventArgs e)
         {
-            if (getCurrentId() != 0)
+            if (getCurrentKey() != null)
             {
-                Database.NewsInfo newsInfo = new Database.NewsInfo();
-                newsInfo.id = getCurrentId();
-                newsInfo.date = Convert.ToDateTime(dataGridView.SelectedRows[0].Cells["TIME"].Value);
-                newsInfo.title = Convert.ToString(dataGridView.SelectedRows[0].Cells["TITLE"].Value);
-                newsInfo.text = Convert.ToString(dataGridView.SelectedRows[0].Cells["TEXT"].Value);
-                NewsEditForm nf = new NewsEditForm();
-                nf.info = newsInfo;
+                Database.StockCompanyInfo info = new Database.StockCompanyInfo();
+                info.key = getCurrentKey();
+
+                info.name = Convert.ToString(dataGridView.SelectedRows[0].Cells["NAME"].Value);
+                info.stockAmount = Convert.ToUInt64(dataGridView.SelectedRows[0].Cells["STOCK"].Value);
+                StockCompanyEditForm nf = new StockCompanyEditForm();
+                nf.info = info;
                 if (nf.ShowDialog(this) == DialogResult.OK)
                 {
-                    getDatabase().editNews(nf.info);
+                    getDatabase().editCompany(getCurrentKey(), nf.info);
                     Retrieve();
                 }
             }
         }
 
-        public UInt64 getCurrentId()
+        public String getCurrentKey()
         {
             if (dataGridView.SelectedRows.Count != 1)
-                return 0;
+                return null;
 
-            return Convert.ToUInt64(dataGridView.SelectedRows[0].Cells["ID"].Value);
+            return Convert.ToString(dataGridView.SelectedRows[0].Cells["TICKER"].Value);
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            if (getCurrentId() != 0)
+            if (getCurrentKey() != null)
             {
-                if (MessageBox.Show("В самом деле удалить новость?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Не компания и была?", "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    getDatabase().deleteNews(getCurrentId());
+                    getDatabase().deleteCompany(getCurrentKey());
                     Retrieve();
                 }
             }
         }
 
-        private void refreshButton_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             Retrieve();
         }

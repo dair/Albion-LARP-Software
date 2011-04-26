@@ -23,6 +23,11 @@ namespace Database
         {
         }
 
+        public Exception getLastException()
+        {
+            return lastException;
+        }
+
         public void setIpAddress(String ip)
         {
             ipAddress = (String)ip.Clone();
@@ -88,6 +93,9 @@ namespace Database
             if (lastException != null)
             {
                 Logger.Logging.log(ex.ToString());
+
+
+                System.Windows.Forms.MessageBox.Show(ex.ToString(), "Ошибка!", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
         }
 
@@ -159,7 +167,7 @@ namespace Database
         public void fillWithPersons(DataTable table)
         {
             table.Columns.Clear();
-            table.Columns.Add("ID");
+            table.Columns.Add("ID", Type.GetType("System.UInt64"));
             table.Columns.Add("NAME");
             table.Rows.Clear();
 
@@ -174,7 +182,7 @@ namespace Database
                 NpgsqlDataReader rd = command.ExecuteReader();
                 while (rd.Read())
                 {
-                    table.Rows.Add(Convert.ToString(rd["ID"]), Convert.ToString(rd["NAME"]));
+                    table.Rows.Add(Convert.ToUInt64(rd["ID"]), Convert.ToString(rd["NAME"]));
                 }
             }
             catch (Exception ex)
@@ -1308,6 +1316,223 @@ namespace Database
             }
         }
 
+        public void fillWithStockCycles(DataTable table)
+        {
+            table.Clear();
+            table.Columns.Clear();
 
+            table.Columns.Add("ID", Type.GetType("System.UInt64"));
+            table.Columns.Add("START_TIME", Type.GetType("System.DateTime"));
+            table.Columns.Add("BORDER1_TIME", Type.GetType("System.DateTime"));
+            table.Columns.Add("BORDER2_TIME", Type.GetType("System.DateTime"));
+            table.Columns.Add("END_TIME", Type.GetType("System.DateTime"));
+
+
+            if (!connect())
+                return;
+
+            try
+            {
+                String query = "select ID, START_TIME, BORDER1_TIME, BORDER2_TIME, END_TIME from STOCK_CYCLE ORDER BY START_TIME ASC";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(rd["KEY"], rd["NAME"], rd["TOTAL_STOCK"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public UInt64 CreateVKSession(UInt64 personId, UInt64 deviceId)
+        {
+            if (!connect())
+                return 0;
+            UInt64 ret = 0;
+            try
+            {
+                String query = "INSERT INTO VK_SESSION (PERSON_ID, DEVICE_ID) VALUES (:pid, :did) RETURNING id";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("pid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["pid"].Value = personId;
+                command.Parameters.Add(new NpgsqlParameter("did", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["did"].Value = deviceId;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    ret = Convert.ToUInt16(rd["id"]);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+            return ret;
+        }
+
+        public void fillWithQuestionsForGender(DataTable table, FullPersonInfo.Gender gender, UInt64 sessionId)
+        {
+            table.Clear();
+
+            table.Columns.Add("ID", Type.GetType("System.UInt64"));
+            table.Columns.Add("TEXT", Type.GetType("System.String"));
+
+            String g = "('A'";
+            switch (gender)
+            {
+                case FullPersonInfo.Gender.Female:
+                    g += ", 'F'";
+                    break;
+                case FullPersonInfo.Gender.Male:
+                    g += ", 'M'";
+                    break;
+            }
+            g += ")";
+
+            if (!connect())
+                return;
+
+            String query = "SELECT ID, TEXT FROM VK_QUESTION WHERE ID NOT IN " +
+                "(SELECT QUESTION_ID FROM VK_SESSION_QUESTION WHERE SESSION_ID = :sid) AND " +
+                "GENDER IN " + g;
+
+            try
+            {
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("sid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["sid"].Value = sessionId;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(rd["ID"], rd["TEXT"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void addQuestionForSession(UInt64 sessionId, UInt64 questionId)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                String query = "INSERT INTO VK_SESSION_QUESTION (SESSION_ID, QUESTION_ID) VALUES (:sid, :qid)";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("sid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["sid"].Value = sessionId;
+                command.Parameters.Add(new NpgsqlParameter("qid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["qid"].Value = questionId;
+
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public UInt64 questionNumberForSession(UInt64 sessionId)
+        {
+            if (!connect())
+                return 0;
+            UInt64 ret = 0;
+
+            try
+            {
+                String query = "SELECT COUNT(*) AS C FROM VK_SESSION_QUESTION WHERE SESSION_ID = :sid";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("sid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["sid"].Value = sessionId;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    ret = Convert.ToUInt64(rd["C"]);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return ret;
+        }
+
+        public VKAnswerInfo getAnswerForSessionQuestion(UInt64 sessionId, UInt64 questionId)
+        {
+            VKAnswerInfo ret = null;
+
+            if (!connect())
+                return null;
+
+            try
+            {
+                String query = "SELECT A.ID, A.TEXT, A.HUMAN_VALUE, A.ANDROID_VALUE FROM " +
+                    "VK_ANSWER A, VK_SESSION_ANSWER SA WHERE " +
+                    "A.ID = SA.ANSWER_ID AND " +
+                    "A.QUESTION_ID = SA.QUESTION_ID AND " +
+                    "SA.SESSION_ID = :sid AND " +
+                    "A.QUESTION_ID = :qid";
+
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("sid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["sid"].Value = sessionId;
+                command.Parameters.Add(new NpgsqlParameter("qid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["qid"].Value = questionId;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    ret = new VKAnswerInfo();
+
+                    ret.questionId = questionId;
+                    ret.answerId = Convert.ToUInt64(rd["ID"]);
+                    ret.text = Convert.ToString(rd["TEXT"]);
+                    ret.humanValue = Convert.ToInt16(rd["HUMAN_VALUE"]);
+                    ret.androidValue = Convert.ToInt16(rd["ANDROID_VALUE"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return ret;
+        }
     }
 }
