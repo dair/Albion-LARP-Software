@@ -23,8 +23,8 @@ namespace VKTest
         }
 
         //-------------------------------------------------
-        public VKStart(Database.Connection db)
-            : base(db)
+        public VKStart(Database.Connection db, VerticalProgressBar vBar)
+            : base(db, vBar)
         {
             InitializeComponent();
 
@@ -35,6 +35,7 @@ namespace VKTest
         public override void Init(ClientUI.UserObjectEventArgs args)
         {
             infoLabel.Text = "";
+            bar.Visible = false;
         }
 
         //-------------------------------------------------
@@ -99,12 +100,14 @@ namespace VKTest
         private void TickAccept(object sender, EventArgs e)
         {
             myTimer.Tick -= TickAccept;
+            myTimer.Stop();
 
             UserObjectEventArgs args = new UserObjectEventArgs();
             args.NextObject = "QUESTION";
             args.data["PERSON_INFO"] = info;
             args.data["SESSION_ID"] = sessionId;
             args.data["VALUE"] = 0;
+            args.data["MIDDLE"] = 0.0;
 
             RaiseNextObjectEvent(args);
         }

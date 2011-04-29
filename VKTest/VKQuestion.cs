@@ -15,6 +15,7 @@ namespace VKTest
         UInt64 sessionId = 0;
         UInt64 questionId = 0;
         UInt64 questionNum = 0;
+        double middle = 0;
 
         BindingSource bindingSource = new BindingSource();
 
@@ -23,8 +24,8 @@ namespace VKTest
             InitializeComponent();
         }
 
-        public VKQuestion(Database.Connection db)
-            : base(db)
+        public VKQuestion(Database.Connection db, VerticalProgressBar vBar)
+            : base(db, vBar)
         {
             InitializeComponent();
 
@@ -36,8 +37,14 @@ namespace VKTest
         {
             base.Init(args);
 
+            bar.Visible = true;
+
             sessionId = Convert.ToUInt64(args.data["SESSION_ID"]);
             value = Convert.ToInt16(args.data["VALUE"]);
+            middle = Convert.ToDouble(args.data["MIDDLE"]);
+
+            //bar.RealValue = Math.Abs(value);
+            bar.Shaking = true;
 
             nameLabel.Text = info.name;
 
@@ -48,31 +55,72 @@ namespace VKTest
             bindingSource.DataSource = table;
             dataGridView.Columns[0].Visible = false;
 
-            instantValueBar.realValue = 50;
-            instantValueBar.Shaking = true;
-            instantValueBar.Show();
         }
 
         private void dataGridView_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Modifiers == Keys.None && e.KeyCode == Keys.Enter)
+            if (e.Modifiers == Keys.None)
             {
-                questionId = Convert.ToUInt64(dataGridView.SelectedRows[0].Cells["ID"].Value);
-                myTimer.Interval = 300;
-                myTimer.Tick += new EventHandler(myTimer_Tick);
-                myTimer.Start();
+                switch (e.KeyCode)
+                {
+                    case Keys.Enter:
+                        questionId = Convert.ToUInt64(dataGridView.SelectedRows[0].Cells["ID"].Value);
+                        myTimer.Interval = 300;
+                        myTimer.Tick += new EventHandler(myTimer_TickToAnswer);
+                        myTimer.Start();
+                        e.Handled = true;
+                        return;
+                }
             }
+
+            OnKeyDown(sender, e);
         }
 
-        void myTimer_Tick(object sender, EventArgs e)
+        public override void OnKeyDown(object sender, KeyEventArgs e)
         {
-            myTimer.Tick -= myTimer_Tick;
+            switch (e.KeyCode)
+            {
+                case Keys.Escape:
+//                    MessageBox.Show("VKQuestion::OnKeyDown");
+                    myTimer.Interval = 1;
+                    myTimer.Tick += new EventHandler(myTimer_TickEscape);
+                    myTimer.Start();
+                    e.Handled = true;
+                    return;
+            }
+
+            base.OnKeyDown(sender, e);
+        }
+
+        void myTimer_TickEscape(object sender, EventArgs e)
+        {
+            myTimer.Tick -= myTimer_TickEscape;
+            myTimer.Stop();
+            ClientUI.UserObjectEventArgs args = new ClientUI.UserObjectEventArgs();
+            args.NextObject = "EXITING";
+            args.data["PERSON_INFO"] = info;
+            args.data["SESSION_ID"] = sessionId;
+            args.data["VALUE"] = value;
+            args.data["MIDDLE"] = middle;
+            args.data["WHERE"] = "QUESTION";
+
+            RaiseNextObjectEvent(args);
+
+        }
+
+        void myTimer_TickToAnswer(object sender, EventArgs e)
+        {
+            myTimer.Tick -= myTimer_TickToAnswer;
+            myTimer.Stop();
+
+            getDatabase().addQuestionForSession(sessionId, questionId);
 
             ClientUI.UserObjectEventArgs args = new ClientUI.UserObjectEventArgs();
             args.NextObject = "WAITING";
             args.data["PERSON_INFO"] = info;
             args.data["SESSION_ID"] = sessionId;
             args.data["VALUE"] = value;
+            args.data["MIDDLE"] = middle;
             args.data["QUESTION_ID"] = questionId;
             args.data["QUESTION_NUM"] = questionNum + 1;
             args.data["QUESTION_TEXT"] = Convert.ToString(dataGridView.SelectedRows[0].Cells["TEXT"].Value);

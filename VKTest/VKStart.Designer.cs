@@ -35,10 +35,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).BeginInit();
             this.SuspendLayout();
             // 
-            // instantValueBar
-            // 
-            this.instantValueBar.Visible = false;
-            // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -61,7 +57,7 @@
             this.idBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.idBox.Location = new System.Drawing.Point(193, 164);
             this.idBox.Name = "idBox";
-            this.idBox.Size = new System.Drawing.Size(442, 31);
+            this.idBox.Size = new System.Drawing.Size(392, 31);
             this.idBox.TabIndex = 14;
             this.idBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.idBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.idBox_KeyDown);
@@ -73,7 +69,7 @@
             this.okButton.BackColor = System.Drawing.Color.DimGray;
             this.okButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.okButton.ForeColor = System.Drawing.Color.White;
-            this.okButton.Location = new System.Drawing.Point(641, 160);
+            this.okButton.Location = new System.Drawing.Point(591, 160);
             this.okButton.MaximumSize = new System.Drawing.Size(156, 38);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(156, 38);
@@ -104,7 +100,6 @@
             this.Controls.Add(this.label2);
             this.MaximumSize = new System.Drawing.Size(0, 0);
             this.Name = "VKStart";
-            this.Controls.SetChildIndex(this.instantValueBar, 0);
             this.Controls.SetChildIndex(this.pictureLogo, 0);
             this.Controls.SetChildIndex(this.escLabel, 0);
             this.Controls.SetChildIndex(this.label2, 0);

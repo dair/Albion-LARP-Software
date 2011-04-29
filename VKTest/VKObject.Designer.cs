@@ -29,21 +29,20 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.instantValueBar = new VKTest.VerticalProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).BeginInit();
             this.SuspendLayout();
-            // 
-            // escLabel
-            // 
-            this.escLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.escLabel.Location = new System.Drawing.Point(0, 372);
-            this.escLabel.Size = new System.Drawing.Size(800, 28);
-            this.escLabel.Visible = false;
             // 
             // pictureLogo
             // 
             this.pictureLogo.Location = new System.Drawing.Point(18, 334);
             this.pictureLogo.Visible = false;
+            // 
+            // escLabel
+            // 
+            this.escLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.escLabel.Location = new System.Drawing.Point(0, 372);
+            this.escLabel.Size = new System.Drawing.Size(750, 28);
+            this.escLabel.Visible = false;
             // 
             // label1
             // 
@@ -56,29 +55,18 @@
             this.label1.TabIndex = 13;
             this.label1.Text = "Тест Войта-Кампфа";
             // 
-            // instantValueBar
-            // 
-            this.instantValueBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.instantValueBar.ForeColor = System.Drawing.Color.Red;
-            this.instantValueBar.Location = new System.Drawing.Point(768, 3);
-            this.instantValueBar.Name = "instantValueBar";
-            this.instantValueBar.Shaking = false;
-            this.instantValueBar.Size = new System.Drawing.Size(32, 394);
-            this.instantValueBar.TabIndex = 14;
-            this.instantValueBar.Value = 50;
-            // 
             // VKObject
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.instantValueBar);
             this.Controls.Add(this.label1);
+            this.MaximumSize = new System.Drawing.Size(750, 400);
+            this.MinimumSize = new System.Drawing.Size(750, 400);
             this.Name = "VKObject";
+            this.Size = new System.Drawing.Size(750, 400);
             this.Controls.SetChildIndex(this.pictureLogo, 0);
             this.Controls.SetChildIndex(this.escLabel, 0);
             this.Controls.SetChildIndex(this.label1, 0);
-            this.Controls.SetChildIndex(this.instantValueBar, 0);
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -88,6 +76,5 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        protected VerticalProgressBar instantValueBar;
     }
 }

@@ -72,7 +72,7 @@ namespace VKTest
             public override Function NextFunction()
             {
                 int mlt = Math.Sign(Amplitude);
-                int newAmp = (random.Next(4) + 2) * mlt;
+                int newAmp = (random.Next(6) + 2) * (-mlt);
                 return new Sinus(Value, newAmp);
             }
         }
@@ -81,21 +81,24 @@ namespace VKTest
         {
             double Start, Finish;
             int x = 0;
+            Sinus sinus = null;
 
             public Moving(int start, int finish)
             {
                 Start = start;
                 Finish = finish;
+                int mlt = Math.Sign(start - finish);
+                sinus = new Sinus(0, (random.Next(6) + 2) * mlt);
             }
 
             public override bool HasNextValue()
             {
-                return x < 15;
+                return x < 10;
             }
 
             public override int NextValue()
             {
-                double val = Start + (Finish - Start) * x / 15.0;
+                double val = Start + (Finish - Start) * x / 10.0 + sinus.NextValue();
                 x++;
                 return Convert.ToInt16(val);
             }
@@ -103,20 +106,24 @@ namespace VKTest
             public override Function NextFunction()
             {
                 int mlg = Math.Sign(Finish - Start);
-                return new Sinus(Convert.ToInt16(Finish), mlg * random.Next(4) + 2);
+                return new Sinus(Convert.ToInt16(Finish), mlg * random.Next(6) + 2);
             }
         }
 
         Timer timer = new Timer();
         bool shaking = false;
+        private int realValue = 0;
         Function function = null;
 
         public bool Shaking
         {
             set
             {
-                shaking = value;
-                timer.Enabled = shaking;
+                if (value != shaking)
+                {
+                    shaking = value;
+                    timer.Enabled = shaking;
+                }
             }
 
             get
@@ -137,12 +144,18 @@ namespace VKTest
         {
             if (function == null)
             {
-                function = new Sinus(realValue, 5);
+                function = new Sinus(realValue, (random.Next(6) + 2));
             }
 
             if (function.HasNextValue())
             {
-                Value = function.NextValue();
+                int v = function.NextValue();
+                System.Console.WriteLine("Value: " + Convert.ToString(v) + ", realValue = " + Convert.ToString(realValue));
+                if (v < Minimum)
+                    v = Minimum;
+                if (v > Maximum)
+                    v = Maximum;
+                Value = v;
             }
             else
             {
@@ -151,7 +164,19 @@ namespace VKTest
             }
         }
 
-        public int realValue;
+        public int RealValue
+        {
+            set
+            {
+                function = new Moving(realValue, value);
+                realValue = value;
+            }
+
+            get
+            {
+                return realValue;
+            }
+        }
 
         protected override CreateParams CreateParams
         {

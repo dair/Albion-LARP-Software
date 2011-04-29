@@ -18,7 +18,7 @@ namespace ATM
         }
 
         public ATMForm(Database.Connection db, ClientSettings s, BarCode.ReaderControl r, Logger.Logging logger)
-            : base(db, s, r, logger)
+            : base(db, s, r, logger, 120000)
         {
             InitializeComponent();
 

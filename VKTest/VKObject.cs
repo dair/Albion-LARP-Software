@@ -12,15 +12,17 @@ namespace VKTest
     public partial class VKObject : ClientUI.UserObject
     {
         protected Database.FullPersonInfo info;
+        protected VerticalProgressBar bar;
 
         public VKObject()
         {
             InitializeComponent();
         }
 
-        public VKObject(Database.Connection db)
+        public VKObject(Database.Connection db, VerticalProgressBar vBar)
             : base(db)
         {
+            bar = vBar;
             InitializeComponent();
         }
 

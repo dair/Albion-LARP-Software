@@ -41,9 +41,9 @@
             // 
             this.nameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.nameLabel.ForeColor = System.Drawing.Color.White;
-            this.nameLabel.Location = new System.Drawing.Point(232, 13);
+            this.nameLabel.Location = new System.Drawing.Point(423, 12);
             this.nameLabel.Name = "nameLabel";
-            this.nameLabel.Size = new System.Drawing.Size(565, 25);
+            this.nameLabel.Size = new System.Drawing.Size(327, 25);
             this.nameLabel.TabIndex = 14;
             this.nameLabel.Text = "Имя несчастного";
             this.nameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -69,11 +69,14 @@
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView.Location = new System.Drawing.Point(0, 69);
+            this.dataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridView.Location = new System.Drawing.Point(0, 54);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
+            this.dataGridView.ReadOnly = true;
+            this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.Size = new System.Drawing.Size(762, 328);
+            this.dataGridView.Size = new System.Drawing.Size(750, 318);
             this.dataGridView.TabIndex = 15;
             this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
             // 
@@ -94,11 +97,11 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(13, 41);
+            this.label2.Location = new System.Drawing.Point(-4, 375);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(783, 25);
+            this.label2.Size = new System.Drawing.Size(754, 25);
             this.label2.TabIndex = 18;
-            this.label2.Text = "Выберите вопрос и нажмите Enter";
+            this.label2.Text = "Выберите вопрос и нажмите Enter. ESC - закончить тестирование";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // VKQuestion

@@ -17,7 +17,7 @@ namespace ClientUI
         protected ClientSettings settings = null;
         protected BarCode.ReaderControl RC = null;
         protected Logger.Logging logger = null;
-        protected Timer inactivityTimer;
+        protected Timer inactivityTimer = null;
 
 
         public ClientForm()
@@ -25,16 +25,19 @@ namespace ClientUI
             InitializeComponent();
         }
 
-        public ClientForm(Database.Connection db, ClientSettings s, BarCode.ReaderControl r, Logger.Logging l)
+        public ClientForm(Database.Connection db, ClientSettings s, BarCode.ReaderControl r, Logger.Logging l, int inactTime)
             : base(db)
         {
             userObjects = new Dictionary<String, UserObject>();
             settings = s;
             RC = r;
             logger = l;
-            inactivityTimer = new Timer();
-            inactivityTimer.Tick += new EventHandler(inactivityTimer_Tick);
-            inactivityTimer.Interval = 120000;
+            if (inactTime > 0)
+            {
+                inactivityTimer = new Timer();
+                inactivityTimer.Tick += new EventHandler(inactivityTimer_Tick);
+                inactivityTimer.Interval = inactTime;
+            }
 
             InitializeComponent();
             if (RC != null)
@@ -136,7 +139,7 @@ namespace ClientUI
             }
         }
 
-        void HandleNextObjectEvent(object sender, UserObjectEventArgs e)
+        virtual protected void HandleNextObjectEvent(object sender, UserObjectEventArgs e)
         {
             SetCurrentKey(e.NextObject, e);
         }
@@ -148,10 +151,13 @@ namespace ClientUI
 
         public void RecordActivity()
         {
-            inactivityTimer.Stop();
-            if (currentObjectKey != startupObjectKey)
+            if (inactivityTimer != null)
             {
-                inactivityTimer.Start();
+                inactivityTimer.Stop();
+                if (currentObjectKey != startupObjectKey)
+                {
+                    inactivityTimer.Start();
+                }
             }
         }
     }
