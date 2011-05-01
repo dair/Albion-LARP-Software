@@ -10,9 +10,53 @@ namespace Settings
     {
         private static String SUBKEY_WINDOW = "ui";
 
+        private static String fullControlName(Control control)
+        {
+            Control c = control;
+            String ret = "";
+            while (c != null)
+            {
+                if (ret != "")
+                    ret = "." + ret;
+                ret = c.Name + ret;
+                c = c.Parent;
+            }
+
+            return ret;
+        }
+
+        public static void storeSplit(SplitContainer sc)
+        {
+            String name = fullControlName(sc);
+            String key = SUBKEY_WINDOW + "\\" + name;
+            SetData(key, "splitter", Convert.ToString(sc.SplitterDistance));
+        }
+
+        public static void restoreSplit(SplitContainer sc)
+        {
+            String name = fullControlName(sc);
+            String key = SUBKEY_WINDOW + "\\" + name;
+
+            String d = GetData(key, "splitter");
+
+            try
+            {
+                int c = Convert.ToInt32(d);
+                if (c > 0)
+                {
+                    sc.SplitterDistance = c;
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+
+
         public static void storeForm(Form form)
         {
-            String name = form.Name;
+            String name = fullControlName(form);
             String key = SUBKEY_WINDOW + "\\" + name;
             SetData(key, "state", Convert.ToString(form.WindowState));
             SetData(key, "x", Convert.ToString(form.Location.X));

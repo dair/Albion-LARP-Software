@@ -1316,41 +1316,6 @@ namespace Database
             }
         }
 
-        public void fillWithStockCycles(DataTable table)
-        {
-            table.Clear();
-            table.Columns.Clear();
-
-            table.Columns.Add("ID", Type.GetType("System.UInt64"));
-            table.Columns.Add("START_TIME", Type.GetType("System.DateTime"));
-            table.Columns.Add("BORDER1_TIME", Type.GetType("System.DateTime"));
-            table.Columns.Add("BORDER2_TIME", Type.GetType("System.DateTime"));
-            table.Columns.Add("END_TIME", Type.GetType("System.DateTime"));
-
-
-            if (!connect())
-                return;
-
-            try
-            {
-                String query = "select ID, START_TIME, BORDER1_TIME, BORDER2_TIME, END_TIME from STOCK_CYCLE ORDER BY START_TIME ASC";
-                NpgsqlCommand command = new NpgsqlCommand(query, connection);
-                NpgsqlDataReader rd = command.ExecuteReader();
-                while (rd.Read())
-                {
-                    table.Rows.Add(rd["KEY"], rd["NAME"], rd["TOTAL_STOCK"]);
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
-            }
-            finally
-            {
-                disconnect();
-            }
-        }
-
         public UInt64 CreateVKSession(UInt64 personId, UInt64 deviceId)
         {
             if (!connect())
@@ -1607,6 +1572,202 @@ namespace Database
                 command.ExecuteNonQuery();
 
                 commit();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void deletePersonShare(UInt64 personId, String ticker)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                begin();
+                String query;
+                NpgsqlCommand command;
+                query = "DELETE FROM STOCK_OWNER WHERE PERSON_ID = :pid AND KEY = :ticker";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("pid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["pid"].Value = personId;
+                command.Parameters.Add(new NpgsqlParameter("ticker", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command.Parameters["ticker"].Value = ticker;
+                command.ExecuteNonQuery();
+                commit();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+        }
+
+        public void fillWithStockCycles(DataTable table)
+        {
+            table.Clear();
+            table.Columns.Add("ID", Type.GetType("System.UInt64"));
+            table.Columns.Add("START_TIME", Type.GetType("System.DateTime"));
+            table.Columns.Add("BORDER1_TIME", Type.GetType("System.DateTime"));
+            table.Columns.Add("BORDER2_TIME", Type.GetType("System.DateTime"));
+            table.Columns.Add("FINISH_TIME", Type.GetType("System.DateTime"));
+
+            if (!connect())
+                return;
+
+            try
+            {
+                String query = "SELECT ID, START_TIME, BORDER1_TIME, BORDER2_TIME, FINISH_TIME FROM STOCK_CYCLE ORDER BY START_TIME ASC";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(rd["ID"], rd["START_TIME"], rd["BORDER1_TIME"], rd["BORDER2_TIME"], rd["FINISH_TIME"]);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void fillWithLatestStockQuotes(DataTable table)
+        {
+            table.Clear();
+            table.Columns.Add("TICKER");
+            table.Columns.Add("NAME");
+            table.Columns.Add("QUOTE", Type.GetType("System.UInt64"));
+
+            if (!connect())
+                return;
+
+            try
+            {
+                String query = "SELECT C.KEY AS TICKER, C.NAME AS NAME, Q.PRICE AS QUOTE FROM STOCK_COMPANY C LEFT OUTER JOIN STOCK_QUOTE Q ON (C.KEY = Q.COMPANY_KEY AND Q.CYCLE_ID IN (SELECT MAX(ID) FROM STOCK_CYCLE))";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    Object obj = rd["QUOTE"];
+                    table.Rows.Add(rd["TICKER"], rd["NAME"], obj);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void newCycle(StockCycleInfo info)
+        {
+            if (info == null || !connect())
+                return;
+
+            try
+            {
+                begin();
+                String query;
+                NpgsqlCommand command;
+                query = "INSERT INTO STOCK_CYCLE (START_TIME, BORDER1_TIME, BORDER2_TIME, FINISH_TIME) VALUES (:s, :b1, :b2, :f) RETURNING ID";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("s", NpgsqlTypes.NpgsqlDbType.Timestamp));
+                command.Parameters["s"].Value = info.start;
+                command.Parameters.Add(new NpgsqlParameter("b1", NpgsqlTypes.NpgsqlDbType.Timestamp));
+                command.Parameters["b1"].Value = info.border1;
+                command.Parameters.Add(new NpgsqlParameter("b2", NpgsqlTypes.NpgsqlDbType.Timestamp));
+                command.Parameters["b2"].Value = info.border2;
+                command.Parameters.Add(new NpgsqlParameter("f", NpgsqlTypes.NpgsqlDbType.Timestamp));
+                command.Parameters["f"].Value = info.finish;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                UInt64 cycleId = 0;
+                while (rd.Read())
+                {
+                    cycleId = Convert.ToUInt64(rd[0]);
+                    break;
+                }
+                rd.Close();
+
+                query = "INSERT INTO STOCK_QUOTE (CYCLE_ID, COMPANY_KEY, PRICE) VALUES (:cid, :ticker, :quote)";
+                foreach (DataRow row in info.quotes.Rows)
+                {
+                    String ticker = Convert.ToString(row["TICKER"]);
+                    UInt64 quote = Convert.ToUInt64(row["QUOTE"]);
+                    command = new NpgsqlCommand(query, connection);
+                    command.Parameters.Add(new NpgsqlParameter("cid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                    command.Parameters["cid"].Value = cycleId;
+                    command.Parameters.Add(new NpgsqlParameter("ticker", NpgsqlTypes.NpgsqlDbType.Varchar));
+                    command.Parameters["ticker"].Value = ticker;
+                    command.Parameters.Add(new NpgsqlParameter("quote", NpgsqlTypes.NpgsqlDbType.Numeric));
+                    command.Parameters["quote"].Value = quote;
+                    command.ExecuteNonQuery();
+                }
+                commit();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void fillWithRequests(UInt64 cycleId, DataTable table)
+        {
+            table.Clear();
+            table.Columns.Add("ID", Type.GetType("System.UInt64"));
+            table.Columns.Add("PERSON_ID", Type.GetType("System.UInt64"));
+            table.Columns.Add("NAME");
+            table.Columns.Add("TICKER");
+            table.Columns.Add("OPERATION");
+            table.Columns.Add("QUANTITY", Type.GetType("System.UInt64"));
+            table.Columns.Add("RTIME", Type.GetType("System.DateTime"));
+
+            if (!connect())
+                return;
+
+            try
+            {
+                String query = "SELECT S.ID, S.PERSON_ID, P.NAME, S.COMPANY_KEY, S.RTIME, S.OPERATION, S.QUANTITY " +
+                    "FROM STOCK_REQUEST S, PERSON P " +
+                    "WHERE S.CYCLE_ID = :cid AND " +
+                    "S.PERSON_ID = P.ID AND " +
+                    "STATUS = 'A' " +
+                    "ORDER BY S.RTIME ASC";
+
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("cid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["cid"].Value = cycleId;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(rd["ID"], rd["PERSON_ID"], rd["NAME"], rd["COMPANY_KEY"], rd["OPERATION"], rd["QUANTITY"], rd["RTIME"]);
+                }
+                rd.Close();
             }
             catch (Exception ex)
             {

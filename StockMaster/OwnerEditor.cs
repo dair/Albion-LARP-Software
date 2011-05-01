@@ -152,7 +152,24 @@ namespace StockMaster
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
+            Database.PersonInfo info = personList.getCurrentPersonInfo();
+            if (info == null || info.id == 0)
+            {
+                MessageBox.Show("Непонятно для кого акции удалять. Надо выбрать владельца");
+                return;
+            }
 
+            if (selectedTicker() == null)
+            {
+                MessageBox.Show("Нечего удалять");
+                return;
+            }
+
+            if (MessageBox.Show("В самом деле убрать чувака из (со)владельцев?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                getDatabase().deletePersonShare(info.id, selectedTicker());
+                sharesByPersonTableView.Retrieve(info.id);
+            }
         }
 
 

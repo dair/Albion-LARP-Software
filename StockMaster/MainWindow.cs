@@ -22,5 +22,16 @@ namespace StockMaster
             InitializeComponent();
         }
 
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            Settings.UI.restoreForm(this);
+
+            this.Closing += new CancelEventHandler(MainWindow_Closing);
+        }
+
+        void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            Settings.UI.storeForm(this);
+        }
     }
 }

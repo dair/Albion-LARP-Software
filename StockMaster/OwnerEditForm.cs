@@ -33,6 +33,9 @@ namespace StockMaster
                     companiesBox.SelectedIndex = idx;
             }
 
+            if (companiesBox.SelectedIndex == -1)
+                companiesBox.SelectedIndex = 0;
+
             shareBox.Text = Convert.ToString(share);
         }
 

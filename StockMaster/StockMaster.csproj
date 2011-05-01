@@ -58,6 +58,21 @@
     <Compile Include="CompaniesEditor.Designer.cs">
       <DependentUpon>CompaniesEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="CycleEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CycleEditor.Designer.cs">
+      <DependentUpon>CycleEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CycleList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NewCycleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewCycleForm.Designer.cs">
+      <DependentUpon>NewCycleForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="OwnerEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +85,15 @@
     <Compile Include="OwnerEditor.Designer.cs">
       <DependentUpon>OwnerEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="RequestEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RequestEditor.Designer.cs">
+      <DependentUpon>RequestEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RequestList.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SharesByPersonTableView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -78,12 +102,6 @@
     </Compile>
     <Compile Include="StockCycleEditor.Designer.cs">
       <DependentUpon>StockCycleEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EditCycleForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EditCycleForm.Designer.cs">
-      <DependentUpon>EditCycleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="StockCompanyEditForm.cs">
       <SubType>Form</SubType>
@@ -114,17 +132,23 @@
     <EmbeddedResource Include="CompaniesEditor.resx">
       <DependentUpon>CompaniesEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CycleEditor.resx">
+      <DependentUpon>CycleEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewCycleForm.resx">
+      <DependentUpon>NewCycleForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OwnerEditForm.resx">
       <DependentUpon>OwnerEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OwnerEditor.resx">
       <DependentUpon>OwnerEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RequestEditor.resx">
+      <DependentUpon>RequestEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StockCycleEditor.resx">
       <DependentUpon>StockCycleEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="EditCycleForm.resx">
-      <DependentUpon>EditCycleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StockCompanyEditForm.resx">
       <DependentUpon>StockCompanyEditForm.cs</DependentUpon>
