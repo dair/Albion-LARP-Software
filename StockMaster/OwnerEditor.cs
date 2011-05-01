@@ -40,8 +40,7 @@ namespace StockMaster
             {
                 pid = info.id;
             }
-            //sharesByPersonTableView.Retrieve(pid);
-            this.Retrieve(pid);
+            sharesByPersonTableView.Retrieve(pid);
         }
 
         private void refreshButton_Click(object sender, EventArgs e)
@@ -88,7 +87,7 @@ namespace StockMaster
                     c.Remove(s);
                 }
             }
-
+            
             return c;
         }
 
@@ -115,7 +114,7 @@ namespace StockMaster
                 UInt64 share = oForm.share;
 
                 getDatabase().editPersonShare(info.id, null, ticker, share);
-                this.Retrieve(info.id);
+                sharesByPersonTableView.Retrieve(info.id);
             }
         }
 
@@ -146,7 +145,7 @@ namespace StockMaster
                 UInt64 share = oForm.share;
 
                 getDatabase().editPersonShare(info.id, selectedTicker(), ticker, share);
-                this.Retrieve(info.id);
+                sharesByPersonTableView.Retrieve(info.id);
             }
 
         }
@@ -156,19 +155,6 @@ namespace StockMaster
 
         }
 
-        public void Retrieve(UInt64 personId)
-        {
-            if (getDatabase() == null)
-                return;
-
-            DataTable table = new DataTable();
-            getDatabase().fillSharesByPerson(personId, table);
-//            MessageBox.Show(Convert.ToString(table.Rows.Count));
-            BindingSource bindingSource = new BindingSource();
-            bindingSource.DataSource = table;
-            sharesByPersonTableView.DataSource = bindingSource;
-            sharesByPersonTableView.Refresh();
-        }
 
 
     }

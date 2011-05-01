@@ -30,11 +30,11 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.personList = new UI.PersonList(getDatabase());
+            this.sharesByPersonTableView = new StockMaster.SharesByPersonTableView(getDatabase());
             this.editButton = new System.Windows.Forms.Button();
             this.addButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.refreshButton = new System.Windows.Forms.Button();
-            this.sharesByPersonTableView = new UI.BaseTableView();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -83,6 +83,22 @@
             this.personList.TabIndex = 0;
             this.personList.SelectionChanged += new System.EventHandler(this.personList_SelectionChanged);
             // 
+            // sharesByPersonTableView
+            // 
+            this.sharesByPersonTableView.AllowUserToAddRows = false;
+            this.sharesByPersonTableView.AllowUserToDeleteRows = false;
+            this.sharesByPersonTableView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.sharesByPersonTableView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.sharesByPersonTableView.Location = new System.Drawing.Point(2, 32);
+            this.sharesByPersonTableView.MultiSelect = false;
+            this.sharesByPersonTableView.Name = "sharesByPersonTableView";
+            this.sharesByPersonTableView.ReadOnly = true;
+            this.sharesByPersonTableView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.sharesByPersonTableView.Size = new System.Drawing.Size(536, 288);
+            this.sharesByPersonTableView.TabIndex = 5;
+            // 
             // editButton
             // 
             this.editButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -126,14 +142,6 @@
             this.refreshButton.UseVisualStyleBackColor = true;
             this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
-            // sharesByPersonTableView
-            // 
-            this.sharesByPersonTableView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.sharesByPersonTableView.Location = new System.Drawing.Point(2, 52);
-            this.sharesByPersonTableView.Name = "sharesByPersonTableView";
-            this.sharesByPersonTableView.Size = new System.Drawing.Size(413, 212);
-            this.sharesByPersonTableView.TabIndex = 5;
-            // 
             // OwnerEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -159,7 +167,7 @@
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button editButton;
         private System.Windows.Forms.Button addButton;
-        private UI.BaseTableView sharesByPersonTableView;
+        private SharesByPersonTableView sharesByPersonTableView;
 
     }
 }
