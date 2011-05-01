@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseTableView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="BSSettingsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -106,6 +109,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="BaseTableView.resx">
+      <DependentUpon>BaseTableView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BSSettingsView.resx">
       <DependentUpon>BSSettingsView.cs</DependentUpon>
     </EmbeddedResource>

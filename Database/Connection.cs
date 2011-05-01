@@ -1534,5 +1534,88 @@ namespace Database
 
             return ret;
         }
+
+        public void fillSharesByPerson(UInt64 personId, DataTable table)
+        {
+            table.Clear();
+
+            if (!connect())
+            {
+                return;
+            }
+
+            table.Columns.Add("TICKER");
+            table.Columns.Add("NAME");
+            table.Columns.Add("SHARE", Type.GetType("System.UInt64"));
+
+            try
+            {
+                String query = "select C.KEY AS KEY, C.NAME AS NAME, O.QUANTITY AS SHARE " +
+                    "FROM STOCK_COMPANY C, STOCK_OWNER O WHERE " +
+                    "O.PERSON_ID = :pid AND " +
+                    "C.STATUS = 'A' AND " +
+                    "O.KEY = C.KEY AND " +
+                    "O.QUANTITY > 0 ORDER BY C.KEY ASC";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("pid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["pid"].Value = personId;
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(rd["KEY"], rd["NAME"], rd["SHARE"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void editPersonShare(UInt64 personId, String oldTicker, String newTicker, UInt64 share)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                begin();
+                String query;
+                NpgsqlCommand command;
+                if (oldTicker != null)
+                {
+                    query = "DELETE FROM STOCK_OWNER WHERE PERSON_ID = :pid AND KEY = :ticker";
+                    command = new NpgsqlCommand(query, connection);
+                    command.Parameters.Add(new NpgsqlParameter("pid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                    command.Parameters["pid"].Value = personId;
+                    command.Parameters.Add(new NpgsqlParameter("ticker", NpgsqlTypes.NpgsqlDbType.Varchar));
+                    command.Parameters["ticker"].Value = oldTicker;
+                    command.ExecuteNonQuery();
+                }
+
+                query = "INSERT INTO STOCK_OWNER (PERSON_ID, KEY, QUANTITY) VALUES (:pid, :ticker, :share)";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("pid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["pid"].Value = personId;
+                command.Parameters.Add(new NpgsqlParameter("ticker", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command.Parameters["ticker"].Value = newTicker;
+                command.Parameters.Add(new NpgsqlParameter("share", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["share"].Value = share;
+                command.ExecuteNonQuery();
+
+                commit();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
     }
 }

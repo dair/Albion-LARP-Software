@@ -58,6 +58,18 @@
     <Compile Include="CompaniesEditor.Designer.cs">
       <DependentUpon>CompaniesEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="OwnerEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerEditForm.Designer.cs">
+      <DependentUpon>OwnerEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OwnerEditor.Designer.cs">
+      <DependentUpon>OwnerEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="StockCycleEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -98,6 +110,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CompaniesEditor.resx">
       <DependentUpon>CompaniesEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerEditForm.resx">
+      <DependentUpon>OwnerEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerEditor.resx">
+      <DependentUpon>OwnerEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StockCycleEditor.resx">
       <DependentUpon>StockCycleEditor.cs</DependentUpon>

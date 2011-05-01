@@ -31,12 +31,15 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.newsEditor = new StockMaster.NewsEditor(getDatabase());
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPageOwners = new System.Windows.Forms.TabPage();
+            this.newsEditor = new StockMaster.NewsEditor(getDatabase());
             this.companiesEditor = new StockMaster.CompaniesEditor(getDatabase());
+            this.ownerEditor1 = new StockMaster.OwnerEditor(getDatabase());
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPageOwners.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -44,6 +47,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPageOwners);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -67,20 +71,10 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(560, 323);
+            this.tabPage2.Size = new System.Drawing.Size(584, 347);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Новости";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // newsEditor
-            // 
-            this.newsEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.newsEditor.Location = new System.Drawing.Point(3, 3);
-            this.newsEditor.Name = "newsEditor";
-            this.newsEditor.Size = new System.Drawing.Size(554, 317);
-            this.newsEditor.TabIndex = 1;
             // 
             // tabPage3
             // 
@@ -88,18 +82,45 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(560, 323);
+            this.tabPage3.Size = new System.Drawing.Size(584, 347);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Компании";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tabPageOwners
+            // 
+            this.tabPageOwners.Controls.Add(this.ownerEditor1);
+            this.tabPageOwners.Location = new System.Drawing.Point(4, 22);
+            this.tabPageOwners.Name = "tabPageOwners";
+            this.tabPageOwners.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageOwners.Size = new System.Drawing.Size(584, 347);
+            this.tabPageOwners.TabIndex = 3;
+            this.tabPageOwners.Text = "Капиталисты";
+            this.tabPageOwners.UseVisualStyleBackColor = true;
+            // 
+            // newsEditor
+            // 
+            this.newsEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.newsEditor.Location = new System.Drawing.Point(3, 3);
+            this.newsEditor.Name = "newsEditor";
+            this.newsEditor.Size = new System.Drawing.Size(578, 341);
+            this.newsEditor.TabIndex = 1;
             // 
             // companiesEditor
             // 
             this.companiesEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.companiesEditor.Location = new System.Drawing.Point(3, 3);
             this.companiesEditor.Name = "companiesEditor";
-            this.companiesEditor.Size = new System.Drawing.Size(554, 317);
+            this.companiesEditor.Size = new System.Drawing.Size(578, 341);
             this.companiesEditor.TabIndex = 0;
+            // 
+            // ownerEditor1
+            // 
+            this.ownerEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ownerEditor1.Location = new System.Drawing.Point(3, 3);
+            this.ownerEditor1.Name = "ownerEditor1";
+            this.ownerEditor1.Size = new System.Drawing.Size(578, 341);
+            this.ownerEditor1.TabIndex = 0;
             // 
             // MainWindow
             // 
@@ -113,6 +134,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPageOwners.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -125,6 +147,8 @@
         private NewsEditor newsEditor;
         private System.Windows.Forms.TabPage tabPage3;
         private CompaniesEditor companiesEditor;
+        private System.Windows.Forms.TabPage tabPageOwners;
+        private OwnerEditor ownerEditor1;
     }
 }
 
