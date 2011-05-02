@@ -1778,5 +1778,48 @@ namespace Database
                 disconnect();
             }
         }
+
+        public void fillWithCycleInfoAndQuotes(UInt64 last, DataTable table)
+        {
+            table.Clear();
+            table.Columns.Add("CYCLE_ID", Type.GetType("System.UInt64"));
+            table.Columns.Add("START_TIME", Type.GetType("System.DateTime"));
+            table.Columns.Add("BORDER1_TIME", Type.GetType("System.DateTime"));
+            table.Columns.Add("BORDER2_TIME", Type.GetType("System.DateTime"));
+            table.Columns.Add("FINISH_TIME", Type.GetType("System.DateTime"));
+            table.Columns.Add("TICKER");
+            table.Columns.Add("NAME");
+            table.Columns.Add("QUOTE", Type.GetType("System.UInt64"));
+
+            if (!connect())
+                return;
+
+            try
+            {
+                // выбираем последние N сессий с котировками. Т.о., кол-во строк = N * кол-во компаний.
+                String query = "SELECT C.ID, C.START_TIME, C.BORDER1_TIME, C.BORDER2_TIME, C.FINISH_TIME, SQ.TICKER, SQ.NAME, SQ.QUOTE" +
+                    " FROM STOCK_CYCLE C, "+
+                    "(SELECT Q.CYCLE_ID, C.KEY AS TICKER, C.NAME AS NAME, Q.PRICE AS QUOTE "+ 
+                        "FROM STOCK_COMPANY C LEFT OUTER JOIN STOCK_QUOTE Q ON "+
+                            "(C.KEY = Q.COMPANY_KEY AND Q.CYCLE_ID IN (SELECT ID FROM STOCK_CYCLE ORDER BY START_TIME DESC LIMIT :last))) as SQ WHERE C.ID = SQ.CYCLE_ID";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("last", NpgsqlTypes.NpgsqlDbType.Numeric);
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(rd["ID"], rd["START_TIME"], rd["BORDER1_TIME"], rd["BORDER2_TIME"], rd["FINISH_TIME"], rd["TICKER"], rd["NAME"], rd["QUOTE"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+        }
     }
 }

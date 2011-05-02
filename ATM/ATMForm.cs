@@ -29,6 +29,7 @@ namespace ATM
             userObjects["TRANSFER"] = new ATMTransfer(db);
             userObjects["AMOUNT"] = new ATMAmount(db);
             userObjects["VERIFY"] = new ATMVerify(db);
+            userObjects["STOCK_START"] = new ATMStockStart(db);
 
             startupObjectKey = "START";
         }

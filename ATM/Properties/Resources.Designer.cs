@@ -60,13 +60,6 @@ namespace ATM.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap NewsfpdSeal {
-            get {
-                object obj = ResourceManager.GetObject("NewsfpdSeal", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap sf_seal_orig_gold_large {
             get {
                 object obj = ResourceManager.GetObject("sf_seal_orig_gold_large", resourceCulture);

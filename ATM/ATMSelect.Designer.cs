@@ -80,7 +80,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(424, 46);
             this.label4.TabIndex = 17;
-            this.label4.Text = "3. Биржевые операции";
+            this.label4.Text = "3. Операции с ценными бумагами";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ATMSelect
