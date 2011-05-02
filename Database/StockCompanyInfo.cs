@@ -10,5 +10,6 @@ namespace Database
         public String key;
         public String name;
         public UInt64 stockAmount;
+        public UInt64 marketAmount;
     }
 }

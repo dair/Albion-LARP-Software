@@ -1254,6 +1254,44 @@ namespace Database
             }
         }
 
+        public StockCompanyInfo getCompanyInfo(String ticker)
+        {
+            StockCompanyInfo info = null;
+
+            if (!connect())
+                return null;
+
+            try
+            {
+                String query = "SELECT KEY, NAME, TOTAL_STOCK, MARKET_STOCK FROM STOCK_COMPANY WHERE KEY = :ticker";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+
+                command.Parameters.Add(new NpgsqlParameter("ticker", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command.Parameters[0].Value = ticker;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    info = new StockCompanyInfo();
+                    info.key = Convert.ToString(rd["KEY"]);
+                    info.name = Convert.ToString(rd["NAME"]);
+                    info.stockAmount = Convert.ToUInt64(rd["TOTAL_STOCK"]);
+                    info.marketAmount = Convert.ToUInt64(rd["MARKET_STOCK"]);
+                }
+                rd.Close();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return info;
+        }
+
         public void editCompany(String oldKey, StockCompanyInfo info)
         {
             if (!connect())
@@ -1540,27 +1578,23 @@ namespace Database
             }
         }
 
-        public void editPersonShare(UInt64 personId, String oldTicker, String newTicker, UInt64 share)
+        protected void editPersonShareRaw(UInt64 personId, String oldTicker, String newTicker, UInt64 share)
         {
-            if (!connect())
-                return;
-
-            try
+            String query;
+            NpgsqlCommand command;
+            if (oldTicker != null)
             {
-                begin();
-                String query;
-                NpgsqlCommand command;
-                if (oldTicker != null)
-                {
-                    query = "DELETE FROM STOCK_OWNER WHERE PERSON_ID = :pid AND KEY = :ticker";
-                    command = new NpgsqlCommand(query, connection);
-                    command.Parameters.Add(new NpgsqlParameter("pid", NpgsqlTypes.NpgsqlDbType.Numeric));
-                    command.Parameters["pid"].Value = personId;
-                    command.Parameters.Add(new NpgsqlParameter("ticker", NpgsqlTypes.NpgsqlDbType.Varchar));
-                    command.Parameters["ticker"].Value = oldTicker;
-                    command.ExecuteNonQuery();
-                }
+                query = "DELETE FROM STOCK_OWNER WHERE PERSON_ID = :pid AND KEY = :ticker";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("pid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["pid"].Value = personId;
+                command.Parameters.Add(new NpgsqlParameter("ticker", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command.Parameters["ticker"].Value = oldTicker;
+                command.ExecuteNonQuery();
+            }
 
+            if (share > 0)
+            {
                 query = "INSERT INTO STOCK_OWNER (PERSON_ID, KEY, QUANTITY) VALUES (:pid, :ticker, :share)";
                 command = new NpgsqlCommand(query, connection);
                 command.Parameters.Add(new NpgsqlParameter("pid", NpgsqlTypes.NpgsqlDbType.Numeric));
@@ -1570,7 +1604,18 @@ namespace Database
                 command.Parameters.Add(new NpgsqlParameter("share", NpgsqlTypes.NpgsqlDbType.Numeric));
                 command.Parameters["share"].Value = share;
                 command.ExecuteNonQuery();
+            }
+        }
 
+        public void editPersonShare(UInt64 personId, String oldTicker, String newTicker, UInt64 share)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                begin();
+                editPersonShareRaw(personId, oldTicker, newTicker, share);
                 commit();
             }
             catch (Exception ex)
@@ -1804,12 +1849,92 @@ namespace Database
                             "(C.KEY = Q.COMPANY_KEY AND Q.CYCLE_ID IN (SELECT ID FROM STOCK_CYCLE ORDER BY START_TIME DESC LIMIT :last))) as SQ WHERE C.ID = SQ.CYCLE_ID";
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
                 command.Parameters.Add("last", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["last"].Value = last;
 
                 NpgsqlDataReader rd = command.ExecuteReader();
                 while (rd.Read())
                 {
                     table.Rows.Add(rd["ID"], rd["START_TIME"], rd["BORDER1_TIME"], rd["BORDER2_TIME"], rd["FINISH_TIME"], rd["TICKER"], rd["NAME"], rd["QUOTE"]);
                 }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+        }
+
+        public void directStockSale(UInt64 seller, UInt64 buyer, String ticker, UInt64 qty, UInt64 price)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                UInt64 buyerQty = 0;
+                UInt64 sellerQty = 0;
+
+                begin();
+
+                String query = "UPDATE MONEY SET BALANCE = BALANCE - :price WHERE ID = :pid";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("pid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["pid"].Value = buyer;
+                command.Parameters.Add("price", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["price"].Value = price;
+                command.ExecuteNonQuery();
+
+                query = "UPDATE MONEY SET BALANCE = BALANCE + :price WHERE ID = :pid";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("pid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["pid"].Value = seller;
+                command.Parameters.Add("price", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["price"].Value = price;
+                command.ExecuteNonQuery();
+
+                query = "SELECT PERSON_ID, QUANTITY FROM STOCK_OWNER WHERE PERSON_ID = :pid1 OR PERSON_ID = :pid2";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("pid1", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["pid1"].Value = seller;
+                command.Parameters.Add("pid2", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["pid2"].Value = buyer;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    UInt64 pid = Convert.ToUInt64(rd["PERSON_ID"]);
+                    if (pid == seller)
+                        sellerQty = Convert.ToUInt64(rd["QUANTITY"]);
+                    if (pid == buyer)
+                        buyerQty = Convert.ToUInt64(rd["QUANTITY"]);
+                }
+
+                sellerQty -= qty;
+                buyerQty += qty;
+
+                editPersonShareRaw(seller, ticker, ticker, sellerQty);
+                editPersonShareRaw(buyer, ticker, ticker, buyerQty);
+
+                query = "INSERT INTO STOCK_HISTORY (SENDER_ID, RECEIVER_ID, COMPANY_KEY, QTY, PRICE) " +
+                    "VALUES (:sid, :bid, :ticker, :qty, :price)";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("sid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["sid"].Value = seller;
+                command.Parameters.Add("bid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["bid"].Value = buyer;
+                command.Parameters.Add("ticker", NpgsqlTypes.NpgsqlDbType.Varchar);
+                command.Parameters["ticker"].Value = ticker;
+                command.Parameters.Add("qty", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["qty"].Value = qty;
+                command.Parameters.Add("price", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["price"].Value = price;
+                command.ExecuteNonQuery();
+
+                commit();
             }
             catch (Exception ex)
             {

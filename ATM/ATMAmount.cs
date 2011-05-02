@@ -97,7 +97,9 @@ namespace ATM
             bool error = false;
             try
             {
-                amount = Convert.ToInt64(amountBox.Text);
+                Decimal dollarAmount = Convert.ToDecimal(amountBox.Text);
+
+                amount = (Int64)(dollarAmount * 100);
                 if (amount < 0 || (ulong)amount > info.balance)
                     error = true;
             }

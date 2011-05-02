@@ -31,6 +31,13 @@ namespace ATM
             userObjects["VERIFY"] = new ATMVerify(db);
             userObjects["STOCK_START"] = new ATMStockStart(db);
 
+            userObjects["STOCK_DIRECT"] = new StockDirectShare(db);
+            userObjects["STOCK_DIRECT_QTY"] = new StockDirectQty(db);
+            userObjects["STOCK_DIRECT_PRICE"] = new StockDirectPrice(db);
+            userObjects["STOCK_DIRECT_RECIPIENT"] = new StockDirectRecipient(db);
+            userObjects["STOCK_DIRECT_RECEIVER_PINCODE"] = new StockDirectPinCode(db);
+            userObjects["STOCK_DIRECT_CONFIRM"] = new StockDirectConfirmation(db);
+
             startupObjectKey = "START";
         }
 

@@ -42,7 +42,7 @@ namespace ClientUI
 
         public virtual void OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            MessageBox.Show("UserObject::OnKeyDown");
+            //MessageBox.Show("UserObject::OnKeyDown");
 
             (ParentForm as ClientForm).RecordActivity();
             if (e.KeyCode == Keys.O && e.Modifiers == Keys.Control)

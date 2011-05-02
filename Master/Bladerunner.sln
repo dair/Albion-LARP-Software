@@ -24,8 +24,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockMaster", "..\StockMast
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VKTest", "..\VKTest\VKTest.csproj", "{A5B94BE4-05E5-48A7-950C-A0B94D34252C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "..\Test\Test.csproj", "{FEF3B285-6433-4BC8-8CE9-4B2D100755F4}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,10 +70,6 @@ Global
 		{A5B94BE4-05E5-48A7-950C-A0B94D34252C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5B94BE4-05E5-48A7-950C-A0B94D34252C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5B94BE4-05E5-48A7-950C-A0B94D34252C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FEF3B285-6433-4BC8-8CE9-4B2D100755F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEF3B285-6433-4BC8-8CE9-4B2D100755F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEF3B285-6433-4BC8-8CE9-4B2D100755F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEF3B285-6433-4BC8-8CE9-4B2D100755F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

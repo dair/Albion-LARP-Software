@@ -32,5 +32,66 @@ namespace ATM
         {
             OnKeyDown(sender, e);
         }
+
+        public override void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            base.OnKeyDown(sender, e);
+            if (e.Modifiers == Keys.None)
+            {
+                myTimer.Interval = 300;
+
+                switch (e.KeyCode)
+                {
+                    case Keys.D1:
+                        myTimer.Tick += new EventHandler(myTimer_TickDirect);
+                        myTimer.Start();
+                        break;
+                    case Keys.D2:
+                        myTimer.Tick += new EventHandler(myTimer_TickNews);
+                        myTimer.Start();
+                        break;
+                    case Keys.D3:
+                        myTimer.Tick += new EventHandler(myTimer_TickRequests);
+                        myTimer.Start();
+                        break;
+                }
+            }
+        }
+
+        void myTimer_TickNews(object sender, EventArgs e)
+        {
+            myTimer.Stop();
+            myTimer.Tick -= myTimer_TickNews;
+
+            ClientUI.UserObjectEventArgs args = new ClientUI.UserObjectEventArgs();
+            args.NextObject = "NEWS";
+            args.data["PERSON_INFO"] = info;
+
+            RaiseNextObjectEvent(args);
+        }
+
+        void myTimer_TickDirect(object sender, EventArgs e)
+        {
+            myTimer.Stop();
+            myTimer.Tick -= myTimer_TickDirect;
+
+            ClientUI.UserObjectEventArgs args = new ClientUI.UserObjectEventArgs();
+            args.NextObject = "STOCK_DIRECT";
+            args.data["PERSON_INFO"] = info;
+
+            RaiseNextObjectEvent(args);
+        }
+
+        void myTimer_TickRequests(object sender, EventArgs e)
+        {
+            myTimer.Stop();
+            myTimer.Tick -= myTimer_TickRequests;
+
+            ClientUI.UserObjectEventArgs args = new ClientUI.UserObjectEventArgs();
+            args.NextObject = "STOCK_REQUESTS";
+            args.data["PERSON_INFO"] = info;
+
+            RaiseNextObjectEvent(args);
+        }
     }
 }

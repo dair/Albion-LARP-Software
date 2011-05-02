@@ -70,6 +70,8 @@ namespace ATM
                 StockWidgetLine line = new StockWidgetLine();
                 line.SetData(k, quoteLast[k], (Int64)(quoteLast[k]) - (Int64)quotePrev[k]);
                 lines.Add(line);
+
+                line.KeyDown += new KeyEventHandler(line_KeyDown);
             }
 
             // initial position
@@ -95,10 +97,9 @@ namespace ATM
             }
         }
 
-        private void StockWidget_KeyDown(object sender, KeyEventArgs e)
+        void line_KeyDown(object sender, KeyEventArgs e)
         {
-            MessageBox.Show("StockWidget_KeyDown");
-            e.Handled = false;
+            OnKeyDown(e);
         }
 
     }

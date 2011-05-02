@@ -63,7 +63,6 @@
             this.Controls.Add(this.ticker);
             this.Name = "StockWidgetLine";
             this.Size = new System.Drawing.Size(212, 24);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.StockWidgetLine_KeyDown);
             this.ResumeLayout(false);
 
         }

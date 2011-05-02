@@ -38,7 +38,6 @@
             this.Name = "StockWidget";
             this.Size = new System.Drawing.Size(295, 233);
             this.Load += new System.EventHandler(this.StockWidget_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.StockWidget_KeyDown);
             this.ResumeLayout(false);
 
         }

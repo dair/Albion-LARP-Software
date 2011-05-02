@@ -40,11 +40,5 @@ namespace ATM
             }
             quote.Text = Convert.ToString(inDollars.ToString("N")) + arrow + diffInDollars.ToString("N");
         }
-
-        private void StockWidgetLine_KeyDown(object sender, KeyEventArgs e)
-        {
-            MessageBox.Show("StockWidgetLine_KeyDown");
-            e.Handled = false;
-        }
     }
 }
