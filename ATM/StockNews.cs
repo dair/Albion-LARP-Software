@@ -168,8 +168,11 @@ namespace ATM
                     itemDict[id].Visible = false;
                 }
             }
+            if (y < Height)
+            {
+                waitToDisappear = true;
+            }
         }
-
 
 
     }
