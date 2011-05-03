@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.refreshPersonButton = new System.Windows.Forms.Button();
             this.personList = new UI.PersonList(getDatabase());
             this.sharesByPersonTableView = new StockMaster.SharesByPersonTableView(getDatabase());
             this.editButton = new System.Windows.Forms.Button();
@@ -50,6 +51,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.refreshPersonButton);
             this.splitContainer1.Panel1.Controls.Add(this.personList);
             // 
             // splitContainer1.Panel2
@@ -63,23 +65,35 @@
             this.splitContainer1.SplitterDistance = 165;
             this.splitContainer1.TabIndex = 0;
             // 
+            // refreshPersonButton
+            // 
+            this.refreshPersonButton.Location = new System.Drawing.Point(3, 3);
+            this.refreshPersonButton.Name = "refreshPersonButton";
+            this.refreshPersonButton.Size = new System.Drawing.Size(75, 23);
+            this.refreshPersonButton.TabIndex = 6;
+            this.refreshPersonButton.Text = "Обновить";
+            this.refreshPersonButton.UseVisualStyleBackColor = true;
+            this.refreshPersonButton.Click += new System.EventHandler(this.refreshPersonButton_Click);
+            // 
             // personList
             // 
             this.personList.AllowUserToAddRows = false;
             this.personList.AllowUserToDeleteRows = false;
             this.personList.AllowUserToOrderColumns = true;
             this.personList.AllowUserToResizeRows = false;
+            this.personList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.personList.BackgroundColor = System.Drawing.SystemColors.Window;
             this.personList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.personList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.personList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.personList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.personList.Location = new System.Drawing.Point(0, 0);
+            this.personList.Location = new System.Drawing.Point(0, 32);
             this.personList.MultiSelect = false;
             this.personList.Name = "personList";
             this.personList.ReadOnly = true;
             this.personList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.personList.Size = new System.Drawing.Size(165, 320);
+            this.personList.Size = new System.Drawing.Size(165, 288);
             this.personList.TabIndex = 0;
             this.personList.SelectionChanged += new System.EventHandler(this.personList_SelectionChanged);
             // 
@@ -168,6 +182,7 @@
         private System.Windows.Forms.Button editButton;
         private System.Windows.Forms.Button addButton;
         private SharesByPersonTableView sharesByPersonTableView;
+        private System.Windows.Forms.Button refreshPersonButton;
 
     }
 }

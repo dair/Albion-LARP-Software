@@ -38,6 +38,14 @@ namespace ATM
             userObjects["STOCK_DIRECT_RECEIVER_PINCODE"] = new StockDirectPinCode(db);
             userObjects["STOCK_DIRECT_CONFIRM"] = new StockDirectConfirmation(db);
 
+            userObjects["NEWS"] = new StockNews(db);
+
+            userObjects["STOCK_REQUESTS"] = new StockRequests(db);
+            userObjects["STOCK_ADD_REQUEST_TICKER"] = new StockAddRequestTicker(db);
+            userObjects["STOCK_ADD_QTY"] = new StockAddQty(db);
+            userObjects["STOCK_ADD_OPERATION"] = new StockAddOperation(db);
+
+            userObjects["STOCK_DELETE_REQUEST_CONFURMATION"] = new StockDeleteRequestConfirmation(db);
             startupObjectKey = "START";
         }
 

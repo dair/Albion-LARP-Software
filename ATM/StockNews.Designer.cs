@@ -1,6 +1,6 @@
 ﻿namespace ATM
 {
-    partial class StockWidget
+    partial class StockNews
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,20 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).BeginInit();
             this.SuspendLayout();
             // 
-            // StockWidget
+            // StockNews
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DimGray;
-            this.Name = "StockWidget";
-            this.Size = new System.Drawing.Size(295, 233);
+            this.Name = "StockNews";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
     }
 }

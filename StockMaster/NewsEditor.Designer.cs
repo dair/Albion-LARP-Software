@@ -33,6 +33,7 @@
             this.addButton = new System.Windows.Forms.Button();
             this.editButton = new System.Windows.Forms.Button();
             this.refreshButton = new System.Windows.Forms.Button();
+            this.addMultipleButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,7 +71,7 @@
             // addButton
             // 
             this.addButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.addButton.Location = new System.Drawing.Point(322, 3);
+            this.addButton.Location = new System.Drawing.Point(210, 3);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(75, 23);
             this.addButton.TabIndex = 2;
@@ -99,10 +100,22 @@
             this.refreshButton.UseVisualStyleBackColor = true;
             this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
+            // addMultipleButton
+            // 
+            this.addMultipleButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.addMultipleButton.Location = new System.Drawing.Point(291, 3);
+            this.addMultipleButton.Name = "addMultipleButton";
+            this.addMultipleButton.Size = new System.Drawing.Size(106, 23);
+            this.addMultipleButton.TabIndex = 5;
+            this.addMultipleButton.Text = "Добавить много";
+            this.addMultipleButton.UseVisualStyleBackColor = true;
+            this.addMultipleButton.Click += new System.EventHandler(this.addMultipleButton_Click);
+            // 
             // NewsEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.addMultipleButton);
             this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.editButton);
             this.Controls.Add(this.addButton);
@@ -123,5 +136,6 @@
         private System.Windows.Forms.Button addButton;
         private System.Windows.Forms.Button editButton;
         private System.Windows.Forms.Button refreshButton;
+        private System.Windows.Forms.Button addMultipleButton;
     }
 }

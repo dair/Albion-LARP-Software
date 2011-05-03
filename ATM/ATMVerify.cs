@@ -49,7 +49,7 @@ namespace ATM
 
             senderLabel.Text = welcome1.Replace("NAMEHERE", info.name);
             receiverLabel.Text = welcome2.Replace("NAMEHERE", recvInfo.name);
-            amountLabel.Text = amountString.Replace("AMOUNTHERE", Convert.ToString(amount));
+            amountLabel.Text = amountString.Replace("AMOUNTHERE", moneyToString(amount));
         }
 
         public override void Deinit()

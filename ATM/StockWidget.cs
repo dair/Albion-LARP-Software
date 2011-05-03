@@ -24,51 +24,55 @@ namespace ATM
             InitializeComponent();
         }
 
-        private void StockWidget_Load(object sender, EventArgs e)
-        {
-        }
-
-
         public void Retrieve()
         {
+            foreach (StockWidgetLine line in lines)
+            {
+                Controls.Remove(line);
+            }
+            lines.Clear();
+
             DataTable table = new DataTable();
             getDatabase().fillWithCycleInfoAndQuotes(2, table);
             //dataGridView.DataSource = table;
 
-            IDictionary<String, UInt64> quoteLast = new Dictionary<String, UInt64>();
-            IDictionary<String, UInt64> quotePrev = new Dictionary<String, UInt64>();
-            IDictionary<String, DateTime> dateLast = new Dictionary<String, DateTime>();
-            IDictionary<String, DateTime> datePrev = new Dictionary<String, DateTime>();
-
+            Dictionary<String, List<UInt64>> quotes = new Dictionary<string, List<UInt64>>();
+            Dictionary<String, List<DateTime>> times = new Dictionary<string, List<DateTime>>();
+            
             foreach (DataRow row in table.Rows)
             {
-                DateTime dt = Convert.ToDateTime(row["START_TIME"]);
                 String ticker = Convert.ToString(row["TICKER"]);
+                DateTime dt = Convert.ToDateTime(row["START_TIME"]);
+                UInt64 quote = Convert.ToUInt64(row["QUOTE"]);
 
-                if (!dateLast.ContainsKey(ticker))
-                    dateLast[ticker] = new DateTime(1, 1, 1);
-                if (!datePrev.ContainsKey(ticker))
-                    datePrev[ticker] = new DateTime(9999, 1, 1);
-                bool isLast = dt >= dateLast[ticker];
-                bool isPrev = dt <= datePrev[ticker];
-
-                if (isLast)
+                if (times.ContainsKey(ticker))
                 {
-                    dateLast[ticker] = dt;
-                    quoteLast[ticker] = Convert.ToUInt64(row["QUOTE"]);
+                    for (int i = 0; i < times[ticker].Count; ++i)
+                    {
+                        if (times[ticker][i] < dt)
+                        {
+                            times[ticker].Insert(i, dt);
+                            quotes[ticker].Insert(i, quote);
+                            break;
+                        }
+                    }
                 }
-
-                if (isPrev)
+                else
                 {
-                    datePrev[ticker] = dt;
-                    quotePrev[ticker] = Convert.ToUInt64(row["QUOTE"]);
+                    times[ticker] = new List<DateTime>();
+                    times[ticker].Add(dt);
+                    quotes[ticker] = new List<ulong>();
+                    quotes[ticker].Add(quote);
                 }
             }
 
-            foreach (String k in quoteLast.Keys)
+            List<String> keys = new List<string>(quotes.Keys);
+            keys.Sort();
+
+            foreach (String k in keys)
             {
                 StockWidgetLine line = new StockWidgetLine();
-                line.SetData(k, quoteLast[k], (Int64)(quoteLast[k]) - (Int64)quotePrev[k]);
+                line.SetData(k, quotes[k][0], (Int64)(quotes[k][0]) - (Int64)quotes[k][quotes[k].Count-1]);
                 lines.Add(line);
 
                 line.KeyDown += new KeyEventHandler(line_KeyDown);

@@ -13,6 +13,26 @@ namespace ATM
     {
         protected Database.ATMLoginInfo info = null;
 
+        public static String moneyToString(UInt64 money)
+        {
+            Decimal d = (Decimal)money / 100;
+            return d.ToString("N");
+        }
+
+        public static UInt64 stringToMoney(String s)
+        {
+            Decimal d = 0;
+            try
+            {
+                d = Convert.ToDecimal(s);
+            }
+            catch (Exception)
+            {
+            }
+
+            return (UInt64)(d * 100);
+        }
+
         public ATMObject()
         {
             InitializeComponent();

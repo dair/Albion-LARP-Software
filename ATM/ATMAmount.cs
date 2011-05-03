@@ -47,6 +47,9 @@ namespace ATM
             amountBox.Focus();
             amountBox.ReadOnly = false;
             amountBox.Text = "";
+
+            infoLabel.Text = "";
+            infoLabel.ForeColor = Color.White;
             amount = -1;
         }
 
@@ -110,8 +113,8 @@ namespace ATM
 
             if (error)
             {
-                amountBox.Text = "Ошибочная сумма";
-                amountBox.ForeColor = Color.Red;
+                infoLabel.Text = "Ошибочная сумма";
+                infoLabel.ForeColor = Color.Red;
                 myTimer.Tick += TimerEventReject;
                 myTimer.Interval = 2000;
             }

@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+using System.Text.RegularExpressions;
 
 namespace StockMaster
 {
@@ -41,7 +41,7 @@ namespace StockMaster
         {
             if (getDatabase() == null)
                 return;
-
+            table = new DataTable();
             getDatabase().fillWithNews(table);
             bindingSource.DataSource = table;
 
@@ -101,6 +101,26 @@ namespace StockMaster
         private void refreshButton_Click(object sender, EventArgs e)
         {
             Retrieve();
+        }
+
+        private void addMultipleButton_Click(object sender, EventArgs e)
+        {
+            MultipleNewsAdd m = new MultipleNewsAdd();
+            if (m.ShowDialog() == DialogResult.OK)
+            {
+                string[] lines = Regex.Split(m.text, "\r\n");
+
+                foreach (String line in lines)
+                {
+                    Database.NewsInfo info = new Database.NewsInfo();
+                    info.title = "";
+                    info.text = line;
+                    info.date = DateTime.Now;
+                    getDatabase().editNews(info);
+                }
+
+                Retrieve();
+            }
         }
     }
 }

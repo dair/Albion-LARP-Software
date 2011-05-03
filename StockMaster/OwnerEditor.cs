@@ -24,12 +24,17 @@ namespace StockMaster
             InitializeComponent();
         }
 
-        private void OwnerEditor_Load(object sender, EventArgs e)
+        private void Retrieve()
         {
             personList.SelectionChanged -= personList_SelectionChanged;
             personList.Retrieve();
             personList.SelectionChanged += personList_SelectionChanged;
             companies = null;
+        }
+
+        private void OwnerEditor_Load(object sender, EventArgs e)
+        {
+            Retrieve();
         }
 
         private void personList_SelectionChanged(object sender, EventArgs e)
@@ -47,6 +52,8 @@ namespace StockMaster
         {
             personList_SelectionChanged(sender, e);
         }
+
+
 
         private String selectedTicker()
         {
@@ -172,7 +179,10 @@ namespace StockMaster
             }
         }
 
-
+        private void refreshPersonButton_Click(object sender, EventArgs e)
+        {
+            Retrieve();
+        }
 
     }
 }

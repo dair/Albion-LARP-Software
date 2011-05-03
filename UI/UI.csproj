@@ -68,6 +68,9 @@
     <Compile Include="DBObjectUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GrowLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="IDBObject.cs" />
     <Compile Include="MoneyInfo.cs">
       <SubType>UserControl</SubType>

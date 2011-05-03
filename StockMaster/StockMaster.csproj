@@ -67,6 +67,12 @@
     <Compile Include="CycleList.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="MultipleNewsAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MultipleNewsAdd.Designer.cs">
+      <DependentUpon>MultipleNewsAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="NewCycleForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,6 +140,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CycleEditor.resx">
       <DependentUpon>CycleEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MultipleNewsAdd.resx">
+      <DependentUpon>MultipleNewsAdd.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewCycleForm.resx">
       <DependentUpon>NewCycleForm.cs</DependentUpon>

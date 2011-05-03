@@ -110,6 +110,36 @@
     <Compile Include="ATMVerify.designer.cs">
       <DependentUpon>ATMVerify.cs</DependentUpon>
     </Compile>
+    <Compile Include="StockAddOperation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StockAddOperation.Designer.cs">
+      <DependentUpon>StockAddOperation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockAddQty.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StockAddQty.Designer.cs">
+      <DependentUpon>StockAddQty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockAddRequestTicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StockAddRequestTicker.Designer.cs">
+      <DependentUpon>StockAddRequestTicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewsItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NewsItem.Designer.cs">
+      <DependentUpon>NewsItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockDeleteRequestConfirmation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StockDeleteRequestConfirmation.Designer.cs">
+      <DependentUpon>StockDeleteRequestConfirmation.cs</DependentUpon>
+    </Compile>
     <Compile Include="StockDirectConfirmation.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -160,6 +190,21 @@
     <EmbeddedResource Include="ATMVerify.resx">
       <DependentUpon>ATMVerify.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="StockAddOperation.resx">
+      <DependentUpon>StockAddOperation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockAddQty.resx">
+      <DependentUpon>StockAddQty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockAddRequestTicker.resx">
+      <DependentUpon>StockAddRequestTicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewsItem.resx">
+      <DependentUpon>NewsItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockDeleteRequestConfirmation.resx">
+      <DependentUpon>StockDeleteRequestConfirmation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StockDirectConfirmation.resx">
       <DependentUpon>StockDirectConfirmation.cs</DependentUpon>
     </EmbeddedResource>
@@ -182,6 +227,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="StockDirectShare.resx">
       <DependentUpon>StockDirectShare.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockNews.resx">
+      <DependentUpon>StockNews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockRequests.resx">
+      <DependentUpon>StockRequests.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StockWidget.resx">
       <DependentUpon>StockWidget.cs</DependentUpon>
@@ -220,6 +271,18 @@
     </Compile>
     <Compile Include="StockDirectShare.Designer.cs">
       <DependentUpon>StockDirectShare.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockNews.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StockNews.Designer.cs">
+      <DependentUpon>StockNews.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockRequests.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StockRequests.Designer.cs">
+      <DependentUpon>StockRequests.cs</DependentUpon>
     </Compile>
     <Compile Include="StockWidget.cs">
       <SubType>UserControl</SubType>
