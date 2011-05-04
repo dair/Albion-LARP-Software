@@ -26,5 +26,11 @@ namespace StockMaster
         {
             requestList.Retrieve(cycleId);
         }
+
+        private void processButton_Click(object sender, EventArgs e)
+        {
+            DataTable table = (DataTable)requestList.DataSource;
+
+        }
     }
 }

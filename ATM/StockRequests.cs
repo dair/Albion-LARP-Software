@@ -12,6 +12,7 @@ namespace ATM
     public partial class StockRequests : ATMObject
     {
         DataTable lastCycle;
+        DataTable existingRequests;
 
         public StockRequests()
         {
@@ -28,8 +29,8 @@ namespace ATM
         public override void Init(ClientUI.UserObjectEventArgs args)
         {
             base.Init(args);
-            DataTable table = new DataTable();
-            getDatabase().currentCyclePersonRequests(info.id, table);
+            existingRequests = new DataTable();
+            getDatabase().currentCyclePersonRequests(info.id, existingRequests);
 
             DataTable showTable = new DataTable();
             showTable.Columns.Add("ID", Type.GetType("System.UInt64"));
@@ -38,7 +39,7 @@ namespace ATM
             showTable.Columns.Add("QTY", Type.GetType("System.UInt64"));
             showTable.Columns.Add("PRICE");
 
-            foreach (DataRow row in table.Rows)
+            foreach (DataRow row in existingRequests.Rows)
             {
                 String op;
                 if (Convert.ToString(row["OPERATION"]) == "B")
@@ -59,7 +60,7 @@ namespace ATM
             requestsView.Columns["ID"].Visible = false;
 
 
-            noRequestsLabel.Visible = (table.Rows.Count == 0);
+            noRequestsLabel.Visible = (existingRequests.Rows.Count == 0);
 
             lastCycle = new DataTable();
             getDatabase().fillWithCycleInfoAndQuotes(1, lastCycle);
@@ -125,8 +126,7 @@ namespace ATM
             ClientUI.UserObjectEventArgs args = new ClientUI.UserObjectEventArgs();
             args.NextObject = "STOCK_DELETE_REQUEST_CONFURMATION";
             args.data["PERSON_INFO"] = info;
-            UInt64 reqId = Convert.ToUInt64(requestsView.SelectedRows[0].Cells["ID"].Value);
-            args.data["REQUEST_ID"] = reqId;
+            args.data["ROW"] = existingRequests.Rows[requestsView.SelectedRows[0].Index];
             RaiseNextObjectEvent(args);
         }
     }

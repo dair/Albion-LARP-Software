@@ -1769,20 +1769,22 @@ namespace Database
             table.Columns.Add("TICKER");
             table.Columns.Add("NAME");
             table.Columns.Add("QUOTE", Type.GetType("System.UInt64"));
+            table.Columns.Add("TRADE_LIMIT", Type.GetType("System.UInt64"));
+            table.Columns.Add("NPCS_BUY", Type.GetType("System.UInt64"));
 
             if (!connect())
                 return;
 
             try
             {
-                String query = "SELECT C.KEY AS TICKER, C.NAME AS NAME, Q.PRICE AS QUOTE FROM STOCK_COMPANY C LEFT OUTER JOIN STOCK_QUOTE Q ON (C.KEY = Q.COMPANY_KEY AND Q.CYCLE_ID IN (SELECT MAX(ID) FROM STOCK_CYCLE))";
+                String query = "SELECT C.KEY AS TICKER, C.NAME AS NAME, Q.PRICE AS QUOTE, Q.TRADE_LIMIT AS TRADE_LIMIT, Q.NPCS_BUY AS NPCS_BUY FROM STOCK_COMPANY C LEFT OUTER JOIN STOCK_QUOTE Q ON (C.KEY = Q.COMPANY_KEY AND Q.CYCLE_ID IN (SELECT MAX(ID) FROM STOCK_CYCLE))";
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
 
                 NpgsqlDataReader rd = command.ExecuteReader();
                 while (rd.Read())
                 {
                     Object obj = rd["QUOTE"];
-                    table.Rows.Add(rd["TICKER"], rd["NAME"], obj);
+                    table.Rows.Add(rd["TICKER"], rd["NAME"], obj, rd["TRADE_LIMIT"], rd["NPCS_BUY"]);
                 }
             }
             catch (Exception ex)
@@ -1825,11 +1827,13 @@ namespace Database
                 }
                 rd.Close();
 
-                query = "INSERT INTO STOCK_QUOTE (CYCLE_ID, COMPANY_KEY, PRICE) VALUES (:cid, :ticker, :quote)";
+                query = "INSERT INTO STOCK_QUOTE (CYCLE_ID, COMPANY_KEY, PRICE, TRADE_LIMIT, NPCS_BUY) VALUES (:cid, :ticker, :quote, :tl, :npc)";
                 foreach (DataRow row in info.quotes.Rows)
                 {
                     String ticker = Convert.ToString(row["TICKER"]);
                     UInt64 quote = Convert.ToUInt64(row["QUOTE"]);
+                    UInt64 tl = Convert.ToUInt64(row["TRADE_LIMIT"]);
+                    UInt64 npc = Convert.ToUInt64(row["NPCS_BUY"]);
                     command = new NpgsqlCommand(query, connection);
                     command.Parameters.Add(new NpgsqlParameter("cid", NpgsqlTypes.NpgsqlDbType.Numeric));
                     command.Parameters["cid"].Value = cycleId;
@@ -1837,6 +1841,10 @@ namespace Database
                     command.Parameters["ticker"].Value = ticker;
                     command.Parameters.Add(new NpgsqlParameter("quote", NpgsqlTypes.NpgsqlDbType.Numeric));
                     command.Parameters["quote"].Value = quote;
+                    command.Parameters.Add(new NpgsqlParameter("tl", NpgsqlTypes.NpgsqlDbType.Numeric));
+                    command.Parameters["tl"].Value = tl;
+                    command.Parameters.Add(new NpgsqlParameter("npc", NpgsqlTypes.NpgsqlDbType.Numeric));
+                    command.Parameters["npc"].Value = npc;
                     command.ExecuteNonQuery();
                 }
                 commit();
@@ -2206,24 +2214,107 @@ namespace Database
             }
         }
 
-        public void deleteRequest(UInt64 reqId)
+        protected void deleteRequestRaw(UInt64 reqId)
+        {
+            String query = "UPDATE STOCK_REQUEST SET STATUS = 'D' WHERE ID = :req_id";
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+            command.Parameters.Add("req_id", NpgsqlTypes.NpgsqlDbType.Numeric);
+            command.Parameters["req_id"].Value = reqId;
+            command.ExecuteNonQuery();
+        }
+
+        public void deleteBuyRequest(UInt64 pid, UInt64 reqId, UInt64 totalPrice)
         {
             if (!connect())
-            {
                 return;
-            }
 
             try
             {
                 begin();
 
-                String query = "UPDATE STOCK_REQUEST SET STATUS = 'D' WHERE ID = :req_id";
+                String query = "UPDATE MONEY SET BALANCE = BALANCE + :tp WHERE ID = :pid";
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
-                command.Parameters.Add("req_id", NpgsqlTypes.NpgsqlDbType.Numeric);
-                command.Parameters["req_id"].Value = reqId;
+                command.Parameters.Add("pid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["pid"].Value = pid;
+                command.Parameters.Add("tp", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["tp"].Value = totalPrice;
                 command.ExecuteNonQuery();
 
+                deleteRequestRaw(reqId);
+
                 commit();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+        }
+
+        public void deleteSellRequest(UInt64 pid, UInt64 reqId, String ticker, UInt64 qty)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                begin();
+
+                String query = "UPDATE STOCK_OWNER SET QUANTITY = QUANTITY + :qty WHERE PERSON_ID = :pid AND KEY = :ticker";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("pid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["pid"].Value = pid;
+                command.Parameters.Add("ticker", NpgsqlTypes.NpgsqlDbType.Varchar);
+                command.Parameters["ticker"].Value = ticker;
+                command.Parameters.Add("qty", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["qty"].Value = qty;
+                command.ExecuteNonQuery();
+
+                deleteRequestRaw(reqId);
+
+                commit();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+        }
+
+        public void fillWithQuotesForCycle(UInt64 cycleId, DataTable table)
+        {
+            table.Clear();
+            table.Columns.Add("CYCLE_ID", Type.GetType("System.UInt64"));
+            table.Columns.Add("TICKER", Type.GetType("System.String"));
+            table.Columns.Add("QUOTE", Type.GetType("System.UInt64"));
+            table.Columns.Add("TRADE_LIMIT", Type.GetType("System.UInt64"));
+            table.Columns.Add("NPCS_BUY", Type.GetType("System.UInt64"));
+
+            if (!connect())
+                return;
+
+            try
+            {
+                String query = "SELECT CYCLE_ID, COMPANY_KEY AS TICKER, PRICE AS QUOTE, TRADE_LIMIT, NPCS_BUY FROM STOCK_QUOTE WHERE CYCLE_ID = :cid";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("cid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["cid"].Value = cycleId;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(rd["CYCLE_ID"], rd["TICKER"], rd["QUOTE"], rd["TRADE_LIMIT"], rd["NPCS_BUY"]);
+                }
+
+                rd.Close();
             }
             catch (Exception ex)
             {

@@ -37,6 +37,7 @@ namespace StockMaster
                 info.finish = n.finish;
                 info.quotes = table;
                 getDatabase().newCycle(info);
+                cycleList.Retrieve();
             }
         }
 
@@ -71,6 +72,7 @@ namespace StockMaster
         {
             UInt64 cycleId = cycleList.getCurrentCycleId();
             requestEditor.Retrieve(cycleId);
+            quoteList1.Retrieve(cycleId);
         }
     }
 }

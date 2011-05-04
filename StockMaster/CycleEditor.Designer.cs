@@ -29,18 +29,24 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.cycleList = new StockMaster.CycleList(getDatabase());
-            this.dataGridView1 = new StockMaster.CycleList(getDatabase());
             this.editButton = new System.Windows.Forms.Button();
             this.addButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.refreshButton = new System.Windows.Forms.Button();
+            this.cycleList = new StockMaster.CycleList(getDatabase());
+            this.dataGridView1 = new StockMaster.CycleList(getDatabase());
             this.requestEditor = new StockMaster.RequestEditor(getDatabase());
+            this.quoteList1 = new StockMaster.QuoteList(getDatabase());
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cycleList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.quoteList1)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -51,7 +57,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.cycleList);
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel1.Controls.Add(this.dataGridView1);
             this.splitContainer1.Panel1.Controls.Add(this.editButton);
             this.splitContainer1.Panel1.Controls.Add(this.addButton);
@@ -64,37 +70,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(719, 312);
             this.splitContainer1.SplitterDistance = 345;
             this.splitContainer1.TabIndex = 0;
-            //      
-            // cycleList
-            // 
-            this.cycleList.AllowUserToAddRows = false;
-            this.cycleList.AllowUserToDeleteRows = false;
-            this.cycleList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.cycleList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.cycleList.Location = new System.Drawing.Point(0, 32);
-            this.cycleList.MultiSelect = false;
-            this.cycleList.Name = "cycleList";
-            this.cycleList.ReadOnly = true;
-            this.cycleList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.cycleList.Size = new System.Drawing.Size(345, 280);
-            this.cycleList.TabIndex = 0;
-            this.cycleList.SelectionChanged += new System.EventHandler(this.cycleList_SelectionChanged);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(33, 50);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(240, 150);
-            this.dataGridView1.TabIndex = 9;
-            this.dataGridView1.Visible = false;
             // 
             // editButton
             // 
@@ -139,6 +114,36 @@
             this.refreshButton.UseVisualStyleBackColor = true;
             this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
+            // cycleList
+            // 
+            this.cycleList.AllowUserToAddRows = false;
+            this.cycleList.AllowUserToDeleteRows = false;
+            this.cycleList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.cycleList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cycleList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.cycleList.Location = new System.Drawing.Point(0, 0);
+            this.cycleList.MultiSelect = false;
+            this.cycleList.Name = "cycleList";
+            this.cycleList.ReadOnly = true;
+            this.cycleList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.cycleList.Size = new System.Drawing.Size(342, 140);
+            this.cycleList.TabIndex = 0;
+            this.cycleList.SelectionChanged += new System.EventHandler(this.cycleList_SelectionChanged);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(33, 50);
+            this.dataGridView1.MultiSelect = false;
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView1.TabIndex = 9;
+            this.dataGridView1.Visible = false;
+            // 
             // requestEditor
             // 
             this.requestEditor.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -146,6 +151,41 @@
             this.requestEditor.Name = "requestEditor";
             this.requestEditor.Size = new System.Drawing.Size(370, 312);
             this.requestEditor.TabIndex = 0;
+            // 
+            // quoteList1
+            // 
+            this.quoteList1.AllowUserToAddRows = false;
+            this.quoteList1.AllowUserToDeleteRows = false;
+            this.quoteList1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.quoteList1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.quoteList1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.quoteList1.Location = new System.Drawing.Point(0, 0);
+            this.quoteList1.MultiSelect = false;
+            this.quoteList1.Name = "quoteList1";
+            this.quoteList1.ReadOnly = true;
+            this.quoteList1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.quoteList1.Size = new System.Drawing.Size(342, 136);
+            this.quoteList1.TabIndex = 10;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer2.Location = new System.Drawing.Point(0, 32);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.cycleList);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.quoteList1);
+            this.splitContainer2.Size = new System.Drawing.Size(342, 280);
+            this.splitContainer2.SplitterDistance = 140;
+            this.splitContainer2.TabIndex = 10;
             // 
             // CycleEditor
             // 
@@ -160,6 +200,10 @@
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cycleList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.quoteList1)).EndInit();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -174,5 +218,7 @@
         private System.Windows.Forms.Button refreshButton;
         private RequestEditor requestEditor;
         private CycleList dataGridView1;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private QuoteList quoteList1;
     }
 }

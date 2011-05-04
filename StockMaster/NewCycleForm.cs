@@ -27,9 +27,7 @@ namespace StockMaster
                 return;
             }
 
-            BindingSource bSource = new BindingSource();
-            dataGridView.DataSource = bSource;
-            bSource.DataSource = quotes;
+            dataGridView.DataSource = quotes;
 
             dataGridView.Columns["TICKER"].HeaderText = "Тикер";
             dataGridView.Columns["TICKER"].ReadOnly = true;
@@ -39,6 +37,12 @@ namespace StockMaster
 
             dataGridView.Columns["QUOTE"].HeaderText = "Котировка, ЦЕНТЫ, целое число";
             dataGridView.Columns["QUOTE"].ReadOnly = false;
+
+            dataGridView.Columns["TRADE_LIMIT"].HeaderText = "Ограничение торговли, шт.акций";
+            dataGridView.Columns["TRADE_LIMIT"].ReadOnly = false;
+
+            dataGridView.Columns["NPCS_BUY"].HeaderText = "NPC готовы купить акций в этот цикл, шт";
+            dataGridView.Columns["NPCS_BUY"].ReadOnly = false;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

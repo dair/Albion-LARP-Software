@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.requestList = new StockMaster.RequestList(getDatabase());
+            this.processButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.requestList)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,10 +49,22 @@
             this.requestList.Size = new System.Drawing.Size(467, 245);
             this.requestList.TabIndex = 0;
             // 
+            // processButton
+            // 
+            this.processButton.BackColor = System.Drawing.Color.Red;
+            this.processButton.Location = new System.Drawing.Point(3, 6);
+            this.processButton.Name = "processButton";
+            this.processButton.Size = new System.Drawing.Size(183, 23);
+            this.processButton.TabIndex = 1;
+            this.processButton.Text = "Осуществить проводку";
+            this.processButton.UseVisualStyleBackColor = false;
+            this.processButton.Click += new System.EventHandler(this.processButton_Click);
+            // 
             // RequestEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.processButton);
             this.Controls.Add(this.requestList);
             this.Name = "RequestEditor";
             this.Size = new System.Drawing.Size(473, 283);
@@ -63,5 +76,6 @@
         #endregion
 
         private RequestList requestList;
+        private System.Windows.Forms.Button processButton;
     }
 }

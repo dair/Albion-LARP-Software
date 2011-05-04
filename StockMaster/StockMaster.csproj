@@ -91,6 +91,9 @@
     <Compile Include="OwnerEditor.Designer.cs">
       <DependentUpon>OwnerEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="QuoteList.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="RequestEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -152,6 +155,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OwnerEditor.resx">
       <DependentUpon>OwnerEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuoteList.resx">
+      <DependentUpon>QuoteList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RequestEditor.resx">
       <DependentUpon>RequestEditor.cs</DependentUpon>

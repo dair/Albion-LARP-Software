@@ -66,7 +66,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(418, 25);
             this.label3.TabIndex = 14;
-            this.label3.Text = "3. Заявки";
+            this.label3.Text = "3. Биржевые операции";
             // 
             // stockWidget
             // 

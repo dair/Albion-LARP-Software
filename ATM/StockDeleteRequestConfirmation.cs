@@ -12,6 +12,10 @@ namespace ATM
     public partial class StockDeleteRequestConfirmation : ATMObject
     {
         UInt64 reqId;
+        UInt64 qty;
+        UInt64 quote;
+        String operation;
+        String ticker;
 
         public StockDeleteRequestConfirmation()
         {
@@ -28,7 +32,14 @@ namespace ATM
         public override void Init(ClientUI.UserObjectEventArgs args)
         {
             base.Init(args);
-            reqId = Convert.ToUInt64(args.data["REQUEST_ID"]);
+
+            DataRow row = (DataRow)args.data["ROW"];
+            reqId = Convert.ToUInt64(row["ID"]);
+            ticker = Convert.ToString(row["TICKER"]);
+            operation = Convert.ToString(row["OPERATION"]);
+            qty = Convert.ToUInt64(row["QTY"]);
+            quote = Convert.ToUInt64(row["QUOTE"]);
+
         }
 
         public override void OnKeyDown(object sender, KeyEventArgs e)
@@ -51,7 +62,15 @@ namespace ATM
 
         void DeleteRequest()
         {
-            getDatabase().deleteRequest(reqId);
+            if (operation.ToUpper() == "B")
+            {
+                getDatabase().deleteBuyRequest(info.id, reqId, qty * quote);
+            }
+            else
+            {
+                getDatabase().deleteSellRequest(info.id, reqId, ticker, qty);
+            }
+
             Cancel();
         }
 
