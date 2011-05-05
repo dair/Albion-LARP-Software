@@ -11,23 +11,31 @@ namespace StockMaster
 {
     public partial class NewCycleForm : Form
     {
-        public DataTable quotes = null;
-        public DateTime start, border1, border2, finish;
+        public Database.StockCycleInfo info = null;
 
         public NewCycleForm()
         {
             InitializeComponent();
+            this.Closing += new CancelEventHandler(NewCycleForm_Closing);
+        }
+
+        void NewCycleForm_Closing(object sender, CancelEventArgs e)
+        {
+            Settings.UI.storeForm(this);
         }
 
         private void NewCycleForm_Load(object sender, EventArgs e)
         {
-            if (quotes == null)
+            Settings.UI.restoreForm(this);
+            if (info == null || info.quotes == null || info.quotes.Rows.Count == 0)
             {
                 MessageBox.Show("Нету компаний!");
                 return;
             }
 
-            dataGridView.DataSource = quotes;
+            dataGridView.DataSource = info.quotes;
+
+            dataGridView.Columns["CYCLE_ID"].Visible = false;
 
             dataGridView.Columns["TICKER"].HeaderText = "Тикер";
             dataGridView.Columns["TICKER"].ReadOnly = true;
@@ -43,6 +51,14 @@ namespace StockMaster
 
             dataGridView.Columns["NPCS_BUY"].HeaderText = "NPC готовы купить акций в этот цикл, шт";
             dataGridView.Columns["NPCS_BUY"].ReadOnly = false;
+
+            if (info.id != 0)
+            {
+                startDatePicker.Value = info.start;
+                border1Picker.Value = info.border1;
+                border2Picker.Value = info.border2;
+                finishPicker.Value = info.finish;
+            }
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -71,12 +87,12 @@ namespace StockMaster
                 return;
             }
 
-            start = startDatePicker.Value;
-            border1 = border1Picker.Value;
-            border2 = border2Picker.Value;
-            finish = finishPicker.Value;
+            info.start = startDatePicker.Value;
+            info.border1 = border1Picker.Value;
+            info.border2 = border2Picker.Value;
+            info.finish = finishPicker.Value;
 
-            foreach (DataRow row in quotes.Rows)
+            foreach (DataRow row in info.quotes.Rows)
             {
                 UInt64 quote = 0;
                 try

@@ -8,6 +8,7 @@ namespace Database
 {
     public class StockCycleInfo
     {
+        public UInt64 id;
         public DateTime start;
         public DateTime border1;
         public DateTime border2;

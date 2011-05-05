@@ -27,28 +27,60 @@ namespace StockMaster
             DataTable table = new DataTable();
             getDatabase().fillWithLatestStockQuotes(table);
             NewCycleForm n = new NewCycleForm();
-            n.quotes = table;
+            Database.StockCycleInfo info = new Database.StockCycleInfo();
+            info.quotes = table;
+            n.info = info;
+
             if (n.ShowDialog() == DialogResult.OK)
             {
-                Database.StockCycleInfo info = new Database.StockCycleInfo();
-                info.start = n.start;
-                info.border1 = n.border1;
-                info.border2 = n.border2;
-                info.finish = n.finish;
-                info.quotes = table;
-                getDatabase().newCycle(info);
+                getDatabase().newCycle(n.info);
                 cycleList.Retrieve();
             }
         }
 
         private void editButton_Click(object sender, EventArgs e)
         {
+            UInt64 cycleId = cycleList.getCurrentCycleId();
+            if (cycleId == 0)
+            {
+                MessageBox.Show("Нечего редактировать");
+                return;
+            }
 
+            DataTable table = new DataTable();
+            getDatabase().fillWithQuotesForCycle(cycleId, table);
+
+            Database.StockCycleInfo info = new Database.StockCycleInfo();
+            info.quotes = table;
+            info.id = cycleId;
+            info.start = Convert.ToDateTime(cycleList.SelectedRows[0].Cells["START_TIME"].Value);
+            info.border1 = Convert.ToDateTime(cycleList.SelectedRows[0].Cells["BORDER1_TIME"].Value);
+            info.border2 = Convert.ToDateTime(cycleList.SelectedRows[0].Cells["BORDER2_TIME"].Value);
+            info.finish = Convert.ToDateTime(cycleList.SelectedRows[0].Cells["FINISH_TIME"].Value);
+
+            NewCycleForm n = new NewCycleForm();
+            n.info = info;
+
+            if (n.ShowDialog() == DialogResult.OK)
+            {
+                getDatabase().editCycle(info);
+                cycleList.Retrieve();
+            }
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
+            UInt64 cycleId = cycleList.getCurrentCycleId();
+            if (cycleId == 0)
+            {
+                MessageBox.Show("Нечего удалять");
+                return;
+            }
 
+            if (MessageBox.Show("Удалить цикл\r\nВместе с циклом удалятся и заявки, и котировки", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                getDatabase().deleteCycle(cycleList.getCurrentCycleId());
+            }
         }
 
         private void refreshButton_Click(object sender, EventArgs e)
