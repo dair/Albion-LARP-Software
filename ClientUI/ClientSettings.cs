@@ -31,6 +31,9 @@ namespace ClientUI
         {
             dbSettingsView.SaveSettings();
             bsSettingsView.SaveSettings();
+
+            Settings.CashDesk.SetPersonId(Convert.ToUInt64(codeBox.Text));
+
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -39,6 +42,11 @@ namespace ClientUI
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void ClientSettings_Load(object sender, EventArgs e)
+        {
+            codeBox.Text = Convert.ToString(Settings.CashDesk.GetPersonId());
         }
     }
 }

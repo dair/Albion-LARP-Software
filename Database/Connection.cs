@@ -1077,6 +1077,11 @@ namespace Database
 
         public bool moneyTransfer(UInt64 senderId, UInt64 recvId, UInt64 amount)
         {
+            return moneyTransfer(senderId, recvId, amount, amount);
+        }
+
+        public bool moneyTransfer(UInt64 senderId, UInt64 recvId, UInt64 amountToRemove, UInt64 amountToAdd)
+        {
             if (!connect())
                 return false;
             bool ret = false;
@@ -1090,7 +1095,7 @@ namespace Database
                 command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
                 command.Parameters["id"].Value = senderId;
                 command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
-                command.Parameters["amount"].Value = amount;
+                command.Parameters["amount"].Value = amountToRemove;
                 command.ExecuteNonQuery();
 
                 query = "UPDATE MONEY SET BALANCE = BALANCE + :amount WHERE ID = :id";
@@ -1098,7 +1103,7 @@ namespace Database
                 command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
                 command.Parameters["id"].Value = recvId;
                 command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
-                command.Parameters["amount"].Value = amount;
+                command.Parameters["amount"].Value = amountToAdd;
                 command.ExecuteNonQuery();
 
                 query = "INSERT INTO MONEY_HISTORY (SENDER_ID, RECEIVER_ID, VALUE) VALUES (:sid, :rid, :amount)";
@@ -1108,7 +1113,7 @@ namespace Database
                 command.Parameters.Add(new NpgsqlParameter("rid", NpgsqlTypes.NpgsqlDbType.Numeric));
                 command.Parameters["rid"].Value = recvId;
                 command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
-                command.Parameters["amount"].Value = amount;
+                command.Parameters["amount"].Value = amountToRemove;
                 command.ExecuteNonQuery();
 
                 commit();

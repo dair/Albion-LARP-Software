@@ -43,8 +43,17 @@ namespace BarCode
 
         static private UInt64 StringCodeToInt(string s)
         {
+            UInt64 ret = 0;
+            try
+            {
+                ret = Convert.ToUInt64(s);
+            }
+            catch (Exception)
+            {
+            }
+
             //string s1 = s.Substring(0, s.Length - 1);
-            return Convert.ToUInt64(s);
+            return ret;
         }
 
         protected virtual void OnRaiseBarCodeEvent()

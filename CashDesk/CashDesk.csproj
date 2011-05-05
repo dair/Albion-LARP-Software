@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BDC6AE8A-E627-4846-B152-C78633B47306}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CashDesk</RootNamespace>
+    <AssemblyName>CashDesk</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CashDeskVerify.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashDeskVerify.Designer.cs">
+      <DependentUpon>CashDeskVerify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CashDeskAmount.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashDeskAmount.Designer.cs">
+      <DependentUpon>CashDeskAmount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CashDeskForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CashDeskForm.Designer.cs">
+      <DependentUpon>CashDeskForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CashDeskContext.cs" />
+    <Compile Include="CashDeskObject.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashDeskObject.Designer.cs">
+      <DependentUpon>CashDeskObject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CashDeskStart.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashDeskStart.Designer.cs">
+      <DependentUpon>CashDeskStart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CashDeskVerify.resx">
+      <DependentUpon>CashDeskVerify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashDeskAmount.resx">
+      <DependentUpon>CashDeskAmount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashDeskForm.resx">
+      <DependentUpon>CashDeskForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashDeskStart.resx">
+      <DependentUpon>CashDeskStart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BarCode\BarCode.csproj">
+      <Project>{20AAC0F5-B194-4B16-B8BC-58171DE789F3}</Project>
+      <Name>BarCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ClientUI\ClientUI.csproj">
+      <Project>{77FE10C0-54F2-4653-9F46-DF3C6E8560F8}</Project>
+      <Name>ClientUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Database\Database.csproj">
+      <Project>{D3CDC2F0-E27C-45B6-B49E-8B0A7D78652D}</Project>
+      <Name>Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{10A455E6-4509-48A0-82C9-267D2A1CA47A}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Settings\Settings.csproj">
+      <Project>{9857B990-F571-4BDA-8EA6-EE46CC03DDA8}</Project>
+      <Name>Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UI\UI.csproj">
+      <Project>{4A2CB31A-61EC-4D8B-807A-900C3316CC98}</Project>
+      <Name>UI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
