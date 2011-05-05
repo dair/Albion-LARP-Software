@@ -56,7 +56,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(424, 46);
             this.label1.TabIndex = 15;
-            this.label1.Text = "1. Состояние счёта";
+            this.label1.Text = "1. Состояние счёта и активы";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label3
@@ -68,7 +68,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(424, 46);
             this.label3.TabIndex = 16;
-            this.label3.Text = "2. Перевод средств";
+            this.label3.Text = "2. Перевод денежных  средств";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label4

@@ -110,6 +110,12 @@
     <Compile Include="ATMVerify.designer.cs">
       <DependentUpon>ATMVerify.cs</DependentUpon>
     </Compile>
+    <Compile Include="CycleInfoBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CycleInfoBar.Designer.cs">
+      <DependentUpon>CycleInfoBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="StockAddOperation.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -189,6 +195,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ATMVerify.resx">
       <DependentUpon>ATMVerify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CycleInfoBar.resx">
+      <DependentUpon>CycleInfoBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StockAddOperation.resx">
       <DependentUpon>StockAddOperation.cs</DependentUpon>

@@ -29,6 +29,7 @@ namespace StockMaster
             personList.SelectionChanged -= personList_SelectionChanged;
             personList.Retrieve();
             personList.SelectionChanged += personList_SelectionChanged;
+            personList_SelectionChanged(this, null);
             companies = null;
         }
 

@@ -33,6 +33,7 @@
             this.deleteRequestLabel = new System.Windows.Forms.Label();
             this.requestsView = new UI.BaseTableView();
             this.noRequestsLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.requestsView)).BeginInit();
             this.SuspendLayout();
@@ -42,7 +43,7 @@
             this.newRequestLabel.BackColor = System.Drawing.Color.Transparent;
             this.newRequestLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.newRequestLabel.ForeColor = System.Drawing.Color.White;
-            this.newRequestLabel.Location = new System.Drawing.Point(363, 278);
+            this.newRequestLabel.Location = new System.Drawing.Point(363, 293);
             this.newRequestLabel.Name = "newRequestLabel";
             this.newRequestLabel.Size = new System.Drawing.Size(434, 25);
             this.newRequestLabel.TabIndex = 16;
@@ -53,7 +54,7 @@
             this.deleteRequestLabel.BackColor = System.Drawing.Color.Transparent;
             this.deleteRequestLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.deleteRequestLabel.ForeColor = System.Drawing.Color.White;
-            this.deleteRequestLabel.Location = new System.Drawing.Point(363, 315);
+            this.deleteRequestLabel.Location = new System.Drawing.Point(363, 330);
             this.deleteRequestLabel.Name = "deleteRequestLabel";
             this.deleteRequestLabel.Size = new System.Drawing.Size(434, 25);
             this.deleteRequestLabel.TabIndex = 18;
@@ -72,7 +73,7 @@
             this.requestsView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.requestsView.ColumnHeadersVisible = false;
             this.requestsView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.requestsView.Location = new System.Drawing.Point(363, 3);
+            this.requestsView.Location = new System.Drawing.Point(363, 28);
             this.requestsView.MultiSelect = false;
             this.requestsView.Name = "requestsView";
             this.requestsView.ReadOnly = true;
@@ -84,7 +85,7 @@
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
             this.requestsView.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.requestsView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.requestsView.Size = new System.Drawing.Size(434, 272);
+            this.requestsView.Size = new System.Drawing.Size(434, 262);
             this.requestsView.TabIndex = 19;
             this.requestsView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.requestsView_KeyDown);
             // 
@@ -100,10 +101,22 @@
             this.noRequestsLabel.Text = "Заявок нет";
             this.noRequestsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(363, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(434, 25);
+            this.label1.TabIndex = 21;
+            this.label1.Text = "Ваши заявки:";
+            // 
             // StockRequests
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.noRequestsLabel);
             this.Controls.Add(this.requestsView);
             this.Controls.Add(this.deleteRequestLabel);
@@ -115,6 +128,7 @@
             this.Controls.SetChildIndex(this.deleteRequestLabel, 0);
             this.Controls.SetChildIndex(this.requestsView, 0);
             this.Controls.SetChildIndex(this.noRequestsLabel, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.requestsView)).EndInit();
             this.ResumeLayout(false);
@@ -127,5 +141,6 @@
         private System.Windows.Forms.Label deleteRequestLabel;
         private UI.BaseTableView requestsView;
         private System.Windows.Forms.Label noRequestsLabel;
+        private System.Windows.Forms.Label label1;
     }
 }

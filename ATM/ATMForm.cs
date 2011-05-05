@@ -51,6 +51,12 @@ namespace ATM
 
         private void ATMForm_Load(object sender, EventArgs e)
         {
+            CycleInfoBar bar = new CycleInfoBar(getDatabase());
+            bar.Location = new Point(0, 0);
+            bar.Width = Width;
+            bar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            Controls.Add(bar);
+            bar.Show();
         }
     }
 }

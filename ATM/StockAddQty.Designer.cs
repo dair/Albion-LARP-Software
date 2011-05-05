@@ -40,12 +40,12 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.qtyBox.BackColor = System.Drawing.Color.Black;
             this.qtyBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.qtyBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.qtyBox.Font = new System.Drawing.Font("Courier New", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.qtyBox.ForeColor = System.Drawing.Color.White;
             this.qtyBox.Location = new System.Drawing.Point(363, 145);
-            this.qtyBox.MaxLength = 5;
+            this.qtyBox.MaxLength = 10;
             this.qtyBox.Name = "qtyBox";
-            this.qtyBox.Size = new System.Drawing.Size(423, 62);
+            this.qtyBox.Size = new System.Drawing.Size(423, 49);
             this.qtyBox.TabIndex = 12;
             this.qtyBox.Text = "WWWWW";
             this.qtyBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -67,9 +67,9 @@
             this.infoLabel.BackColor = System.Drawing.Color.Transparent;
             this.infoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.infoLabel.ForeColor = System.Drawing.Color.White;
-            this.infoLabel.Location = new System.Drawing.Point(388, 226);
+            this.infoLabel.Location = new System.Drawing.Point(363, 226);
             this.infoLabel.Name = "infoLabel";
-            this.infoLabel.Size = new System.Drawing.Size(367, 80);
+            this.infoLabel.Size = new System.Drawing.Size(392, 131);
             this.infoLabel.TabIndex = 16;
             this.infoLabel.Text = "Введите тикер компании:";
             this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

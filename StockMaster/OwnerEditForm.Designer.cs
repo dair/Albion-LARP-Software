@@ -113,6 +113,7 @@
             this.MaximumSize = new System.Drawing.Size(1024, 128);
             this.MinimumSize = new System.Drawing.Size(244, 128);
             this.Name = "OwnerEditForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование кол-ва акций";
             this.Load += new System.EventHandler(this.OwnerEditForm_Load);
             this.ResumeLayout(false);

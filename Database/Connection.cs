@@ -478,10 +478,10 @@ namespace Database
                 command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
                 command.Parameters["id"].Value = id;
                 NpgsqlDataReader rd = command.ExecuteReader();
-                UInt32 count = 0;
+                UInt64 count = 0;
                 while (rd.Read())
                 {
-                    count = Convert.ToUInt32(rd[0]);
+                    count = Convert.ToUInt64(rd[0]);
                 }
 
                 String query;
@@ -566,10 +566,10 @@ namespace Database
                 command.Parameters["propId"].Value = oldPropId;
 
                 NpgsqlDataReader rd = command.ExecuteReader();
-                UInt32 count = 0;
+                UInt64 count = 0;
                 while (rd.Read())
                 {
-                    count = Convert.ToUInt32(rd[0]);
+                    count = Convert.ToUInt64(rd[0]);
                 }
                 String query;
                 if (count == 0)
@@ -995,7 +995,7 @@ namespace Database
                 {
                     ret.id = id;
                     ret.name = Convert.ToString(rd["NAME"]);
-                    ret.balance = Convert.ToUInt32(rd["BALANCE"]);
+                    ret.balance = Convert.ToUInt64(rd["BALANCE"]);
                     ret.pinCode = Convert.ToString(rd["PIN"]);
                     ret.failures = Convert.ToUInt16(rd["FAILURES"]);
                 }
@@ -2287,6 +2287,41 @@ namespace Database
                 command.Parameters["price"].Value = quote * qty;
                 command.ExecuteNonQuery();
 
+                query = "SELECT ID, QUANTITY FROM STOCK_REQUEST WHERE " +
+                    "PERSON_ID = :pid AND " +
+                    "COMPANY_KEY = :ticker AND " +
+                    "CYCLE_ID = :cid AND " +
+                    "STATUS = 'A' AND " +
+                    "OPERATION = 'B'";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("pid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["pid"].Value = personId;
+                command.Parameters.Add("cid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["cid"].Value = cycleId;
+                command.Parameters.Add("ticker", NpgsqlTypes.NpgsqlDbType.Varchar);
+                command.Parameters["ticker"].Value = ticker;
+                rd = command.ExecuteReader();
+                List<UInt64> ids = new List<ulong>();
+                UInt64 totalQty = 0;
+                while (rd.Read())
+                {
+                    ids.Add(Convert.ToUInt64(rd["ID"]));
+                    UInt64 q = Convert.ToUInt64(rd["QUANTITY"]);
+                    totalQty += q;
+                }
+                rd.Close();
+
+                for (int i = 0; i < ids.Count; ++i)
+                {
+                    query = "UPDATE STOCK_REQUEST SET STATUS = 'O' WHERE ID = :rid";
+                    command = new NpgsqlCommand(query, connection);
+                    command.Parameters.Add("rid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                    command.Parameters["rid"].Value = personId;
+                    command.ExecuteNonQuery();
+                }
+
+                totalQty += qty;
+
                 query = "INSERT INTO STOCK_REQUEST " +
                     "(PERSON_ID, CYCLE_ID, COMPANY_KEY, OPERATION, QUANTITY) " +
                     "VALUES (:pid, :cid, :ticker, :op, :qty)";
@@ -2300,7 +2335,7 @@ namespace Database
                 command.Parameters.Add("op", NpgsqlTypes.NpgsqlDbType.Varchar);
                 command.Parameters["op"].Value = "B";
                 command.Parameters.Add("qty", NpgsqlTypes.NpgsqlDbType.Numeric);
-                command.Parameters["qty"].Value = qty;
+                command.Parameters["qty"].Value = totalQty;
                 command.ExecuteNonQuery();
 
                 commit();
@@ -2335,6 +2370,41 @@ namespace Database
                 command.Parameters.Add("qty", NpgsqlTypes.NpgsqlDbType.Numeric);
                 command.Parameters["qty"].Value = qty;
                 command.ExecuteNonQuery();
+
+                query = "SELECT ID, QUANTITY FROM STOCK_REQUEST WHERE " +
+                    "PERSON_ID = :pid AND " +
+                    "COMPANY_KEY = :ticker AND " +
+                    "CYCLE_ID = :cid AND " +
+                    "STATUS = 'A' AND " +
+                    "OPERATION = 'S'";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("pid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["pid"].Value = personId;
+                command.Parameters.Add("cid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["cid"].Value = cycleId;
+                command.Parameters.Add("ticker", NpgsqlTypes.NpgsqlDbType.Varchar);
+                command.Parameters["ticker"].Value = ticker;
+                NpgsqlDataReader rd = command.ExecuteReader();
+                List<UInt64> ids = new List<ulong>();
+                UInt64 totalQty = 0;
+                while (rd.Read())
+                {
+                    ids.Add(Convert.ToUInt64(rd["ID"]));
+                    UInt64 q = Convert.ToUInt64(rd["QUANTITY"]);
+                    totalQty += q;
+                }
+                rd.Close();
+
+                for (int i = 0; i < ids.Count; ++i)
+                {
+                    query = "UPDATE STOCK_REQUEST SET STATUS = 'O' WHERE ID = :rid";
+                    command = new NpgsqlCommand(query, connection);
+                    command.Parameters.Add("rid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                    command.Parameters["rid"].Value = personId;
+                    command.ExecuteNonQuery();
+                }
+
+                totalQty += qty;
 
 
                 query = "INSERT INTO STOCK_REQUEST " +
