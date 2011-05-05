@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{396E2681-28A9-493C-9749-AF8969EEA9BB}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InfoTerm</RootNamespace>
+    <AssemblyName>InfoTerm</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="InfoTermFullInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InfoTermFullInfo.Designer.cs">
+      <DependentUpon>InfoTermFullInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InfoTermPinCode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InfoTermPinCode.Designer.cs">
+      <DependentUpon>InfoTermPinCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InfoTermSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InfoTermSearch.Designer.cs">
+      <DependentUpon>InfoTermSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InfoTermStart.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InfoTermStart.Designer.cs">
+      <DependentUpon>InfoTermStart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InfoTermContext.cs" />
+    <Compile Include="InfoTermForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InfoTermForm.Designer.cs">
+      <DependentUpon>InfoTermForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InfoTermObject.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InfoTermObject.Designer.cs">
+      <DependentUpon>InfoTermObject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InfoTermTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InfoTermTable.Designer.cs">
+      <DependentUpon>InfoTermTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="InfoTermFullInfo.resx">
+      <DependentUpon>InfoTermFullInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InfoTermPinCode.resx">
+      <DependentUpon>InfoTermPinCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InfoTermSearch.resx">
+      <DependentUpon>InfoTermSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InfoTermStart.resx">
+      <DependentUpon>InfoTermStart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InfoTermObject.resx">
+      <DependentUpon>InfoTermObject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InfoTermForm.resx">
+      <DependentUpon>InfoTermForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InfoTermTable.resx">
+      <DependentUpon>InfoTermTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BarCodePrint\Ean13Barcode2005.csproj">
+      <Project>{A2D42EEC-A4E8-4249-A68F-EF4AE0D3C4F7}</Project>
+      <Name>Ean13Barcode2005</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BarCode\BarCode.csproj">
+      <Project>{20AAC0F5-B194-4B16-B8BC-58171DE789F3}</Project>
+      <Name>BarCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ClientUI\ClientUI.csproj">
+      <Project>{77FE10C0-54F2-4653-9F46-DF3C6E8560F8}</Project>
+      <Name>ClientUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Database\Database.csproj">
+      <Project>{D3CDC2F0-E27C-45B6-B49E-8B0A7D78652D}</Project>
+      <Name>Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{10A455E6-4509-48A0-82C9-267D2A1CA47A}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Settings\Settings.csproj">
+      <Project>{9857B990-F571-4BDA-8EA6-EE46CC03DDA8}</Project>
+      <Name>Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UI\UI.csproj">
+      <Project>{4A2CB31A-61EC-4D8B-807A-900C3316CC98}</Project>
+      <Name>UI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewsfpdSeal.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

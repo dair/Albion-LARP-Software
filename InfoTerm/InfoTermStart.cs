@@ -7,46 +7,32 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ATM
+using ClientUI;
+
+namespace InfoTerm
 {
-    public partial class StockDirectRecipient : ATMObject
+    public partial class InfoTermStart : InfoTermObject
     {
-        Database.StockCompanyInfo companyInfo = null;
-        UInt64 qty = 0;
-        UInt64 price = 0;
-        bool ready;
-        Database.ATMLoginInfo receiverInfo = null;
+        private bool ready = false;
 
-        public StockDirectRecipient()
-        {
-            InitializeComponent();
-        }
-
-        public StockDirectRecipient(Database.Connection db)
+        public InfoTermStart(Database.Connection db)
             : base(db)
         {
             InitializeComponent();
+            escLabel.Hide();
+            infoLabel.KeyDown += new KeyEventHandler(infoLabel_KeyDown);
         }
 
-        public override void Init(ClientUI.UserObjectEventArgs args)
+        override public void Init(ClientUI.UserObjectEventArgs e)
         {
-            base.Init(args);
-
-            if (!args.data.ContainsKey("COMPANY_INFO") || !(args.data["COMPANY_INFO"] is Database.StockCompanyInfo))
-            {
-                MessageBox.Show("Args doesn't contain COMPANY_INFO", "StockDirectQty::Init ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            companyInfo = (Database.StockCompanyInfo)(args.data["COMPANY_INFO"]);
-            //companyLabel.Text = companyInfo.key + ": " + companyInfo.name;
-
-            qty = Convert.ToUInt64(args.data["QTY"]);
-            price = Convert.ToUInt64(args.data["PRICE"]);
-
-            ready = true;
             infoLabel.Text = "";
             infoLabel.ForeColor = Color.White;
+            info = null;
+            ready = true;
+        }
+
+        override public void Deinit()
+        {
         }
 
         public override void BarCodeScanned(ulong code)
@@ -54,8 +40,10 @@ namespace ATM
             if (!ready)
                 return;
             ready = false;
-            receiverInfo = getDatabase().ATMLoginInfo(code);
-            if (receiverInfo == null || receiverInfo.name == null)
+            info = getDatabase().ATMLoginInfo(code);
+            Database.FullPersonInfo fpInfo = getDatabase().getPersonInfo(code);
+
+            if (info == null || info.name == null)
             {
                 infoLabel.Text = "Ошибка!";
                 infoLabel.ForeColor = Color.Red;
@@ -75,9 +63,20 @@ namespace ATM
                 }
                 else
                 {
-                    if (info.id == receiverInfo.id)
+                    bool permission = false;
+                    foreach (DataRow row in fpInfo.properties.Rows)
                     {
-                        infoLabel.Text = "Самому себе что-то продавать смысла не имеет";
+                        String name = Convert.ToString(row["Название"]);
+                        String value = Convert.ToString(row["Значение"]);
+                        if (name.ToUpper() == "INFO TERM" && value.ToUpper() == "YES")
+                        {
+                            permission = true;
+                        }
+                    }
+
+                    if (!permission)
+                    {
+                        infoLabel.Text = "Доступ запрещён!";
                         infoLabel.ForeColor = Color.Red;
                         myTimer.Tick += new EventHandler(TickReject);
                         myTimer.Interval = 2000;
@@ -85,7 +84,7 @@ namespace ATM
                     }
                     else
                     {
-                        infoLabel.Text = receiverInfo.name;
+                        infoLabel.Text = info.name;
                         infoLabel.ForeColor = Color.Green;
                         myTimer.Tick += new EventHandler(TickAccept);
                         myTimer.Interval = 2000;
@@ -99,9 +98,7 @@ namespace ATM
         {
             myTimer.Stop();
             myTimer.Tick -= TickReject;
-            ClientUI.UserObjectEventArgs args = new ClientUI.UserObjectEventArgs();
-            args.NextObject = "START";
-            RaiseNextObjectEvent(args);
+            Init(null);
         }
 
         void TickAccept(object sender, EventArgs e)
@@ -109,13 +106,9 @@ namespace ATM
             myTimer.Stop();
             myTimer.Tick -= TickAccept;
 
-            ClientUI.UserObjectEventArgs args = new ClientUI.UserObjectEventArgs();
-            args.NextObject = "STOCK_DIRECT_RECEIVER_PINCODE";
+            UserObjectEventArgs args = new UserObjectEventArgs();
+            args.NextObject = "PINCODE";
             args.data["PERSON_INFO"] = info;
-            args.data["COMPANY_INFO"] = companyInfo;
-            args.data["QTY"] = qty;
-            args.data["PRICE"] = price;
-            args.data["RECEIVER_INFO"] = receiverInfo;
 
             RaiseNextObjectEvent(args);
         }
@@ -155,7 +148,5 @@ namespace ATM
                 OnKeyDown(sender, e);
             }
         }
-
-
     }
 }

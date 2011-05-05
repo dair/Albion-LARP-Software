@@ -205,7 +205,6 @@ namespace UI
                 fullPersonInfo.properties.Rows[selectedIndex()][2] = prop.value;
                 propertiesGridView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
             }
-
         }
 
         private void deletePropButton_Click(object sender, EventArgs e)

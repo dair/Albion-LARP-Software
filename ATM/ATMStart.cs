@@ -117,7 +117,7 @@ namespace ATM
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Херня какая-то");
+                    MessageBox.Show("Неправильно введённый код");
                 }
             }
             if (e.Handled == false)

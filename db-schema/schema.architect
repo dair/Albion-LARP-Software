@@ -4,7 +4,16 @@
  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
-   <property key="Logical" value="PlayPen Database" />
+   <property key="Logical" value="bladerunner" />
+   <property key="Connection Type" value="PostgreSQL" />
+   <property key="JDBC URL" value="jdbc:postgresql://192.168.142.128:5432/BLADERUNNER" />
+   <property key="UID" value="blademaster" />
+   <property key="PWD" value="gfhjkm" />
+   <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.port" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.hostname" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.login" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.password" value="" />
   </data-source>
   <data-source id="DS2">
    <property key="Connection Type" value="PostgreSQL" />
@@ -731,7 +740,7 @@
     <folder id="FOLTAB2022" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB2024" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX209" populated="true" UUID="6da05d6b-a2f7-4c71-8874-d41a54431db2" clustered="false" name="STOCK_HISTORY_pk" physicalName="STOCK_HISTORY_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX209" populated="true" UUID="6da05d6b-a2f7-4c71-8874-d41a54431db2" clustered="false" name="STOCK_HISTORY_pk" physicalName="stock_history_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC210" populated="true" UUID="3a6e4664-bfbd-4416-8e63-b1d1833e1faa" ascendingOrDescending="UNSPECIFIED" column-ref="COL203" name="SENDER_ID" physicalName="SENDER_ID" />
      <index-column id="IDC211" populated="true" UUID="270cdb65-1fe7-47fa-a1f4-a07df0e6f4c9" ascendingOrDescending="UNSPECIFIED" column-ref="COL204" name="RECEIVER_ID" physicalName="RECEIVER_ID" />
      <index-column id="IDC212" populated="true" UUID="a9f98e35-9919-4866-b227-6bce3c29f9a0" ascendingOrDescending="UNSPECIFIED" column-ref="COL205" name="COMPANY_KEY" physicalName="COMPANY_KEY" />
@@ -761,10 +770,10 @@
    <relationship id="REL226" populated="true" UUID="16c9af49-c81f-437d-8a2c-96964aca875f" deferrability="7" deleteRule="0" fk-table-ref="TAB179" fkCardinality="7" identifying="true" name="PERSON_VK_SESSION_fk" physicalName="person_vk_session_fk" pk-table-ref="TAB78" pkCardinality="2" updateRule="0" >
     <column-mapping id="CMP227" populated="true" UUID="b106af9f-374d-464e-927e-e80043b64c22" fk-column-ref="COL181" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL79" />
    </relationship>
-   <relationship id="REL228" populated="true" UUID="732e17c2-d4a7-4181-8ca5-975f3f66fbbd" deferrability="7" deleteRule="0" fk-table-ref="TAB202" fkCardinality="7" identifying="true" name="PERSON_STOCK_HISTORY_fk" physicalName="PERSON_STOCK_HISTORY_fk" pk-table-ref="TAB78" pkCardinality="2" updateRule="0" >
+   <relationship id="REL228" populated="true" UUID="732e17c2-d4a7-4181-8ca5-975f3f66fbbd" deferrability="7" deleteRule="0" fk-table-ref="TAB202" fkCardinality="7" identifying="true" name="PERSON_STOCK_HISTORY_fk" physicalName="person_stock_history_fk" pk-table-ref="TAB78" pkCardinality="2" updateRule="0" >
     <column-mapping id="CMP229" populated="true" UUID="e1afd9bc-f795-45d5-b47d-c550536d6636" fk-column-ref="COL203" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL79" />
    </relationship>
-   <relationship id="REL230" populated="true" UUID="3b5c024c-8972-4c58-a073-3c6521a01a70" deferrability="7" deleteRule="0" fk-table-ref="TAB202" fkCardinality="7" identifying="true" name="PERSON_STOCK_HISTORY_fk1" physicalName="PERSON_STOCK_HISTORY_fk1" pk-table-ref="TAB78" pkCardinality="2" updateRule="0" >
+   <relationship id="REL230" populated="true" UUID="3b5c024c-8972-4c58-a073-3c6521a01a70" deferrability="7" deleteRule="0" fk-table-ref="TAB202" fkCardinality="7" identifying="true" name="PERSON_STOCK_HISTORY_fk1" physicalName="person_stock_history_fk1" pk-table-ref="TAB78" pkCardinality="2" updateRule="0" >
     <column-mapping id="CMP231" populated="true" UUID="22d5cf51-4ae1-44c9-881e-798abab0c0f1" fk-column-ref="COL204" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL79" />
    </relationship>
    <relationship id="REL232" populated="true" UUID="0b516e17-01dc-43b2-8ff1-dbb1b9d8afc5" deferrability="7" deleteRule="0" fk-table-ref="TAB98" fkCardinality="7" identifying="true" name="property_person_prop_fk" physicalName="property_person_prop_fk" pk-table-ref="TAB92" pkCardinality="2" updateRule="0" >
@@ -786,7 +795,7 @@
    <relationship id="REL243" populated="true" UUID="37a2a026-89a9-4bde-9a78-daab51e06f9b" deferrability="7" deleteRule="0" fk-table-ref="TAB170" fkCardinality="7" identifying="true" name="STOCK_COMPANY_STOCK_QUOTE_fk" physicalName="stock_company_stock_quote_fk" pk-table-ref="TAB129" pkCardinality="2" updateRule="0" >
     <column-mapping id="CMP244" populated="true" UUID="cb66afa7-e73d-4d75-b537-48cd30ecf7c3" fk-column-ref="COL172" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL130" />
    </relationship>
-   <relationship id="REL245" populated="true" UUID="2499c156-2162-482c-9bb5-47c8707daa6e" deferrability="7" deleteRule="3" fk-table-ref="TAB202" fkCardinality="7" identifying="true" name="STOCK_COMPANY_STOCK_HISTORY_fk" physicalName="STOCK_COMPANY_STOCK_HISTORY_fk" pk-table-ref="TAB129" pkCardinality="2" updateRule="3" >
+   <relationship id="REL245" populated="true" UUID="2499c156-2162-482c-9bb5-47c8707daa6e" deferrability="7" deleteRule="3" fk-table-ref="TAB202" fkCardinality="7" identifying="true" name="STOCK_COMPANY_STOCK_HISTORY_fk" physicalName="stock_company_stock_history_fk" pk-table-ref="TAB129" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP246" populated="true" UUID="d06e2bdd-c3e8-41a8-9710-4e2609e0f693" fk-column-ref="COL205" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL130" />
    </relationship>
    <relationship id="REL247" populated="true" UUID="04e39319-824d-4963-9279-ab6b9cbf7cf2" deferrability="7" deleteRule="0" fk-table-ref="TAB170" fkCardinality="7" identifying="true" name="STOCK_CYCLE_STOCK_QUOTE_fk" physicalName="stock_cycle_stock_quote_fk" pk-table-ref="TAB137" pkCardinality="2" updateRule="0" >
@@ -805,10 +814,10 @@
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="1.0" viewportX="0" viewportY="40" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB78" x="61" y="32" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB85" x="28" y="281" bgColor="0xeeeeee" fgColor="0x000000" rounded="true" dashed="false"/>
   <table-pane table-ref="TAB92" x="443" y="36" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
@@ -819,7 +828,7 @@
   <table-pane table-ref="TAB129" x="538" y="179" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB137" x="757" y="353" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB152" x="287" y="133" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB159" x="518" y="315" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB159" x="544" y="332" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB170" x="730" y="186" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB145" x="647" y="78" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB179" x="343" y="410" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>

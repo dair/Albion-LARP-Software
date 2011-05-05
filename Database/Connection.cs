@@ -6,6 +6,7 @@ using System.Text;
 using System.Runtime.CompilerServices;
 using Npgsql;
 using Logger;
+using System.Text.RegularExpressions;
 
 namespace Database
 {
@@ -2631,6 +2632,101 @@ namespace Database
                 setRequestStatusRaw(reqId, "H");
 
                 commit();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void searchInfo(String searchStr, DataTable table)
+        {
+            table.Clear();
+            table.Columns.Add("ID", Type.GetType("System.UInt64"));
+            table.Columns.Add("NAME", Type.GetType("System.String"));
+            table.Columns.Add("FOUND", Type.GetType("System.String"));
+
+            if (!connect())
+                return;
+
+
+            String s = searchStr.Trim();
+            if (s == "")
+                s = "%";
+            else
+                s = "%" + s + "%";
+
+            try
+            {
+                String query = "SELECT ID, NAME, TXT FROM ((SELECT ID, NAME, 'Код' AS TXT FROM PERSON WHERE cast(ID as varchar(10)) LIKE :str) UNION (SELECT ID, NAME, 'Имя' AS TXT FROM PERSON WHERE NAME LIKE :str) UNION (SELECT P.ID, P.NAME, PROP.NAME AS TXT FROM PERSON P, PERSON_PROP PP, PROPERTY PROP WHERE P.ID = PP.PERS_ID AND PP.VALUE LIKE :str AND PP.PROP_ID = PROP.ID AND PROP.POLICE = 'Y')) AS S";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("str", NpgsqlTypes.NpgsqlDbType.Varchar);
+                command.Parameters["str"].Value = s;
+
+                Dictionary<UInt64, String> text = new Dictionary<ulong, string>();
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    UInt64 id = Convert.ToUInt64(rd["ID"]);
+                    String name = Convert.ToString(rd["NAME"]);
+                    String txt = Convert.ToString(rd["TXT"]);
+                    if (text.ContainsKey(id))
+                    {
+                        text[id] += Environment.NewLine + txt;
+                    }
+                    else
+                    {
+                        text[id] = txt;
+                        table.Rows.Add(id, name, "");
+                    }
+                }
+                rd.Close();
+
+                foreach (DataRow row in table.Rows)
+                {
+                    UInt64 id = Convert.ToUInt64(row["ID"]);
+                    row["FOUND"] = text[id];
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+        }
+
+        public void fillWithPoliceProperties(UInt64 personId, DataTable table)
+        {
+            table.Clear();
+            table.Columns.Add("ID", Type.GetType("System.UInt64"));
+            table.Columns.Add("NAME");
+            table.Columns.Add("VALUE");
+
+            if (!connect())
+                return;
+
+            try
+            {
+                String query = "SELECT P.ID, P.NAME, PP.VALUE FROM PERSON_PROP PP, PROPERTY P WHERE PP.PERS_ID = :pid AND PP.PROP_ID = P.ID AND P.POLICE = 'Y' ORDER BY P.NAME ASC";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("pid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["pid"].Value = personId;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(rd["ID"], rd["NAME"], rd["VALUE"]);
+                }
+                rd.Close();
             }
             catch (Exception ex)
             {
