@@ -12,7 +12,6 @@ namespace UI
 {
     public partial class PersonList : DataGridView, IDBObject
     {
-        public DataTable dataTable = new DataTable();
         private Database.Connection database = null;
         private BindingSource bindingSource = null;
 
@@ -44,6 +43,7 @@ namespace UI
             if (database == null)
                 return;
 
+            DataTable dataTable = new DataTable();
             database.fillWithPersons(dataTable);
             bindingSource.DataSource = dataTable;
 
@@ -88,7 +88,7 @@ namespace UI
             }
 
             Database.PersonInfo ret = new Database.PersonInfo();
-            ret.id = Convert.ToUInt16(SelectedRows[0].Cells[0].Value);
+            ret.id = Convert.ToUInt64(SelectedRows[0].Cells[0].Value);
             ret.name = Convert.ToString(SelectedRows[0].Cells[1].Value);
             return ret;
         }

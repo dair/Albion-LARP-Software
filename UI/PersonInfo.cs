@@ -82,7 +82,7 @@ namespace UI
         {
             Database.FullPersonInfo ret = fullPersonInfo;
 
-            ret.id = Convert.ToUInt16(idBox.Text);
+            ret.id = Convert.ToUInt64(idBox.Text);
 
             ret.name = nameBox.Text.Trim();
             switch (genderBox.SelectedIndex)
@@ -115,17 +115,17 @@ namespace UI
         {
             IList<Database.PropertyInfo> list = getDatabase().getPropertyList();
 
-            Int32 selectedPropId = -1;
+            UInt64 selectedPropId = 0;
             if (propertiesGridView.SelectedRows.Count == 1)
-                selectedPropId = Convert.ToUInt16(propertiesGridView.SelectedRows[0].Cells[0].Value);
+                selectedPropId = Convert.ToUInt64(propertiesGridView.SelectedRows[0].Cells[0].Value);
 
             foreach (DataRow row in fullPersonInfo.properties.Rows)
             {
-                UInt16 propId = Convert.ToUInt16(row[0]);
+                UInt64 propId = Convert.ToUInt64(row[0]);
                 if (excludeSelected && propId == selectedPropId)
                     continue;
 
-                for (UInt16 i = 0; i < list.Count; ++i)
+                for (int i = 0; i < list.Count; ++i)
                 {
                     if (list[i].id == propId)
                     {
@@ -165,15 +165,15 @@ namespace UI
                 return null;
             }
             Database.PersonProperty ret = new Database.PersonProperty();
-            ret.propertyId = Convert.ToUInt16(propertiesGridView.SelectedRows[0].Cells[0].Value);
+            ret.propertyId = Convert.ToUInt64(propertiesGridView.SelectedRows[0].Cells[0].Value);
             ret.propName = Convert.ToString(propertiesGridView.SelectedRows[0].Cells[1].Value);
             ret.value = Convert.ToString(propertiesGridView.SelectedRows[0].Cells[2].Value);
             return ret;
         }
 
-        private UInt16 selectedIndex()
+        private int selectedIndex()
         {
-            UInt16 ret = 0;
+            int ret = 0;
             foreach (DataGridViewRow row in propertiesGridView.Rows)
             {
                 if (row.Selected)

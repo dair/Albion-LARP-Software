@@ -29,6 +29,11 @@ namespace ATM
             : base(db)
         {
             InitializeComponent();
+
+            serverTimeLabel.Text = "";
+            untilBorder1Label.Text = "";
+            untilBorder2Label.Text = "";
+            untilFinishLabel.Text = "";
         }
 
         private void CycleInfoBar_SizeChanged(object sender, EventArgs e)

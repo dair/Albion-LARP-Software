@@ -14,7 +14,7 @@ namespace Database
             Female
         };
 
-        public UInt16 id;
+        public UInt64 id;
         public String text;
         public Gender gender;
     }

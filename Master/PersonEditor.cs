@@ -52,7 +52,8 @@ namespace Master
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            DataRow row = personList.dataTable.Rows.Add();
+            DataTable table = (DataTable)personList.DataSource;
+            DataRow row = table.Rows.Add();
             personList.Rows[personList.Rows.Count - 1].Selected = true;
         }
 

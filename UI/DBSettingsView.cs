@@ -74,7 +74,7 @@ namespace UI
             if (db != null)
             {
                 db.setIpAddress(hostTextBox.Text);
-                db.setPort(Convert.ToUInt16(portTextBox.Text));
+                db.setPort(Convert.ToUInt64(portTextBox.Text));
                 db.setUserName(userTextBox.Text);
                 db.setPassword(passwordTextBox.Text);
                 db.setDatabase(dbnameTextBox.Text);

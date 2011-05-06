@@ -13,7 +13,7 @@ namespace Database
     public class Connection
     {
         private String ipAddress = null;
-        private UInt16 port = 0;
+        private UInt64 port = 0;
         private String userName = null;
         private String password = null;
         private String database = null;
@@ -34,7 +34,7 @@ namespace Database
             ipAddress = (String)ip.Clone();
         }
 
-        public void setPort(UInt16 p)
+        public void setPort(UInt64 p)
         {
             port = p;
         }
@@ -167,10 +167,9 @@ namespace Database
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void fillWithPersons(DataTable table)
         {
-            table.Columns.Clear();
+            table.Clear();
             table.Columns.Add("ID", Type.GetType("System.UInt64"));
             table.Columns.Add("NAME");
-            table.Rows.Clear();
 
             Logging.log("fillWithPersons\n");
             if (!connect())
@@ -179,12 +178,12 @@ namespace Database
             NpgsqlCommand command = new NpgsqlCommand("select ID, NAME from PERSON ORDER BY ID ASC", connection);
             try
             {
-
                 NpgsqlDataReader rd = command.ExecuteReader();
                 while (rd.Read())
                 {
-                    table.Rows.Add(Convert.ToUInt64(rd["ID"]), Convert.ToString(rd["NAME"]));
+                    table.Rows.Add(rd["ID"], rd["NAME"]);
                 }
+                rd.Close();
             }
             catch (Exception ex)
             {
@@ -195,7 +194,6 @@ namespace Database
                 disconnect();
             }
             Logging.log("!fillWithPersons\n");
-
         }
 
         // ----------------------------------------------------------
@@ -291,7 +289,7 @@ namespace Database
 
                 while (rd.Read())
                 {
-                    UInt16 propId = Convert.ToUInt16(rd[0]);
+                    UInt64 propId = Convert.ToUInt64(rd[0]);
                     String key = Convert.ToString(rd[1]);
                     String value = Convert.ToString(rd[2]);
 
@@ -447,7 +445,7 @@ namespace Database
                     command.Parameters.Add(new NpgsqlParameter("persId", NpgsqlTypes.NpgsqlDbType.Numeric));
                     command.Parameters["persId"].Value = fpInfo.getId();
                     command.Parameters.Add(new NpgsqlParameter("propId", NpgsqlTypes.NpgsqlDbType.Numeric));
-                    command.Parameters["propId"].Value = Convert.ToUInt16(row[0]);
+                    command.Parameters["propId"].Value = Convert.ToUInt64(row[0]);
                     command.Parameters.Add(new NpgsqlParameter("value", NpgsqlTypes.NpgsqlDbType.Varchar));
                     command.Parameters["value"].Value = Convert.ToString(row[2]);
 
@@ -533,7 +531,7 @@ namespace Database
                 while (rd.Read())
                 {
                     PropertyInfo info = new PropertyInfo();
-                    info.id = Convert.ToUInt16(rd["ID"]);
+                    info.id = Convert.ToUInt64(rd["ID"]);
                     info.name = Convert.ToString(rd["NAME"]);
                     info.policeVisibility = dbToBoolean(rd["POLICE"]);
                     ret.Add(info);
@@ -604,7 +602,7 @@ namespace Database
         public void fillPropList(DataTable table)
         {
             table.Columns.Clear();
-            table.Columns.Add("ID", Type.GetType("System.UInt16"));
+            table.Columns.Add("ID", Type.GetType("System.UInt64"));
             table.Columns.Add("Название");
             table.Columns.Add("Видно полиции", Type.GetType("System.Boolean", false, true));
             table.Rows.Clear();
@@ -622,7 +620,7 @@ namespace Database
                     object o1 = rd["NAME"];
                     object o2 = rd["POLICE"];
 
-                    table.Rows.Add(Convert.ToUInt16(o0), Convert.ToString(o1), dbToBoolean(o2));
+                    table.Rows.Add(Convert.ToUInt64(o0), Convert.ToString(o1), dbToBoolean(o2));
                 }
             }
             catch (Exception ex)
@@ -716,7 +714,7 @@ namespace Database
         public void fillWithVKQuestions(DataTable table)
         {
             table.Columns.Clear();
-            table.Columns.Add("ID", Type.GetType("System.UInt16"));
+            table.Columns.Add("ID", Type.GetType("System.UInt64"));
             table.Columns.Add("TEXT");
             table.Rows.Clear();
 
@@ -730,7 +728,7 @@ namespace Database
                 NpgsqlDataReader rd = command.ExecuteReader();
                 while (rd.Read())
                 {
-                    table.Rows.Add(Convert.ToUInt16(rd["ID"]), Convert.ToString(rd["TEXT"]));
+                    table.Rows.Add(Convert.ToUInt64(rd["ID"]), Convert.ToString(rd["TEXT"]));
                 }
             }
             catch (Exception ex)
@@ -746,7 +744,7 @@ namespace Database
 
         // ----------------------------------------------------------
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void fillWithVKAnswers(UInt16 questionId, DataTable table)
+        public void fillWithVKAnswers(UInt64 questionId, DataTable table)
         {
             table.Columns.Clear();
             table.Columns.Add("TEXT");
@@ -783,7 +781,7 @@ namespace Database
 
         // ----------------------------------------------------------
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public VKQuestionInfo getQuestionInfo(UInt16 questionId)
+        public VKQuestionInfo getQuestionInfo(UInt64 questionId)
         {
             Logging.log("getQuestionInfo\n");
             if (!connect())
@@ -801,7 +799,7 @@ namespace Database
                 while (rd.Read())
                 {
                     ret = new VKQuestionInfo();
-                    ret.id = Convert.ToUInt16(rd["ID"]);
+                    ret.id = Convert.ToUInt64(rd["ID"]);
                     ret.text = Convert.ToString(rd["TEXT"]);
                     String g = Convert.ToString(rd["GENDER"]);
                     switch (g)
@@ -832,7 +830,7 @@ namespace Database
 
         // ----------------------------------------------------------
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public UInt16 editQuestion(VKQuestionInfo info)
+        public UInt64 editQuestion(VKQuestionInfo info)
         {
             if (!connect())
                 return 0;
@@ -866,7 +864,7 @@ namespace Database
                 command.Parameters["qid"].Value = info.id;
             }
 
-            UInt16 retId = 0;
+            UInt64 retId = 0;
 
             try
             {
@@ -875,7 +873,7 @@ namespace Database
                     NpgsqlDataReader rd = command.ExecuteReader();
                     while (rd.Read())
                     {
-                        retId = Convert.ToUInt16(rd["ID"]);
+                        retId = Convert.ToUInt64(rd["ID"]);
                     }
                 }
                 else
@@ -896,7 +894,7 @@ namespace Database
             return retId;
         }
 
-        public void deleteQuestion(UInt16 qid)
+        public void deleteQuestion(UInt64 qid)
         {
             if (!connect())
                 return;
@@ -919,7 +917,7 @@ namespace Database
             }
         }
 
-        public void setAnswers(UInt16 qid, DataTable table)
+        public void setAnswers(UInt64 qid, DataTable table)
         {
             if (qid == 0)
             {
@@ -941,7 +939,7 @@ namespace Database
 
                 query = "insert into VK_ANSWER (question_id, id, text, human_value, android_value) values (:qid, :aid, :text, :human, :android)";
 
-                UInt16 aid = 0;
+                UInt64 aid = 0;
                 foreach (DataRow row in table.Rows)
                 {
                     aid++;
@@ -1448,7 +1446,7 @@ namespace Database
                 NpgsqlDataReader rd = command.ExecuteReader();
                 while (rd.Read())
                 {
-                    ret = Convert.ToUInt16(rd["id"]);
+                    ret = Convert.ToUInt64(rd["id"]);
                 }
 
             }

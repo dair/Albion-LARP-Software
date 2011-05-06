@@ -7,7 +7,7 @@ namespace Database
 {
     public class PropertyInfo
     {
-        public UInt16 id = 0;
+        public UInt64 id = 0;
         public String name = null;
         public bool policeVisibility = false;
 

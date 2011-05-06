@@ -73,7 +73,7 @@ namespace Master
             Refresh();
         }
 
-        public UInt16 getCurrentQuestionId()
+        public UInt64 getCurrentQuestionId()
         {
             if (SelectedRows.Count != 1)
             {
@@ -85,15 +85,15 @@ namespace Master
                 return 0;
             }
 
-            return Convert.ToUInt16(SelectedRows[0].Cells[0].Value);
+            return Convert.ToUInt64(SelectedRows[0].Cells[0].Value);
         }
 
-        public void setCurrentQuestionId(UInt16 qid)
+        public void setCurrentQuestionId(UInt64 qid)
         {
             bool somethingSelected = false;
             foreach (DataGridViewRow row in Rows)
             {
-                UInt16 cellId = Convert.ToUInt16(row.Cells[0].Value);
+                UInt64 cellId = Convert.ToUInt64(row.Cells[0].Value);
 
                 if (cellId == qid)
                 {

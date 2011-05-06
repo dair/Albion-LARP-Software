@@ -31,7 +31,7 @@ namespace Master
 
         private void vkQuestionList_SelectionChanged(object sender, EventArgs e)
         {
-            UInt16 qid = vkQuestionList.getCurrentQuestionId();
+            UInt64 qid = vkQuestionList.getCurrentQuestionId();
             if (qid > 0)
             {
                 Database.VKQuestionInfo questionInfo = getDatabase().getQuestionInfo(qid);
@@ -71,7 +71,7 @@ namespace Master
 
         private void RefreshData()
         {
-            UInt16 qid = vkQuestionList.getCurrentQuestionId();
+            UInt64 qid = vkQuestionList.getCurrentQuestionId();
             vkQuestionList.SelectionChanged -= vkQuestionList_SelectionChanged;
             vkQuestionList.Retrieve();
             vkQuestionList.SelectionChanged += vkQuestionList_SelectionChanged;
@@ -137,7 +137,7 @@ namespace Master
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            UInt16 qid = vkQuestionList.getCurrentQuestionId();
+            UInt64 qid = vkQuestionList.getCurrentQuestionId();
             if (qid == 0)
             {
                 MessageBox.Show("Нечего удалять", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -155,10 +155,10 @@ namespace Master
         {
             Database.VKQuestionInfo qInfo = new Database.VKQuestionInfo();
 
-            UInt16 qid = 0;
+            UInt64 qid = 0;
             try
             {
-                qid = Convert.ToUInt16((idBox.Text));
+                qid = Convert.ToUInt64((idBox.Text));
             }
             catch (Exception)
             {

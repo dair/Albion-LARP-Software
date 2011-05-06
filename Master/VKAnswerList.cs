@@ -59,7 +59,7 @@ namespace Master
             this.ResumeLayout(false);
         }
 
-        public void Retrieve(UInt16 questionId)
+        public void Retrieve(UInt64 questionId)
         {
             if (database == null)
                 return;
@@ -72,7 +72,7 @@ namespace Master
             Refresh();
        }
 
-        public UInt16 getCurrentAnswerId()
+        public UInt64 getCurrentAnswerId()
         {
             if (SelectedRows.Count != 1)
             {
@@ -84,7 +84,7 @@ namespace Master
                 return 0;
             }
 
-            return Convert.ToUInt16(SelectedRows[0].Cells[0].Value);
+            return Convert.ToUInt64(SelectedRows[0].Cells[0].Value);
         }
 
         public Database.VKAnswerInfo getCurrentAnswerInfo()
@@ -107,16 +107,12 @@ namespace Master
             return info;
         }
 
-        public UInt16 selectedIndex()
+        public int selectedIndex()
         {
-            UInt16 ret = 0;
-            foreach (DataGridViewRow row in Rows)
-            {
-                if (row.Selected)
-                    break;
-                ret++;
-            }
-            return ret;
+            if (SelectedRows.Count != 1)
+                return 0;
+
+            return SelectedRows[0].Index;
         }
 
     }

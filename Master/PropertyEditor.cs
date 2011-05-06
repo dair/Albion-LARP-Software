@@ -73,7 +73,7 @@ namespace Master
             }
 
             Database.PropertyInfo propertyInfo = new Database.PropertyInfo();
-            propertyInfo.id = Convert.ToUInt16(dataGridView.SelectedRows[0].Cells[0].Value);
+            propertyInfo.id = Convert.ToUInt64(dataGridView.SelectedRows[0].Cells[0].Value);
             propertyInfo.name = Convert.ToString(dataGridView.SelectedRows[0].Cells[1].Value);
             propertyInfo.policeVisibility = Convert.ToBoolean(dataGridView.SelectedRows[0].Cells[2].Value);
 

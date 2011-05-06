@@ -7,7 +7,7 @@ namespace Database
 {
     public class PersonProperty
     {
-        public UInt16 propertyId;
+        public UInt64 propertyId;
         public String propName;
         public String value;
     }
