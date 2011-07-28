@@ -26,6 +26,7 @@ namespace CashDesk
         {
             //base.Init(args);
             infoLabel.Text = "";
+            codeBox.Text = "";
         }
 
         public override void BarCodeScanned(ulong code)

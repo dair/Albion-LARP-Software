@@ -39,6 +39,7 @@
             this.verticalProgressBar.ForeColor = System.Drawing.Color.DarkRed;
             this.verticalProgressBar.Location = new System.Drawing.Point(755, 0);
             this.verticalProgressBar.Name = "verticalProgressBar";
+            this.verticalProgressBar.RealValue = 0;
             this.verticalProgressBar.Shaking = false;
             this.verticalProgressBar.Size = new System.Drawing.Size(45, 600);
             this.verticalProgressBar.TabIndex = 0;
@@ -54,6 +55,7 @@
             this.score.Size = new System.Drawing.Size(35, 13);
             this.score.TabIndex = 1;
             this.score.Text = "label1";
+            this.score.Visible = false;
             // 
             // middle
             // 
@@ -64,6 +66,7 @@
             this.middle.Size = new System.Drawing.Size(81, 13);
             this.middle.TabIndex = 2;
             this.middle.Text = "label1";
+            this.middle.Visible = false;
             // 
             // VKForm
             // 

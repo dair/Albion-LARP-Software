@@ -36,7 +36,7 @@ namespace ATM
             base.Init(args);
 
             newsTable = new DataTable();
-            moveTimer.Interval = 20;
+            moveTimer.Interval = 50;
             moveTimer.Tick += new EventHandler(moveTimer_Tick);
             moveTimer.Start();
 

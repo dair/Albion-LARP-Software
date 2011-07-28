@@ -30,7 +30,7 @@
         {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.dbSettingsView = new UI.DBSettingsView();
+            this.dbSettingsView = new UI.DBSettingsView(getDatabase());
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.testTextBox = new System.Windows.Forms.TextBox();
             this.testBarCodeButton = new System.Windows.Forms.Button();

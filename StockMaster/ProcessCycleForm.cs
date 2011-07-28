@@ -32,12 +32,14 @@ namespace StockMaster
             if (table != null)
             {
                 dataGridView.DataSource = table;
-
+                dataGridView.ReadOnly = false;
                 dataGridView.Columns["ID"].ReadOnly = true;
+                dataGridView.Columns["NAME"].ReadOnly = true;
                 dataGridView.Columns["TICKER"].ReadOnly = true;
                 dataGridView.Columns["OPERATION"].ReadOnly = true;
                 dataGridView.Columns["QTY"].ReadOnly = true;
                 dataGridView.Columns["BROKER"].ReadOnly = true;
+                dataGridView.Columns["RESULT"].ReadOnly = false;
 
             }
         }

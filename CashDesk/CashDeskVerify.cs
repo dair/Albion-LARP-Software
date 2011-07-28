@@ -71,7 +71,7 @@ namespace CashDesk
 
                 UInt64 cashDeskId = Settings.CashDesk.GetPersonId();
 
-                bool res = getDatabase().moneyTransfer(info.id, cashDeskId, amount, amount / 5);
+                bool res = getDatabase().moneyTransfer(info.id, cashDeskId, amount, amount / 2);
 
                 if (res)
                 {

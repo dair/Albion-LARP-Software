@@ -39,11 +39,9 @@
             this.queryBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.queryBox.BackColor = System.Drawing.Color.Black;
-            this.queryBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.queryBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.queryBox.ForeColor = System.Drawing.Color.White;
             this.queryBox.Location = new System.Drawing.Point(366, 187);
-            this.queryBox.MaxLength = 5;
             this.queryBox.Name = "queryBox";
             this.queryBox.Size = new System.Drawing.Size(418, 62);
             this.queryBox.TabIndex = 12;

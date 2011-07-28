@@ -13,7 +13,6 @@ namespace UI
     public partial class PersonList : DataGridView, IDBObject
     {
         private Database.Connection database = null;
-        private BindingSource bindingSource = null;
 
         public PersonList()
             : base()
@@ -28,9 +27,6 @@ namespace UI
             if (database == null)
                 return;
             InitializeComponent();
-
-            bindingSource = new BindingSource();
-            DataSource = bindingSource;
         }
 
         public Database.Connection getDatabase()
@@ -45,7 +41,7 @@ namespace UI
 
             DataTable dataTable = new DataTable();
             database.fillWithPersons(dataTable);
-            bindingSource.DataSource = dataTable;
+            DataSource = dataTable;
 
             AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
         }

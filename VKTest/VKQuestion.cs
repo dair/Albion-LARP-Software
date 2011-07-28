@@ -54,6 +54,7 @@ namespace VKTest
             questionNumLabel.Text = "Вопрос №" + Convert.ToString(questionNum + 1);
             bindingSource.DataSource = table;
             dataGridView.Columns[0].Visible = false;
+            dataGridView.AutoResizeRows();
 
         }
 

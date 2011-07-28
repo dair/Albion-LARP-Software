@@ -354,11 +354,11 @@ namespace StockMaster
 
                     if (op == "B")
                     {
-                        getDatabase().buyRequestFulfill(reqId, personId, ticker, qty, result);
+                        getDatabase().buyRequestFulfill2(reqId, personId, ticker, qty, result);
                     }
                     else
                     {
-                        getDatabase().sellRequestFulfill(reqId, personId);
+                        getDatabase().sellRequestFulfill2(reqId, personId, ticker, qty, result);
                     }
                 }
             }

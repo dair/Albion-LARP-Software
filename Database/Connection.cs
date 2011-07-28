@@ -19,9 +19,12 @@ namespace Database
         private String database = null;
         private Exception lastException = null;
         NpgsqlConnection connection = null;
+        private bool invalid = false;
+        System.Windows.Forms.Timer validateTimer = new System.Windows.Forms.Timer();
 
         public Connection()
         {
+            invalid = false;
         }
 
         public Exception getLastException()
@@ -72,6 +75,7 @@ namespace Database
                 lastException = null;
                 connection.Open();
                 ret = true;
+                invalid = false;
             }
             catch (NpgsqlException ex)
             {
@@ -95,8 +99,11 @@ namespace Database
             {
                 Logger.Logging.log(ex.ToString());
 
-
-                System.Windows.Forms.MessageBox.Show(ex.ToString(), "Ошибка!", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                if (!invalid)
+                {
+                    System.Windows.Forms.MessageBox.Show(ex.ToString(), "Ошибка!", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    invalid = true;
+                }
             }
         }
 
@@ -1085,11 +1092,11 @@ namespace Database
                 return false;
             bool ret = false;
 
-            begin();
-
             String query = "UPDATE MONEY SET BALANCE = BALANCE - :amount WHERE ID = :id";
             try
             {
+                begin();
+
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
                 command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
                 command.Parameters["id"].Value = senderId;
@@ -2130,12 +2137,14 @@ namespace Database
                 command.Parameters["price"].Value = price;
                 command.ExecuteNonQuery();
 
-                query = "SELECT PERSON_ID, QUANTITY FROM STOCK_OWNER WHERE PERSON_ID = :pid1 OR PERSON_ID = :pid2";
+                query = "SELECT PERSON_ID, QUANTITY FROM STOCK_OWNER WHERE (PERSON_ID = :pid1 OR PERSON_ID = :pid2) AND key = :ticker";
                 command = new NpgsqlCommand(query, connection);
                 command.Parameters.Add("pid1", NpgsqlTypes.NpgsqlDbType.Numeric);
                 command.Parameters["pid1"].Value = seller;
                 command.Parameters.Add("pid2", NpgsqlTypes.NpgsqlDbType.Numeric);
                 command.Parameters["pid2"].Value = buyer;
+                command.Parameters.Add("ticker", NpgsqlTypes.NpgsqlDbType.Varchar);
+                command.Parameters["ticker"].Value = ticker;
 
                 NpgsqlDataReader rd = command.ExecuteReader();
                 while (rd.Read())
@@ -2410,7 +2419,6 @@ namespace Database
 
                 totalQty += qty;
 
-
                 query = "INSERT INTO STOCK_REQUEST " +
                     "(PERSON_ID, CYCLE_ID, COMPANY_KEY, OPERATION, QUANTITY) " +
                     "VALUES (:pid, :cid, :ticker, :op, :qty)";
@@ -2574,7 +2582,7 @@ namespace Database
                 begin();
                 // добавить денег
                 String query = "UPDATE MONEY SET BALANCE = " +
-                    "BALANCE + (SELECT R.QUANTITY*Q.PRICE FROM stock_request R, STOCK_QUOTE Q WHERE R.REQ_ID = :rid AND R.CYCLE_ID = Q.CYCLE_ID AND R.COMPANY_KEY = Q.COMPANY_KEY) WHERE ID = :pid";
+                    "BALANCE + (SELECT R.QUANTITY*Q.PRICE FROM stock_request R, STOCK_QUOTE Q WHERE R.ID = :rid AND R.CYCLE_ID = Q.CYCLE_ID AND R.COMPANY_KEY = Q.COMPANY_KEY) WHERE ID = :pid";
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
                 command.Parameters.Add("pid", NpgsqlTypes.NpgsqlDbType.Numeric);
                 command.Parameters["pid"].Value = personId;
@@ -2641,6 +2649,135 @@ namespace Database
             }
         }
 
+        public void sellRequestFulfill2(UInt64 reqId, UInt64 personId, 
+                                        String ticker, UInt64 asked, UInt64 given)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                begin();
+
+                // Даём бабла
+                String query = "UPDATE MONEY SET BALANCE = " +
+                    "BALANCE + (SELECT (:given)*Q.PRICE FROM stock_request R, STOCK_QUOTE Q WHERE R.ID = :rid AND R.CYCLE_ID = Q.CYCLE_ID AND R.COMPANY_KEY = Q.COMPANY_KEY) WHERE ID = :pid";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("pid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["pid"].Value = personId;
+                command.Parameters.Add("rid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["rid"].Value = reqId;
+                command.Parameters.Add("given", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["given"].Value = given;
+                command.ExecuteNonQuery();
+
+                if (asked > given)
+                {
+                    // ОСТАТОК ПЕРЕНОСИМ НА СЛЕДУЮЩИЙ ЦЫКЛ
+                    query = "INSERT INTO STOCK_REQUEST (PERSON_ID, CYCLE_ID, COMPANY_KEY, RTIME, STATUS, OPERATION, QUANTITY) " +
+                        "SELECT PERSON_ID, CYCLE_ID, COMPANY_KEY, RTIME, 'W', OPERATION, :qty FROM STOCK_REQUEST WHERE ID = :rid";
+                    command = new NpgsqlCommand(query, connection);
+                    command.Parameters.Add("rid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                    command.Parameters["rid"].Value = reqId;
+                    command.Parameters.Add("qty", NpgsqlTypes.NpgsqlDbType.Numeric);
+                    command.Parameters["qty"].Value = asked - given;
+                    command.ExecuteNonQuery();
+                }
+
+                setRequestStatusRaw(reqId, "H");
+
+                commit();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+        }
+
+        public void buyRequestFulfill2(UInt64 reqId, UInt64 personId, 
+                                       String ticker, UInt64 asked, UInt64 given)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                begin();
+                // Добавить акций
+                String query = "SELECT QUANTITY FROM STOCK_OWNER WHERE PERSON_ID = :pid AND KEY = :ticker";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("pid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["pid"].Value = personId;
+                command.Parameters.Add("ticker", NpgsqlTypes.NpgsqlDbType.Varchar);
+                command.Parameters["ticker"].Value = ticker;
+                UInt64 existingQty = 0;
+                NpgsqlDataReader rd = command.ExecuteReader();
+                bool update = false;
+                while (rd.Read())
+                {
+                    existingQty += Convert.ToUInt64(rd["QUANTITY"]);
+                    update = true;
+                }
+                rd.Close();
+
+                if (update)
+                {
+                    query = "UPDATE STOCK_OWNER SET QUANTITY = QUANTITY + :given WHERE PERSON_ID = :pid AND KEY = :ticker";
+                }
+                else
+                {
+                    query = "INSERT INTO STOCK_OWNER (PERSON_ID, KEY, QUANTITY) VALUES (:pid, :ticker, :given)";
+                }
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("pid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["pid"].Value = personId;
+                command.Parameters.Add("ticker", NpgsqlTypes.NpgsqlDbType.Varchar);
+                command.Parameters["ticker"].Value = ticker;
+                command.Parameters.Add("given", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["given"].Value = given;
+                command.ExecuteNonQuery();
+
+                if (asked > given)
+                {
+                    UInt64 quote = 0;
+                    // вернуть бабло
+                    query = "SELECT Q.PRICE FROM STOCK_QUOTE Q, STOCK_REQUEST R WHERE R.ID = :rid AND Q.CYCLE_ID = R.CYCLE_ID AND Q.COMPANY_KEY = R.COMPANY_KEY";
+                    command = new NpgsqlCommand(query, connection);
+                    command.Parameters.Add("rid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                    command.Parameters["rid"].Value = reqId;
+                    while (rd.Read())
+                    {
+                        quote = Convert.ToUInt64(rd["PRICE"]);
+                    }
+                    rd.Close();
+
+                    query = "UPDATE MONEY SET BALANCE = BALANCE + :amount WHERE ID = :pid";
+                    command = new NpgsqlCommand(query, connection);
+                    command.Parameters.Add("pid", NpgsqlTypes.NpgsqlDbType.Numeric);
+                    command.Parameters["pid"].Value = personId;
+                    command.Parameters.Add("amount", NpgsqlTypes.NpgsqlDbType.Numeric);
+                    command.Parameters["amount"].Value = quote * (asked - given);
+                    command.ExecuteNonQuery();
+                }
+                setRequestStatusRaw(reqId, "H");
+
+                commit();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
         public void searchInfo(String searchStr, DataTable table)
         {
             table.Clear();
@@ -2660,7 +2797,7 @@ namespace Database
 
             try
             {
-                String query = "SELECT ID, NAME, TXT FROM ((SELECT ID, NAME, 'Код' AS TXT FROM PERSON WHERE cast(ID as varchar(10)) LIKE :str) UNION (SELECT ID, NAME, 'Имя' AS TXT FROM PERSON WHERE NAME LIKE :str) UNION (SELECT P.ID, P.NAME, PROP.NAME AS TXT FROM PERSON P, PERSON_PROP PP, PROPERTY PROP WHERE P.ID = PP.PERS_ID AND PP.VALUE LIKE :str AND PP.PROP_ID = PROP.ID AND PROP.POLICE = 'Y')) AS S";
+                String query = "SELECT ID, NAME, TXT FROM ((SELECT ID, NAME, 'Код' AS TXT FROM PERSON WHERE cast(ID as varchar(10)) LIKE :str) UNION (SELECT ID, NAME, 'Имя' AS TXT FROM PERSON WHERE UPPER(NAME) LIKE UPPER(:str)) UNION (SELECT P.ID, P.NAME, PROP.NAME AS TXT FROM PERSON P, PERSON_PROP PP, PROPERTY PROP WHERE P.ID = PP.PERS_ID AND UPPER(PP.VALUE) LIKE UPPER(:str) AND PP.PROP_ID = PROP.ID AND PROP.POLICE = 'Y')) AS S";
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
                 command.Parameters.Add("str", NpgsqlTypes.NpgsqlDbType.Varchar);
                 command.Parameters["str"].Value = s;
