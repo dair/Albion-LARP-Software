@@ -33,8 +33,9 @@
             // 
             // pictureLogo
             // 
-            this.pictureLogo.Image = global::ATM.Properties.Resources.sf_seal_orig_gold_large;
+            this.pictureLogo.Image = global::ATM.Properties.Resources.UW_logo_black_bkg;
             this.pictureLogo.Size = new System.Drawing.Size(357, 357);
+            this.pictureLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             // 
             // ATMObject
             // 

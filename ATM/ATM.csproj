@@ -72,6 +72,12 @@
     <Compile Include="ATMForm.Designer.cs">
       <DependentUpon>ATMForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ATMHistory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ATMHistory.Designer.cs">
+      <DependentUpon>ATMHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="ATMObject.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -96,12 +102,6 @@
     <Compile Include="ATMStart.Designer.cs">
       <DependentUpon>ATMStart.cs</DependentUpon>
     </Compile>
-    <Compile Include="ATMStockStart.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ATMStockStart.Designer.cs">
-      <DependentUpon>ATMStockStart.cs</DependentUpon>
-    </Compile>
     <Compile Include="ATMTransfer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -114,59 +114,11 @@
     <Compile Include="ATMVerify.designer.cs">
       <DependentUpon>ATMVerify.cs</DependentUpon>
     </Compile>
-    <Compile Include="CycleInfoBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="CycleInfoBar.Designer.cs">
-      <DependentUpon>CycleInfoBar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockAddOperation.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockAddOperation.Designer.cs">
-      <DependentUpon>StockAddOperation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockAddQty.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockAddQty.Designer.cs">
-      <DependentUpon>StockAddQty.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockAddRequestTicker.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockAddRequestTicker.Designer.cs">
-      <DependentUpon>StockAddRequestTicker.cs</DependentUpon>
-    </Compile>
     <Compile Include="NewsItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="NewsItem.Designer.cs">
       <DependentUpon>NewsItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockDeleteRequestConfirmation.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockDeleteRequestConfirmation.Designer.cs">
-      <DependentUpon>StockDeleteRequestConfirmation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockDirectConfirmation.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockDirectConfirmation.Designer.cs">
-      <DependentUpon>StockDirectConfirmation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockDirectPinCode.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockDirectPinCode.designer.cs">
-      <DependentUpon>StockDirectPinCode.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockDirectPrice.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockDirectPrice.Designer.cs">
-      <DependentUpon>StockDirectPrice.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -178,6 +130,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ATMForm.resx">
       <DependentUpon>ATMForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ATMHistory.resx">
+      <DependentUpon>ATMHistory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ATMObject.resx">
       <DependentUpon>ATMObject.cs</DependentUpon>
@@ -191,67 +146,19 @@
     <EmbeddedResource Include="ATMStart.resx">
       <DependentUpon>ATMStart.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ATMStockStart.resx">
-      <DependentUpon>ATMStockStart.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ATMTransfer.resx">
       <DependentUpon>ATMTransfer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ATMVerify.resx">
       <DependentUpon>ATMVerify.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CycleInfoBar.resx">
-      <DependentUpon>CycleInfoBar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockAddOperation.resx">
-      <DependentUpon>StockAddOperation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockAddQty.resx">
-      <DependentUpon>StockAddQty.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockAddRequestTicker.resx">
-      <DependentUpon>StockAddRequestTicker.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="NewsItem.resx">
       <DependentUpon>NewsItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockDeleteRequestConfirmation.resx">
-      <DependentUpon>StockDeleteRequestConfirmation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockDirectConfirmation.resx">
-      <DependentUpon>StockDirectConfirmation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockDirectPinCode.resx">
-      <DependentUpon>StockDirectPinCode.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockDirectPrice.resx">
-      <DependentUpon>StockDirectPrice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockDirectQty.resx">
-      <DependentUpon>StockDirectQty.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockDirectRecipient.resx">
-      <DependentUpon>StockDirectRecipient.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockDirectShare.resx">
-      <DependentUpon>StockDirectShare.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockNews.resx">
-      <DependentUpon>StockNews.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockRequests.resx">
-      <DependentUpon>StockRequests.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockWidget.resx">
-      <DependentUpon>StockWidget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockWidgetLine.resx">
-      <DependentUpon>StockWidgetLine.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -266,48 +173,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="StockDirectQty.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockDirectQty.Designer.cs">
-      <DependentUpon>StockDirectQty.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockDirectRecipient.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockDirectRecipient.Designer.cs">
-      <DependentUpon>StockDirectRecipient.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockDirectShare.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockDirectShare.Designer.cs">
-      <DependentUpon>StockDirectShare.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockNews.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockNews.Designer.cs">
-      <DependentUpon>StockNews.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockRequests.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockRequests.Designer.cs">
-      <DependentUpon>StockRequests.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockWidget.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockWidget.Designer.cs">
-      <DependentUpon>StockWidget.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StockWidgetLine.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StockWidgetLine.Designer.cs">
-      <DependentUpon>StockWidgetLine.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -344,6 +209,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UW_logo_black_bkg.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

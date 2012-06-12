@@ -44,7 +44,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(434, 127);
             this.label1.TabIndex = 12;
-            this.label1.Text = "Добро пожаловать в финансовую систему Сан-Франциско!";
+            this.label1.Text = "Добро пожаловать в финансовую систему Висконсинского университета";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
@@ -68,7 +68,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(429, 29);
             this.label3.TabIndex = 14;
-            this.label3.Text = "(Однократно и кратковременно нажмите кнопку на сканере)";
+            this.label3.Text = "(нажмите кнопку на сканере)";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // infoLabel

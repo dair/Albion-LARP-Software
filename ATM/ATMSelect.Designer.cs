@@ -56,7 +56,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(424, 46);
             this.label1.TabIndex = 15;
-            this.label1.Text = "1. Состояние счёта и активы";
+            this.label1.Text = "1. Состояние счёта";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label3
@@ -80,7 +80,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(424, 46);
             this.label4.TabIndex = 17;
-            this.label4.Text = "3. Операции с ценными бумагами";
+            this.label4.Text = "3. История операций";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ATMSelect

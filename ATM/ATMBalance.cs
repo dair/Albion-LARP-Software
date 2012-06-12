@@ -48,18 +48,6 @@ namespace ATM
             decimal inDollars = (decimal)info.balance / 100;
 
             balanceLabel.Text = "$" + inDollars.ToString("N");
-
-            DataTable table = new DataTable();
-            getDatabase().fillSharesByPerson(info.id, table);
-
-            foreach (DataRow row in table.Rows)
-            {
-                System.Console.WriteLine(Convert.ToString(row["TICKER"]) + ": " + Convert.ToString(row["SHARE"]));
-            }
-
-            dataGridView.DataSource = table;
-            dataGridView.Refresh();
-            dataGridView.Columns["NAME"].Visible = false;
         }
 
         public override void OnKeyDown(object sender, KeyEventArgs e)

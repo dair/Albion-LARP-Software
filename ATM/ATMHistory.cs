@@ -1,5 +1,5 @@
 ﻿/* ***********************************************************************
- * (C) 2008-2011 Vladimir Lebedev-Schmidthof <vladimir@schmidthof.com>
+ * (C) 2008-2012 Vladimir Lebedev-Schmidthof <vladimir@schmidthof.com>
  * Made for Albion Games (http://albiongames.org)
  * 
  * 
@@ -26,18 +26,17 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ClientUI;
 
 namespace ATM
 {
-    public partial class ATMSelect : ATMObject
+    public partial class ATMHistory : ATMObject
     {
-        public ATMSelect()
+        public ATMHistory()
         {
             InitializeComponent();
         }
 
-        public ATMSelect(Database.Connection db)
+        public ATMHistory(Database.Connection db)
             : base(db)
         {
             InitializeComponent();
@@ -46,34 +45,33 @@ namespace ATM
         public override void Init(ClientUI.UserObjectEventArgs args)
         {
             base.Init(args);
-        }
 
-        private void NextObject(String code)
-        {
-            UserObjectEventArgs args = new UserObjectEventArgs();
-            args.NextObject = code;
-            args.data["PERSON_INFO"] = info;
-            RaiseNextObjectEvent(args);
-        }
+            DataTable dt = new DataTable();
+            getDatabase().fillWithHistory(info.id, dt);
 
-        public override void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Modifiers == Keys.None)
+            dataGridView.Rows.Clear();
+
+            foreach (DataRow row in dt.Rows)
             {
-                switch (e.KeyCode)
+                String smb = ">";
+                if (Convert.ToString(row["INOUT"]) == "IN")
+                    smb = "<";
+                int rownum = dataGridView.Rows.Add(row["TIME"], smb, row["AMOUNT"], row["USER"]);
+                if (Convert.ToString(row["INOUT"]) == "IN")
                 {
-                    case Keys.D1:
-                        NextObject("BALANCE");
-                        break;
-                    case Keys.D2:
-                        NextObject("TRANSFER");
-                        break;
-                    case Keys.D3:
-                        NextObject("HISTORY");
-                        break;
+                    dataGridView.Rows[rownum].Cells["INOUT"].Style.ForeColor = Color.Green;
                 }
+                else
+                {
+                    dataGridView.Rows[rownum].Cells["INOUT"].Style.ForeColor = Color.Red;
+                }
+
             }
-            base.OnKeyDown(sender, e);
+        }
+
+        private void dataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            OnKeyDown(sender, e);
         }
     }
 }
