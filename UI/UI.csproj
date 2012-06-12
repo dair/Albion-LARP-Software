@@ -104,6 +104,12 @@
     <Compile Include="DBSettingsView.designer.cs">
       <DependentUpon>DBSettingsView.cs</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedBarcodeSettingsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AdvancedBarcodeSettingsView.Designer.cs">
+      <DependentUpon>AdvancedBarcodeSettingsView.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Database\Database.csproj">
@@ -116,6 +122,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AdvancedBarcodeSettingsView.resx">
+      <DependentUpon>AdvancedBarcodeSettingsView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BaseTableView.resx">
       <DependentUpon>BaseTableView.cs</DependentUpon>
     </EmbeddedResource>

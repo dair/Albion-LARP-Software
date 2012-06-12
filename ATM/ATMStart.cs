@@ -28,6 +28,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using ClientUI;
+using Logger;
 
 namespace ATM
 {
@@ -40,7 +41,7 @@ namespace ATM
         {
             InitializeComponent();
             escLabel.Hide();
-            infoLabel.KeyDown += new KeyEventHandler(infoLabel_KeyDown);
+//            infoLabel.KeyDown += new KeyEventHandler(infoLabel_KeyDown);
         }
 
 
@@ -144,6 +145,13 @@ namespace ATM
             {
                 OnKeyDown(sender, e);
             }
+        }
+
+        private void infoLabel_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            Logging.log("infoLabel_PreviewKeyDown\n");
+
+            //logging.log("aaa");
         }
     }
 }

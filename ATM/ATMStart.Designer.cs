@@ -32,6 +32,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.infoLabel = new System.Windows.Forms.TextBox();
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.wpfTextBox = new ATM.WPFTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,11 +82,23 @@
             this.infoLabel.Name = "infoLabel";
             this.infoLabel.Size = new System.Drawing.Size(347, 31);
             this.infoLabel.TabIndex = 15;
+            this.infoLabel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.infoLabel_KeyDown);
+            this.infoLabel.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.infoLabel_PreviewKeyDown);
+            // 
+            // elementHost1
+            // 
+            this.elementHost1.Location = new System.Drawing.Point(404, 195);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(347, 66);
+            this.elementHost1.TabIndex = 16;
+            this.elementHost1.Text = "elementHost";
+            this.elementHost1.Child = this.wpfTextBox;
             // 
             // ATMStart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.elementHost1);
             this.Controls.Add(this.infoLabel);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -96,6 +110,7 @@
             this.Controls.SetChildIndex(this.label2, 0);
             this.Controls.SetChildIndex(this.label3, 0);
             this.Controls.SetChildIndex(this.infoLabel, 0);
+            this.Controls.SetChildIndex(this.elementHost1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -108,5 +123,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox infoLabel;
+        private System.Windows.Forms.Integration.ElementHost elementHost1;
+        private WPFTextBox wpfTextBox;
     }
 }

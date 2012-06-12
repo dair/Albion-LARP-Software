@@ -63,7 +63,10 @@ namespace ATM
 
         void showMainWindow()
         {
-            RC = new BarCode.ReaderControl();
+            if (!Settings.BarCode.NewType())
+            {
+                RC = new BarCode.ReaderControl();
+            }
 
             database.setIpAddress(Settings.Database.GetDBHost());
             database.setDatabase(Settings.Database.GetDBName());
@@ -75,6 +78,8 @@ namespace ATM
             mainForm.Closed += new EventHandler(mainForm_Closed);
 
             mainForm.Show();
+            logger.Show();
+
         }
 
         // ----------------------------------------------------------
