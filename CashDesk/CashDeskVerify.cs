@@ -31,7 +31,6 @@ namespace CashDesk
 {
     public partial class CashDeskVerify : CashDeskObject
     {
-        private bool waiting;
         private string welcome1, amountString, commitString;
         private UInt64 amount;
 
@@ -52,7 +51,6 @@ namespace CashDesk
         public override void Init(UserObjectEventArgs args)
         {
             base.Init(args);
-            waiting = true;
             commitLabel.Text = commitString;
             commitLabel.ForeColor = Color.White;
 
@@ -60,6 +58,16 @@ namespace CashDesk
 
             senderLabel.Text = welcome1.Replace("NAMEHERE", info.name);
             amountLabel.Text = amountString.Replace("AMOUNTHERE", moneyToString(amount));
+
+            label1.Show();
+            amountLabel.Show();
+            pinBox.Show();
+            pinBox.Text = "";
+            commitLabel.Show();
+            wrongLabel.Hide();
+            remainLabel.Hide();
+
+            pinBox.Focus();
         }
 
         public override void Deinit()
@@ -72,6 +80,132 @@ namespace CashDesk
             
         }
 
+        private String remainText(int count)
+        {
+            String ret = "Осталось ";
+            switch (count)
+            {
+                case 0:
+                    ret += "0 попыток";
+                    break;
+                case 1:
+                    ret += "1 попытка";
+                    break;
+                default:
+                    ret += Convert.ToString(count) + " попытки";
+                    break;
+            }
+            return ret;
+        }
+
+        private void TimerEventAccept(Object myObject, EventArgs myEventArgs)
+        {
+            myTimer.Stop();
+            myTimer.Tick -= TimerEventAccept;
+
+            UInt64 cashDeskId = Settings.CashDesk.GetPersonId();
+
+            bool res = getDatabase().moneyTransfer(info.id, cashDeskId, amount, amount / 2);
+
+            if (res)
+            {
+                commitLabel.Text = "Платёж осуществлён";
+                commitLabel.ForeColor = Color.Green;
+            }
+            else
+            {
+                commitLabel.Text = "Ошибка платежа";
+                commitLabel.ForeColor = Color.Red;
+            }
+            myTimer.Tick += NextTimerProcessor;
+            myTimer.Interval = 2000;
+            myTimer.Start();
+        }
+
+        private void TimerEventReject(Object myObject, EventArgs myEventArgs)
+        {
+            myTimer.Stop();
+            myTimer.Tick -= TimerEventReject;
+            pinBox.Text = "";
+            UserObjectEventArgs args = new UserObjectEventArgs();
+            if (info.failures == 2)
+            {
+                args.NextObject = "START";
+            }
+            else
+            {
+                args.data["AMOUNT"] = amount;
+                args.NextObject = "VERIFY";
+            }
+
+            RaiseNextObjectEvent(args);
+        }
+
+        private void InputEventProcessor(Object myObject, EventArgs myEventArgs)
+        {
+            myTimer.Stop();
+            myTimer.Tick -= InputEventProcessor;
+
+            string localPin = pinBox.Text.ToUpper();
+            string globalPin = info.pinCode.ToUpper();
+
+            if (localPin == globalPin)
+            {
+                getDatabase().CorrectPinEntered(info.id);
+                myTimer.Tick += TimerEventAccept;
+                myTimer.Interval = 1;
+            }
+            else
+            {
+                getDatabase().WrongPinEntered(info.id);
+                myTimer.Tick += TimerEventReject;
+                myTimer.Interval = 2000;
+                remainLabel.Text = remainText(2 - info.failures);
+
+                label1.Hide();
+                amountLabel.Hide();
+                pinBox.Hide();
+                commitLabel.Hide();
+                wrongLabel.Show();
+                remainLabel.Show();
+            }
+
+            myTimer.Start();
+        }
+
+        public void pinBox_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && e.Modifiers == Keys.None)
+            {
+                (ParentForm as ClientForm).RecordActivity();
+                //MessageBox.Show("ENTER!!!");
+                e.Handled = true;
+                myTimer.Tick += InputEventProcessor;
+                myTimer.Interval = 1;
+                myTimer.Start();
+                //InputEventProcessor();
+            }
+            else if ((e.KeyCode == Keys.D0 ||
+                e.KeyCode == Keys.D1 ||
+                e.KeyCode == Keys.D2 ||
+                e.KeyCode == Keys.D3 ||
+                e.KeyCode == Keys.D4 ||
+                e.KeyCode == Keys.D5 ||
+                e.KeyCode == Keys.D6 ||
+                e.KeyCode == Keys.D7 ||
+                e.KeyCode == Keys.D8 ||
+                e.KeyCode == Keys.D9) && e.Modifiers == Keys.None)
+            {
+                (ParentForm as ClientForm).RecordActivity();
+                e.Handled = true;
+            }
+            else
+            {
+                OnKeyDown(sender, e);
+            }
+        }
+
+
         private void NextTimerProcessor(object sender, EventArgs e)
         {
             myTimer.Stop();
@@ -80,35 +214,6 @@ namespace CashDesk
             UserObjectEventArgs args = new UserObjectEventArgs();
             args.NextObject = "START";
             RaiseNextObjectEvent(args);
-        }
-
-        public override void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter && e.Modifiers == Keys.None)
-            {
-                if (!waiting) return;
-                waiting = false;
-
-                UInt64 cashDeskId = Settings.CashDesk.GetPersonId();
-
-                bool res = getDatabase().moneyTransfer(info.id, cashDeskId, amount, amount / 2);
-
-                if (res)
-                {
-                    commitLabel.Text = "Платёж осуществлён";
-                    commitLabel.ForeColor = Color.Green;
-                }
-                else
-                {
-                    commitLabel.Text = "Ошибка платежа";
-                    commitLabel.ForeColor = Color.Red;
-                }
-                myTimer.Tick += NextTimerProcessor;
-                myTimer.Interval = 2000;
-                myTimer.Start();
-            }
-
-            base.OnKeyDown(sender, e);
         }
     }
 }

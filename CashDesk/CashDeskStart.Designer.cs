@@ -47,7 +47,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(800, 76);
             this.label2.TabIndex = 14;
-            this.label2.Text = "Пожалуйста, поднесите браслет клиента к сканеру";
+            this.label2.Text = "Пожалуйста, поднесите карту клиента к сканеру";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // codeBox
@@ -57,7 +57,6 @@
             this.codeBox.ForeColor = System.Drawing.Color.White;
             this.codeBox.Location = new System.Drawing.Point(287, 137);
             this.codeBox.Name = "codeBox";
-            this.codeBox.ReadOnly = true;
             this.codeBox.Size = new System.Drawing.Size(198, 31);
             this.codeBox.TabIndex = 15;
             this.codeBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.codeBox_KeyDown);
@@ -71,7 +70,7 @@
             this.infoLabel.Name = "infoLabel";
             this.infoLabel.Size = new System.Drawing.Size(794, 76);
             this.infoLabel.TabIndex = 16;
-            this.infoLabel.Text = "Пожалуйста, поднесите ваш браслет к сканеру";
+            this.infoLabel.Text = "Пожалуйста, поднесите карту к сканеру";
             this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // CashDeskStart
