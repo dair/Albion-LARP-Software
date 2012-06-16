@@ -103,38 +103,7 @@ namespace CashDesk
 
         private void codeBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.D0 ||
-                e.KeyCode == Keys.D1 ||
-                e.KeyCode == Keys.D2 ||
-                e.KeyCode == Keys.D3 ||
-                e.KeyCode == Keys.D4 ||
-                e.KeyCode == Keys.D5 ||
-                e.KeyCode == Keys.D6 ||
-                e.KeyCode == Keys.D7 ||
-                e.KeyCode == Keys.D8 ||
-                e.KeyCode == Keys.D9)
-            {
-                e.Handled = true;
-            }
 
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.Handled = true;
-                UInt64 code = 0;
-                try
-                {
-                    code = Convert.ToUInt64(codeBox.Text);
-                    BarCodeScanned(code);
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Неправильно введённый код");
-                }
-            }
-            if (e.Handled == false)
-            {
-                OnKeyDown(sender, e);
-            }
         }
 
     }

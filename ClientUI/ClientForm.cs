@@ -27,6 +27,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+//using System.Windows.
+
 namespace ClientUI
 {
     public partial class ClientForm : UI.DBObjectForm
@@ -36,9 +38,13 @@ namespace ClientUI
         protected String currentObjectKey = null;
         protected ClientSettings settings = null;
         protected BarCode.ReaderControl RC = null;
+        protected BarCode.HIDScanner HID = null;
+
         protected Logger.Logging logger = null;
         protected Timer inactivityTimer = null;
 
+        protected Calibrate calibrateObject = null;
+        private int inactivityTime = 0;
 
         public ClientForm()
         {
@@ -52,17 +58,11 @@ namespace ClientUI
             settings = s;
             RC = r;
             logger = l;
-            if (inactTime > 0)
-            {
-                inactivityTimer = new Timer();
-                inactivityTimer.Tick += new EventHandler(inactivityTimer_Tick);
-                inactivityTimer.Interval = inactTime;
-            }
+            inactivityTime = inactTime;
 
             InitializeComponent();
             if (RC != null)
             {
-                RC.BarCodeObject.BarCodeEvent += new EventHandler<BarCode.BarCodeEventArgs>(HandleBarCodeEvent);
             }
         }
 
@@ -120,6 +120,23 @@ namespace ClientUI
                 !userObjects.ContainsKey(startupObjectKey))
                 return;
 
+            string startKey;
+
+            if (RC != null)
+            {
+                RC.Reload();
+                startKey = startupObjectKey;
+                RC.BarCodeObject.BarCodeEvent += new EventHandler<BarCode.BarCodeEventArgs>(HandleBarCodeEvent);
+            }
+            else
+            {
+                HID = BarCode.HIDScanner.getHIDScanner();
+                calibrateObject = new Calibrate(startupObjectKey);
+                userObjects["BASE_CALIBRATE"] = calibrateObject;
+                startKey = "BASE_CALIBRATE";
+                HID.BarCodeEvent += new EventHandler<BarCode.BarCodeEventArgs>(HandleBarCodeEvent);
+            }
+
             foreach (String key in userObjects.Keys)
             {
                 UserObject obj = userObjects[key];
@@ -128,15 +145,9 @@ namespace ClientUI
                 positionObject(obj);
 
                 obj.Hide();
-
             }
 
-            if (RC != null)
-            {
-                RC.Reload();
-            }
-
-            SetCurrentKey(startupObjectKey, null);
+            SetCurrentKey(startKey, null);
         }
 
         void SetCurrentKey(String newKey, UserObjectEventArgs e)
@@ -150,6 +161,15 @@ namespace ClientUI
             currentObjectKey = newKey;
             if (currentObjectKey != null && userObjects[currentObjectKey] != null)
             {
+                if (currentObjectKey == startupObjectKey && inactivityTimer == null)
+                {
+                    if (inactivityTime > 0)
+                    {
+                        inactivityTimer = new Timer();
+                        inactivityTimer.Tick += new EventHandler(inactivityTimer_Tick);
+                        inactivityTimer.Interval = inactivityTime;
+                    }
+                }
                 userObjects[currentObjectKey].Init(e);
                 userObjects[currentObjectKey].Show();
                 userObjects[currentObjectKey].NextObjectEvent += new EventHandler<UserObjectEventArgs>(HandleNextObjectEvent);
@@ -178,6 +198,20 @@ namespace ClientUI
                 {
                     inactivityTimer.Start();
                 }
+            }
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            bool processed = false;
+            if (HID != null)
+            {
+                processed = HID.ProcessMessage(m);
+            }
+
+            if (!processed)
+            {
+                base.WndProc(ref m);
             }
         }
     }

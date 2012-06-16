@@ -39,6 +39,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Database\bin\Release\Database.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="Settings, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Settings\bin\Release\Settings.dll</HintPath>
@@ -57,8 +59,15 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calibrate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Calibrate.Designer.cs">
+      <DependentUpon>Calibrate.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClientForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +89,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Calibrate.resx">
+      <DependentUpon>Calibrate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ClientForm.resx">
       <DependentUpon>ClientForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -53,13 +53,14 @@
             // codeBox
             // 
             this.codeBox.BackColor = System.Drawing.Color.Black;
+            this.codeBox.Enabled = false;
             this.codeBox.Font = new System.Drawing.Font("Courier New", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.codeBox.ForeColor = System.Drawing.Color.White;
             this.codeBox.Location = new System.Drawing.Point(287, 137);
             this.codeBox.Name = "codeBox";
+            this.codeBox.ReadOnly = true;
             this.codeBox.Size = new System.Drawing.Size(198, 31);
             this.codeBox.TabIndex = 15;
-            this.codeBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.codeBox_KeyDown);
             // 
             // infoLabel
             // 
