@@ -59,7 +59,7 @@ namespace UI
             else
             {
                 Decimal inDollars = moneyInfo.balance;
-                inDollars = inDollars / 100;
+                //inDollars = inDollars / 100;
                 moneyBox.Text = Convert.ToString(inDollars);
                 pinCodeBox.Text = moneyInfo.pinCode;
                 failuresBox.Text = Convert.ToString(moneyInfo.failures);
@@ -74,7 +74,7 @@ namespace UI
             try
             {
                 decimal inDollars = Convert.ToDecimal(moneyBox.Text);
-                ret.balance = (UInt64)(inDollars * 100);
+                ret.balance = (UInt64)(inDollars);
             }
             catch (Exception ex)
             {

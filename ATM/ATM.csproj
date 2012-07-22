@@ -135,6 +135,12 @@
     <Compile Include="ATMVerify.designer.cs">
       <DependentUpon>ATMVerify.cs</DependentUpon>
     </Compile>
+    <Compile Include="ATMTransfeProject.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ATMTransfeProject.designer.cs">
+      <DependentUpon>ATMTransfeProject.cs</DependentUpon>
+    </Compile>
     <Compile Include="NewsItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -172,6 +178,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ATMVerify.resx">
       <DependentUpon>ATMVerify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ATMTransfeProject.resx">
+      <DependentUpon>ATMTransfeProject.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewsItem.resx">
       <DependentUpon>NewsItem.cs</DependentUpon>

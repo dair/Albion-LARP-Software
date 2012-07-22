@@ -35,7 +35,7 @@ namespace CashDesk
 
         public static String moneyToString(UInt64 money)
         {
-            Decimal d = (Decimal)money / 100;
+            Decimal d = (Decimal)money;
             return d.ToString("N");
         }
 

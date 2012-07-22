@@ -113,7 +113,7 @@ namespace CashDesk
             {
                 Decimal dollarAmount = Convert.ToDecimal(amountBox.Text);
 
-                amount = (Int64)(dollarAmount * 100);
+                amount = (Int64)(dollarAmount);
                 if (amount < 0)
                     error = true;
             }

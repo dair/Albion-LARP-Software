@@ -48,6 +48,7 @@ namespace ATM
             userObjects["SELECT"] = new ATMSelect(db);
             userObjects["BALANCE"] = new ATMBalance(db);
             userObjects["TRANSFER"] = new ATMTransfer(db);
+            userObjects["TRANSFER_PROJECT"] = new ATMTransferProject(db);
             userObjects["AMOUNT"] = new ATMAmount(db);
             userObjects["VERIFY"] = new ATMVerify(db);
             userObjects["HISTORY"] = new ATMHistory(db);

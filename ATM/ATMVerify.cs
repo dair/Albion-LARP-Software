@@ -99,7 +99,15 @@ namespace ATM
                 if (!waiting) return;
                 waiting = false;
 
-                bool res = getDatabase().moneyTransfer(info.id, recvInfo.id, amount);
+                bool res = false;
+                if (recvInfo.status == "A")
+                {
+                    res = getDatabase().moneyTransfer(info.id, recvInfo.id, amount);
+                }
+                else if (recvInfo.status == "P")
+                {
+                    res = getDatabase().moneyTransferToProject(info.id, recvInfo.id, amount);
+                }
 
                 if (res)
                 {

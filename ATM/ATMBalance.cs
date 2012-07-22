@@ -45,7 +45,7 @@ namespace ATM
         public override void Init(ClientUI.UserObjectEventArgs args)
         {
             base.Init(args);
-            decimal inDollars = (decimal)info.balance / 100;
+            decimal inDollars = (decimal)info.balance;
 
             balanceLabel.Text = "$" + inDollars.ToString("N");
         }

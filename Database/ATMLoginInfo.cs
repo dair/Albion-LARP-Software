@@ -28,5 +28,6 @@ namespace Database
     public class ATMLoginInfo: MoneyInfo
     {
         public String name;
+        public String status = "A";
     }
 }

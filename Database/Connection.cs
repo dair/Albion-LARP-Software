@@ -776,6 +776,41 @@ namespace Database
             return ret;
         }
 
+        public String ATMProjectName(UInt64 key)
+        {
+            String ret = null;
+            if (key == 0)
+                return ret;
+
+            if (!connect())
+                return ret;
+
+            String query = "SELECT NAME FROM PROJECT WHERE KEY = :key AND STATUS = 'A'";
+
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+            try
+            {
+                command.Parameters.Add(new NpgsqlParameter("key", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters[0].Value = key;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    ret = Convert.ToString(rd["NAME"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return ret;
+        }
+
         public void CorrectPinEntered(UInt64 id)
         {
             if (id == 0)
@@ -869,7 +904,7 @@ namespace Database
                 command.Parameters["amount"].Value = amountToAdd;
                 command.ExecuteNonQuery();
 
-                query = "INSERT INTO MONEY_HISTORY (SENDER_ID, RECEIVER_ID, VALUE) VALUES (:sid, :rid, :amount)";
+                query = "INSERT INTO MONEY_HISTORY (SENDER_ID, RECEIVER_ID, VALUE, TDATE) VALUES (:sid, :rid, :amount, now())";
                 command = new NpgsqlCommand(query, connection);
                 command.Parameters.Add(new NpgsqlParameter("sid", NpgsqlTypes.NpgsqlDbType.Numeric));
                 command.Parameters["sid"].Value = senderId;
@@ -877,6 +912,58 @@ namespace Database
                 command.Parameters["rid"].Value = recvId;
                 command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
                 command.Parameters["amount"].Value = amountToRemove;
+                command.ExecuteNonQuery();
+
+                commit();
+                ret = true;
+            }
+            catch (Exception ex)
+            {
+                rollback();
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return ret;
+        }
+
+        public bool moneyTransferToProject(UInt64 senderId, UInt64 recvId, UInt64 amount)
+        {
+            if (!connect())
+                return false;
+            bool ret = false;
+
+            String query = "UPDATE MONEY SET BALANCE = BALANCE - :amount WHERE ID = :id";
+            try
+            {
+                begin();
+
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["id"].Value = senderId;
+                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["amount"].Value = amount;
+                command.ExecuteNonQuery();
+
+                query = "UPDATE PROJECT SET MONEY = MONEY + :amount WHERE KEY = :id AND STATUS='A'";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["id"].Value = recvId;
+                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["amount"].Value = amount;
+                command.ExecuteNonQuery();
+
+                query = "INSERT INTO MONEY_HISTORY (SENDER_ID, RECEIVER_PROJECT_KEY, VALUE, TDATE) VALUES (:sid, :rid, :amount, now())";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("sid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["sid"].Value = senderId;
+                command.Parameters.Add(new NpgsqlParameter("rid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["rid"].Value = recvId;
+                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["amount"].Value = amount;
                 command.ExecuteNonQuery();
 
                 commit();
@@ -1034,7 +1121,23 @@ namespace Database
 
             try
             {
-                String query = "SELECT H.TDATE, S.ID AS SID, R.ID AS RID, S.NAME AS SNAME, R.NAME AS RNAME, H.VALUE FROM MONEY_HISTORY H, PERSON S, PERSON R WHERE (H.SENDER_ID = :pid OR H.RECEIVER_ID = :pid) AND H.SENDER_ID = S.ID AND H.RECEIVER_ID = R.ID ORDER BY H.TDATE ASC";
+
+                String query = "SELECT TDATE, SID, RID, SNAME, RNAME, VALUE FROM " +
+"((SELECT H.TDATE, S.ID AS SID, R.ID AS RID, S.NAME AS SNAME, R.NAME AS RNAME, H.VALUE FROM MONEY_HISTORY H, PERSON S, PERSON R " + 
+"    WHERE (H.SENDER_ID = :pid OR H.RECEIVER_ID = :pid) AND H.SENDER_ID = S.ID AND H.RECEIVER_ID = R.ID) " +
+"    UNION " +
+"(SELECT H.TDATE, S.ID AS SID, R.KEY AS RID, S.NAME AS SNAME, R.NAME AS RNAME, H.VALUE FROM MONEY_HISTORY H, PERSON S, PROJECT R " +
+"    WHERE " +
+"    S.ID = :pid AND " +
+"    S.ID = H.SENDER_ID AND R.KEY = H.RECEIVER_PROJECT_KEY AND R.STATUS = 'A' " +
+"    ORDER BY H.TDATE ASC) " +
+"    UNION " +
+"(SELECT H.TDATE, S.KEY AS SID, R.ID AS RID, S.NAME AS SNAME, R.NAME AS RNAME, H.VALUE FROM MONEY_HISTORY H, PROJECT S, PERSON R " +
+"    WHERE " +
+"    R.ID = :pid AND " +
+"    R.ID = H.RECEIVER_ID AND S.KEY = H.SENDER_PROJECT_KEY AND S.STATUS = 'A')) AS FOO ORDER BY TDATE ASC";
+
+//                String query = "SELECT H.TDATE, S.ID AS SID, R.ID AS RID, S.NAME AS SNAME, R.NAME AS RNAME, H.VALUE FROM MONEY_HISTORY H, PERSON S, PERSON R WHERE (H.SENDER_ID = :pid OR H.RECEIVER_ID = :pid) AND H.SENDER_ID = S.ID AND H.RECEIVER_ID = R.ID ORDER BY H.TDATE ASC";
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
                 command.Parameters.Add("pid", NpgsqlTypes.NpgsqlDbType.Numeric);
                 command.Parameters["pid"].Value = personId;

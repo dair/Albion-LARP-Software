@@ -69,6 +69,9 @@ namespace ATM
                         NextObject("TRANSFER");
                         break;
                     case Keys.D3:
+                        NextObject("TRANSFER_PROJECT");
+                        break;
+                    case Keys.D4:
                         NextObject("HISTORY");
                         break;
                 }
