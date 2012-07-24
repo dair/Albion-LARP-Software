@@ -41,10 +41,16 @@ namespace Database
         NpgsqlConnection connection = null;
         private bool invalid = false;
         System.Windows.Forms.Timer validateTimer = new System.Windows.Forms.Timer();
+        private bool doMessageBox = true;
 
         public Connection()
         {
             invalid = false;
+        }
+
+        public void setMessageBox(bool m)
+        {
+            doMessageBox = m;
         }
 
         public Exception getLastException()
@@ -121,7 +127,10 @@ namespace Database
 
                 if (!invalid)
                 {
-                    System.Windows.Forms.MessageBox.Show(ex.ToString(), "Ошибка!", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    if (doMessageBox)
+                    {
+                        System.Windows.Forms.MessageBox.Show(ex.ToString(), "Ошибка!", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    }
                     invalid = true;
                 }
             }
@@ -982,6 +991,58 @@ namespace Database
             return ret;
         }
 
+        public bool moneyTransferFromProject(UInt64 senderId, UInt64 recvId, UInt64 amount)
+        {
+            if (!connect())
+                return false;
+            bool ret = false;
+
+            String query = "UPDATE PROJECT SET MONEY = MONEY - :amount WHERE KEY = :id AND STATUS='A'";
+            try
+            {
+                begin();
+
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["id"].Value = senderId;
+                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["amount"].Value = amount;
+                command.ExecuteNonQuery();
+
+                query = "UPDATE MONEY SET BALANCE = BALANCE + :amount WHERE ID = :id";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["id"].Value = recvId;
+                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["amount"].Value = amount;
+                command.ExecuteNonQuery();
+
+                query = "INSERT INTO MONEY_HISTORY (SENDER_PROJECT_KEY, RECEIVER_ID, VALUE, TDATE) VALUES (:sid, :rid, :amount, now())";
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add(new NpgsqlParameter("sid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["sid"].Value = senderId;
+                command.Parameters.Add(new NpgsqlParameter("rid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["rid"].Value = recvId;
+                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters["amount"].Value = amount;
+                command.ExecuteNonQuery();
+
+                commit();
+                ret = true;
+            }
+            catch (Exception ex)
+            {
+                rollback();
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return ret;
+        }
+
         public DateTime now()
         {
             DateTime ret = new DateTime();
@@ -1165,10 +1226,382 @@ namespace Database
             {
                 disconnect();
             }
-
-
         }
 
+        public Dictionary<String, String> getProjectInfo(UInt64 key)
+        {
+            if (!connect())
+                return null;
+
+            Dictionary<String, String> ret = null;
+
+            try
+            {
+                String query = "SELECT p.name, p.money, t.person_id from project p, project_team t where p.key = t.project_key and p.key = :key and t.status = 'L'";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("key", NpgsqlTypes.NpgsqlDbType.Numeric);
+                command.Parameters["key"].Value = key;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+
+                ret = new Dictionary<string, string>();
+                while (rd.Read())
+                {
+                    ret["name"] = Convert.ToString(rd["name"]);
+                    ret["money"] = Convert.ToString(rd["money"]);
+                    ret["leader"] = Convert.ToString(rd["person_id"]);
+                }
+                rd.Close();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return ret;
+        }
+
+        public uint count6(UInt64 n)
+        {
+            UInt64 num = n;
+
+            uint count = 0;
+
+            while (num > 0)
+            {
+                if (num % 10 == 6)
+                    count++;
+                num = num / 10;
+            }
+
+            return count;
+        }
+
+        public UInt64 generateExperimentId()
+        {
+            if (!connect())
+            {
+                return 0;
+            }
+
+            UInt64 ret = 0;
+            Random random = new Random();
+
+            try
+            {
+                UInt64 qty = 1;
+                do
+                {
+                    ret = Convert.ToUInt64(random.Next(10000000, 99999999));
+                    qty = 1;
+                    if (count6(ret) < 2)
+                    {
+                        String query = "SELECT count(*) from tm_experiment where id = :id";
+                        NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                        command.Parameters.Add("id", NpgsqlTypes.NpgsqlDbType.Numeric);
+                        command.Parameters["id"].Value = ret;
+
+                        NpgsqlDataReader rd = command.ExecuteReader();
+
+                        while (rd.Read())
+                        {
+                            qty = Convert.ToUInt64(rd["count"]);
+                        }
+
+                        rd.Close();
+                    }
+                }
+                while (qty > 0);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return ret;
+        }
+
+        public UInt64 editTimeMachineExperiment(UInt64 id, UInt64 projectKey, string name, UInt64 param_space_1,
+            UInt64 param_space_2, UInt64 param_time, UInt64 param_mass)
+        {
+            bool doInsert = false;
+            if (id == 0)
+            {
+                id = generateExperimentId();
+                doInsert = true;
+            }
+
+            if (!connect())
+                return 0;
+
+            try
+            {
+                String query;
+                if (doInsert)
+                    query = "INSERT INTO tm_experiment (id, project_key, name, param_space_1, param_space_2, param_time, param_mass) " +
+                        "values (:id, :project_key, :name, :param_space_1, :param_space_2, :param_time, :param_mass)";
+                else
+                    query = "UPDATE tm_experiment set name = :name, param_space_1 = :param_space_1, param_space_2 = :param_space_2, param_time = :param_time, param_mass = :param_mass, updated_at = now() " +
+                        "WHERE ID = :id";
+
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("id", NpgsqlTypes.NpgsqlDbType.Integer);
+                command.Parameters["id"].Value = id;
+
+                command.Parameters.Add("project_key", NpgsqlTypes.NpgsqlDbType.Integer);
+                command.Parameters["project_key"].Value = projectKey;
+
+                command.Parameters.Add("name", NpgsqlTypes.NpgsqlDbType.Varchar);
+                command.Parameters["name"].Value = name;
+
+                command.Parameters.Add("param_space_1", NpgsqlTypes.NpgsqlDbType.Bigint);
+                command.Parameters["param_space_1"].Value = param_space_1;
+
+                command.Parameters.Add("param_space_2", NpgsqlTypes.NpgsqlDbType.Bigint);
+                command.Parameters["param_space_2"].Value = param_space_2;
+
+                command.Parameters.Add("param_time", NpgsqlTypes.NpgsqlDbType.Bigint);
+                command.Parameters["param_time"].Value = param_time;
+
+                command.Parameters.Add("param_mass", NpgsqlTypes.NpgsqlDbType.Bigint);
+                command.Parameters["param_mass"].Value = param_mass;
+
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return id;
+        }
+
+        public void fillWithExperiments(DataTable table, UInt64 id = 0)
+        {
+            table.Clear();
+            table.Columns.Clear();
+            table.Columns.Add("ID", Type.GetType("System.UInt64"));
+            table.Columns.Add("PROJECT_KEY", Type.GetType("System.UInt64"));
+            table.Columns.Add("NAME");
+            table.Columns.Add("PARAM_SPACE_1", Type.GetType("System.UInt64"));
+            table.Columns.Add("PARAM_SPACE_2", Type.GetType("System.UInt64"));
+            table.Columns.Add("PARAM_TIME", Type.GetType("System.UInt64"));
+            table.Columns.Add("PARAM_MASS", Type.GetType("System.UInt64"));
+            table.Columns.Add("MASTER_PARAM_A", Type.GetType("System.Double"));
+            table.Columns.Add("MASTER_PARAM_B", Type.GetType("System.Double"));
+            table.Columns.Add("STATUS");
+            table.Columns.Add("CREATED_AT", Type.GetType("System.DateTime"));
+            table.Columns.Add("UPDATED_AT", Type.GetType("System.DateTime"));
+
+            if (!connect())
+                return;
+
+            try
+            {
+                string query = "SELECT id, project_key, name, param_space_1, param_space_2, param_time, param_mass, master_param_a, master_param_b, status, created_at, updated_at from tm_experiment ";
+                if (id > 0)
+                {
+                    query += "where id = :id ";
+                }
+
+                query += " order by id asc";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                if (id > 0)
+                {
+                    command.Parameters.Add("id", NpgsqlTypes.NpgsqlDbType.Integer);
+                    command.Parameters["id"].Value = id;
+                }
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(rd["id"], rd["project_key"], rd["name"], rd["param_space_1"], rd["param_space_2"], rd["param_time"], rd["param_mass"], rd["master_param_a"], rd["master_param_b"], rd["status"], rd["created_at"], rd["updated_at"]);
+                }
+                rd.Close();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void fillWithProperEnergyRequests(DataTable table, UInt64 key = 0, int timeFilter = 0)
+        {
+            table.Clear();
+            table.Columns.Clear();
+            table.Columns.Add("ID", Type.GetType("System.UInt64"));
+            table.Columns.Add("PROJECT_KEY", Type.GetType("System.UInt64"));
+            table.Columns.Add("AMOUNT", Type.GetType("System.UInt64"));
+            table.Columns.Add("PRICE", Type.GetType("System.UInt64"));
+            table.Columns.Add("TIME_FROM", Type.GetType("System.DateTime"));
+            table.Columns.Add("TIME_TO", Type.GetType("System.DateTime"));
+            table.Columns.Add("STATUS");
+
+            if (!connect())
+                return;
+
+            try
+            {
+                string query = "SELECT id, project_key, amount, price, time_from, time_to from tm_energy ";
+                if (key > 0)
+                {
+                    query += "where project_key = :key ";
+                }
+                switch (timeFilter)
+                {
+                    case 0:
+                        // do nothing
+                        break;
+                    case 1:
+                        query += "and now() between time_from and time_to ";
+                        break;
+                    case 2:
+                        query += "and time_from > now() ";
+                        break;
+                }
+
+                query += "ORDER BY project_key asc, time_from asc";
+
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                if (key > 0)
+                {
+                    command.Parameters.Add("key", NpgsqlTypes.NpgsqlDbType.Integer);
+                    command.Parameters["key"].Value = key;
+                }
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(rd["id"], rd["project_key"], rd["amount"], rd["price"], rd["time_from"], rd["time_to"]);
+                }
+                rd.Close();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public Double getEnergyPrice(Double amount)
+        {
+            if (!connect())
+                return 0;
+
+            Double ret = 0;
+            try
+            {
+                string query = "select energy_price(:amount)";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("amount", NpgsqlTypes.NpgsqlDbType.Double);
+                command.Parameters["amount"].Value = amount;
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    ret = Convert.ToDouble(rd[0]);
+                }
+                rd.Close();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return ret;
+        }
+
+        public Double getTMStatic(String name)
+        {
+            if (!connect())
+                return 0;
+
+            Double ret = 0;
+            try
+            {
+                string query = "select value from tm_static where name = :name";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("name", NpgsqlTypes.NpgsqlDbType.Varchar);
+                command.Parameters["name"].Value = name;
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    ret = Convert.ToDouble(rd[0]);
+                }
+                rd.Close();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return ret;
+        }
+
+        public void addEnergyRequest(UInt64 pkey, UInt64 amount, UInt64 price, DateTime from, DateTime to)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                String query;
+                query = "INSERT INTO tm_energy (project_key, amount, price, time_from, time_to) " +
+                    "values (:project_key, :amount, :price, :time_from, :time_to)";
+
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("project_key", NpgsqlTypes.NpgsqlDbType.Integer);
+                command.Parameters["project_key"].Value = pkey;
+
+                command.Parameters.Add("amount", NpgsqlTypes.NpgsqlDbType.Bigint);
+                command.Parameters["amount"].Value = amount;
+
+                command.Parameters.Add("price", NpgsqlTypes.NpgsqlDbType.Bigint);
+                command.Parameters["price"].Value = price;
+
+                command.Parameters.Add("time_from", NpgsqlTypes.NpgsqlDbType.Timestamp);
+                command.Parameters["time_from"].Value = from;
+
+                command.Parameters.Add("time_to", NpgsqlTypes.NpgsqlDbType.Timestamp);
+                command.Parameters["time_to"].Value = to;
+
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
     }
 
 }
