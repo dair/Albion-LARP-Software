@@ -36,10 +36,11 @@ namespace ClientUI
             InitializeComponent();
         }
 
-        public ClientSettings(Database.Connection db)
-            : base(db)
+        public override void setDatabase(Database.Connection c)
         {
-            InitializeComponent();
+            base.setDatabase(c);
+            dbSettingsView.setDatabase(c);
+            
         }
 
         public void setDeviceIdEnabled(bool b)

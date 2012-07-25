@@ -35,12 +35,7 @@ namespace InfoTerm
         UInt64 infoAboutId;
 
         public InfoTermFullInfo()
-        {
-            InitializeComponent();
-        }
-
-        public InfoTermFullInfo(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
         }

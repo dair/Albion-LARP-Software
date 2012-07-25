@@ -32,13 +32,13 @@
             this.refreshButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.addButton = new System.Windows.Forms.Button();
-            this.personList = new UI.PersonList(getDatabase());
+            this.personList = new UI.PersonList();
             this.saveButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.personInfo = new UI.PersonInfo(getDatabase());
+            this.personInfo = new UI.PersonInfo();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.moneyInfo = new UI.MoneyInfo(getDatabase());
+            this.moneyInfo = new UI.MoneyInfo();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();

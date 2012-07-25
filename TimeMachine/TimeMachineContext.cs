@@ -51,7 +51,13 @@ namespace TimeMachine
 
         public static DateTime realToGame(DateTime dt)
         {
-            return dt.AddYears(2565 - 2012);
+            DateTime now = DateTime.Now;
+            return dt.AddYears(2565 - DateTime.Now.Year);
+        }
+
+        public static DateTime gameToReal(DateTime dt)
+        {
+            return dt.AddYears(DateTime.Now.Year - 2565);
         }
 
         // ----------------------------------------------------------
@@ -62,7 +68,8 @@ namespace TimeMachine
 
             logger = new Logging();
 
-            settings = new ClientUI.ClientSettings(database);
+            settings = new ClientUI.ClientSettings();
+            settings.setDatabase(database);
 
             if ((Settings.Settings.HasSettings()) || settings.ShowDialog() == DialogResult.OK)
             {

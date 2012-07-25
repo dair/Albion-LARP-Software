@@ -64,6 +64,7 @@
             // 
             // cancel
             // 
+            this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cancel.Location = new System.Drawing.Point(259, 105);
             this.cancel.Name = "cancel";
@@ -75,6 +76,7 @@
             // 
             // commit
             // 
+            this.commit.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.commit.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.commit.Location = new System.Drawing.Point(145, 105);
             this.commit.Name = "commit";

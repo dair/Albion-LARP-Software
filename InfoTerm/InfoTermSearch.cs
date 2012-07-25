@@ -32,12 +32,7 @@ namespace InfoTerm
     public partial class InfoTermSearch : InfoTermObject
     {
         public InfoTermSearch()
-        {
-            InitializeComponent();
-        }
-
-        public InfoTermSearch(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
         }

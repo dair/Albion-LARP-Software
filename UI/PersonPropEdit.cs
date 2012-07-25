@@ -39,12 +39,6 @@ namespace UI
             InitializeComponent();
         }
 
-        public PersonPropEdit(Database.Connection db)
-            : base(db)
-        {
-            InitializeComponent();
-        }
-
         private void PersonPropEdit_Load(object sender, EventArgs e)
         {
             if (getDatabase() == null)

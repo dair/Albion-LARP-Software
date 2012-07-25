@@ -32,16 +32,19 @@ namespace Master
     public partial class PersonEditor : UI.DBObjectUserControl
     {
         public PersonEditor()
-        {
-            InitializeComponent();
-        }
-
-        public PersonEditor(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
 
             this.personList.SelectionChanged += new EventHandler(personList_SelectionChanged);
+        }
+
+        public override void setDatabase(Database.Connection db)
+        {
+            base.setDatabase(db);
+            personInfo.setDatabase(db);
+            moneyInfo.setDatabase(db);
+            personList.setDatabase(db);
         }
 
         private void PersonEditor_Load(object sender, EventArgs e)

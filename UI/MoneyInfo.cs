@@ -38,12 +38,6 @@ namespace UI
             InitializeComponent();
         }
 
-        public MoneyInfo(Database.Connection db)
-            : base(db)
-        {
-            InitializeComponent();
-        }
-
         public void setId(UInt64 id)
         {
             if (getDatabase() == null)

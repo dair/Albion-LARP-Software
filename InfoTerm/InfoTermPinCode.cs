@@ -100,8 +100,8 @@ namespace InfoTerm
             myTimer.Start();
         }
 
-        public InfoTermPinCode(Database.Connection db)
-            : base(db)
+        public InfoTermPinCode()
+            : base()
         {
             InitializeComponent();
             welcomeString = greetLabel.Text;

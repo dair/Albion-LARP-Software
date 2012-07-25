@@ -40,12 +40,7 @@ namespace CashDesk
         }
 
         public CashDeskObject()
-        {
-            InitializeComponent();
-        }
-
-        public CashDeskObject(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
         }

@@ -100,8 +100,8 @@ namespace ATM
             myTimer.Start();
         }
 
-        public ATMPinCode(Database.Connection db)
-            : base(db)
+        public ATMPinCode()
+            : base()
         {
             InitializeComponent();
             welcomeString = greetLabel.Text;

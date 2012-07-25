@@ -27,19 +27,22 @@ namespace Settings
 {
     public class Settings
     {
+        const string GAME_NAME = "GoblinReservation";
+
+
         protected static void SetData(String subKey, String name, String value)
         {
-            RegistryKey myKey = Registry.CurrentUser.OpenSubKey("Software\\Bladerunner\\" + subKey, true);
+            RegistryKey myKey = Registry.CurrentUser.OpenSubKey("Software\\AlbionGames\\" + GAME_NAME + "\\" + subKey, true);
             if (myKey == null)
             {
-                myKey = Registry.CurrentUser.CreateSubKey("Software\\Bladerunner\\" + subKey);
+                myKey = Registry.CurrentUser.CreateSubKey("Software\\AlbionGames\\" + GAME_NAME + "\\" + subKey);
             }
             myKey.SetValue(name, value);
         }
 
         protected static String GetData(String subKey, String name, String defValue)
         {
-            RegistryKey myKey = Registry.CurrentUser.OpenSubKey("Software\\Bladerunner\\" + subKey, true);
+            RegistryKey myKey = Registry.CurrentUser.OpenSubKey("Software\\AlbionGames\\" + GAME_NAME + "\\" + subKey, true);
             if (myKey == null)
                 return defValue;
             object obj = myKey.GetValue(name);
@@ -55,13 +58,13 @@ namespace Settings
 
         protected static bool HasSettings(String subKey)
         {
-            RegistryKey myKey = Registry.CurrentUser.OpenSubKey("Software\\Bladerunner\\" + subKey, false);
+            RegistryKey myKey = Registry.CurrentUser.OpenSubKey("Software\\AlbionGames\\" + GAME_NAME + "\\" + subKey, false);
             return myKey != null;
         }
 
         public static bool HasSettings()
         {
-            RegistryKey myKey = Registry.CurrentUser.OpenSubKey("Software\\Bladerunner");
+            RegistryKey myKey = Registry.CurrentUser.OpenSubKey("Software\\AlbionGames\\" + GAME_NAME);
             return myKey != null;
         }
     }

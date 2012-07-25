@@ -56,6 +56,26 @@ namespace TimeMachine
             experimentsView.Columns["CREATED_AT"].Visible = false;
             experimentsView.Columns["STATUS"].HeaderText = "Состояние";
             experimentsView.Columns["UPDATED_AT"].HeaderText = "Обновлено";
+
+            table = new DataTable();
+            db.fillWithProperEnergyRequests(table, 0, 0);
+
+            requestsView.DataSource = table;
+            requestsView.Columns["ID"].Visible = false;
+            requestsView.Columns["PROJECT_KEY"].HeaderText = "Проект";
+            requestsView.Columns["AMOUNT"].HeaderText = "Количество";
+            requestsView.Columns["PRICE"].Visible = false;
+            requestsView.Columns["TIME_FROM"].HeaderText = "С";
+            requestsView.Columns["TIME_TO"].HeaderText = "По";
+
+            foreach (DataRow row in table.Rows)
+            {
+                row["TIME_FROM"] = TimeMachineContext.realToGame(Convert.ToDateTime(row["TIME_FROM"]));
+                row["TIME_TO"] = TimeMachineContext.realToGame(Convert.ToDateTime(row["TIME_TO"]));
+            }
+
+            experimentsView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            requestsView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
         }
 
         private void experimentsView_KeyPress(object sender, KeyPressEventArgs e)

@@ -36,17 +36,12 @@ namespace UI
             //MessageBox.Show("This method shouldn't be called: UI.DBObjectUserControl.DBObjectUserControl()");
         }
 
-        public DBObjectUserControl(Database.Connection db)
+        public virtual void setDatabase(Database.Connection db)
         {
             database = db;
         }
 
-        public void setDatabase(Database.Connection db)
-        {
-            database = db;
-        }
-
-        public Database.Connection getDatabase()
+        public virtual Database.Connection getDatabase()
         {
             return database;
         }

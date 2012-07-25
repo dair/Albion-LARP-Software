@@ -44,7 +44,8 @@ namespace CashDesk
 
             logger = new Logging();
 
-            settings = new ClientUI.ClientSettings(database);
+            settings = new ClientUI.ClientSettings();
+            settings.setDatabase(database);
 
             if ((Settings.Settings.HasSettings() && Settings.CashDesk.GetPersonId() != 0) || settings.ShowDialog() == DialogResult.OK)
             {
@@ -74,7 +75,11 @@ namespace CashDesk
             database.setPort(Settings.Database.GetDBPort());
             database.setUserName(Settings.Database.GetDBUser());
 
-            mainForm = new CashDeskForm(database, settings, RC, logger);
+            mainForm = new CashDeskForm();
+            mainForm.setDatabase(database);
+            mainForm.setSettings(settings);
+            mainForm.setBarCodeReader(RC);
+            mainForm.setLogger(logger);
             mainForm.Closed += new EventHandler(mainForm_Closed);
 
             mainForm.Show();

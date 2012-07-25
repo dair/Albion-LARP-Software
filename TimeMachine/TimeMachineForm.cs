@@ -23,6 +23,7 @@ namespace TimeMachine
 
         Dictionary<String, TimeMachineControl> pages = new Dictionary<string, TimeMachineControl>();
         String currentPage = null;
+        Color bkColor;
 
         public void showSettings()
         {
@@ -37,11 +38,17 @@ namespace TimeMachine
             pages["MAIN_MENU"] = new MainMenu();
             pages["SELECT_PROJECT"] = new SelectProject();
             pages["EDIT_EXPERIMENT"] = new ExperimentEdit();
+            pages["LAUNCH_EXPERIMENT"] = new ExperimentLaunch();
+            pages["PROGRESS_EXPERIMENT"] = new ExperimentProgress();
             pages["ENERGY_REQUEST"] = new EnergyRequest();
+            pages["BLUE_SCREEN"] = new BlueScreen();
+            pages["RECOVERY_CONSOLE"] = new RecoveryConsole();
 
             realTimeTimer.Interval = 1000;
             realTimeTimer.Tick += new EventHandler(realTimeTimer_Tick);
             realTimeTimer.Start();
+
+            bkColor = BackColor;
         }
 
         public void setSettings(ClientSettings s)
@@ -90,6 +97,9 @@ namespace TimeMachine
 
         public void setPage(String pageName)
         {
+            Panel panel = splitContainer.Panel2;
+            Panel titlePanel = splitContainer.Panel1;
+
             if (currentPage != null)
             {
                 pages[currentPage].onDisappear();
@@ -98,19 +108,68 @@ namespace TimeMachine
             currentPage = pageName;
             if (currentPage != null)
             {
-                pages[currentPage].onAppear();
                 panel.Controls.Add(pages[currentPage]);
+                pages[currentPage].Focus();
+                pages[currentPage].onAppear();
                 pages[currentPage].Dock = DockStyle.Fill;
+                if (pages[currentPage].BackColor != Color.Transparent)
+                {
+                    BackColor = pages[currentPage].BackColor;
+                    splitContainer.BackColor = pages[currentPage].BackColor;
+                }
+                else
+                {
+                    BackColor = bkColor;
+                    splitContainer.BackColor = bkColor;
+                }
+
+                if (pages[currentPage].isBlueScreen)
+                {
+                    titlePanel.Hide();
+                    splitContainer.SplitterDistance = 0;
+                }
+                else
+                {
+                    splitContainer.SplitterDistance = 60;
+                    titlePanel.Show();
+                }
             }
         }
 
         private void TimeMachineForm_Load(object sender, EventArgs e)
         {
-            setPage("MAIN_MENU");
+            UInt64 expId = 0;
+            UInt64 launchId = 0;
+            connection.unfinishedLaunch(ref launchId, ref expId);
+
+            if (expId == 0)
+            {
+                setPage("MAIN_MENU");
+            }
+            else
+            {
+                DataTable table = new DataTable();
+                connection.fillWithExperiments(table, expId);
+
+                TimeMachineContext.setData("experiment_id", expId);
+                TimeMachineContext.setData("project_key", table.Rows[0]["PROJECT_KEY"]);
+                TimeMachineContext.setData("launch_id", launchId);
+                setPage("PROGRESS_EXPERIMENT");
+            }
         }
 
         void update()
         {
+            Double bluescreen = connection.getTMStatic("BLUE_SCREEN");
+            if (bluescreen == 1 && !pages[currentPage].isBlueScreen)
+            {
+                setPage("BLUE_SCREEN");
+            }
+            else if (bluescreen == 0 && pages[currentPage].isBlueScreen)
+            {
+                TimeMachineForm_Load(null, null);
+            }
+
             pages[currentPage].update();
         }
     }

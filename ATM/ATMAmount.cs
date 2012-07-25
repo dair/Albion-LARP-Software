@@ -36,12 +36,7 @@ namespace ATM
         Int64 amount = -1;
 
         public ATMAmount()
-        {
-            InitializeComponent();
-        }
-
-        public ATMAmount(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
         }

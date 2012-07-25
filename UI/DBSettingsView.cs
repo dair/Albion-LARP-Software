@@ -33,16 +33,8 @@ namespace UI
 {
     public partial class DBSettingsView : DBObjectUserControl
     {
-
-
         public DBSettingsView()
             : base()
-        {
-            InitializeComponent();
-        }
-
-        public DBSettingsView(Database.Connection db)
-            : base(db)
         {
             InitializeComponent();
         }

@@ -33,22 +33,18 @@ namespace InfoTerm
     public partial class InfoTermForm : ClientUI.ClientForm
     {
         public InfoTermForm()
-        {
-            InitializeComponent();
-        }
-
-        public InfoTermForm(Database.Connection db, ClientSettings s, BarCode.ReaderControl r, Logger.Logging logger)
-            : base(db, s, r, logger, 120000)
+            : base()
         {
             InitializeComponent();
 
-            userObjects["START"] = new InfoTermStart(db);
-            userObjects["PINCODE"] = new InfoTermPinCode(db);
-            userObjects["SEARCH"] = new InfoTermSearch(db);
-            userObjects["TABLE"] = new InfoTermTable(db);
-            userObjects["FULLINFO"] = new InfoTermFullInfo(db);
+            userObjects["START"] = new InfoTermStart();
+            userObjects["PINCODE"] = new InfoTermPinCode();
+            userObjects["SEARCH"] = new InfoTermSearch();
+            userObjects["TABLE"] = new InfoTermTable();
+            userObjects["FULLINFO"] = new InfoTermFullInfo();
 
             startupObjectKey = "START";
+            setInactivityTime(120000);
         }
 
         private void InfoTermForm_Load(object sender, EventArgs e)

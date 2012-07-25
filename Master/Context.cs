@@ -45,10 +45,10 @@ namespace Master
             logging = new Logger.Logging();
             logging.Show();
 
-            settingsForm = new UI.DBDialog(database);
+            settingsForm = new UI.DBDialog();
+            settingsForm.setDatabase(database);
             settingsForm.Closed += new EventHandler(this.settingsForm_Closed);
             settingsForm.Show();
-
         }
 
         // ----------------------------------------------------------
@@ -61,7 +61,8 @@ namespace Master
         {
             if (settingsForm.DialogResult == DialogResult.OK)
             {
-                mainForm = new MainWindow(database);
+                mainForm = new MainWindow();
+                mainForm.setDatabase(database);
                 mainForm.Closed += new EventHandler(this.mainForm_Closed);
 
                 mainForm.Show();

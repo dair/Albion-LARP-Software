@@ -33,24 +33,17 @@ namespace CashDesk
     public partial class CashDeskForm : ClientUI.ClientForm
     {
         public CashDeskForm()
-        {
-            InitializeComponent();
-        }
-
-        public CashDeskForm(Database.Connection db, ClientSettings s, BarCode.ReaderControl r, Logger.Logging logger)
-            : base(db, s, r, logger, 120000)
+            : base()
         {
             InitializeComponent();
 
-            userObjects["START"] = new CashDeskStart(db);
-            userObjects["AMOUNT"] = new CashDeskAmount(db);
-            userObjects["VERIFY"] = new CashDeskVerify(db);
+            userObjects["START"] = new CashDeskStart();
+            userObjects["AMOUNT"] = new CashDeskAmount();
+            userObjects["VERIFY"] = new CashDeskVerify();
 
             startupObjectKey = "START";
-        }
 
-        private void CashDeskForm_Load(object sender, EventArgs e)
-        {
+            setInactivityTime(120000);
         }
     }
 }

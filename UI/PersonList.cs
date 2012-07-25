@@ -54,6 +54,11 @@ namespace UI
             return database;
         }
 
+        public void setDatabase(Database.Connection db)
+        {
+            database = db;
+        }
+
         public void Retrieve()
         {
             if (database == null)

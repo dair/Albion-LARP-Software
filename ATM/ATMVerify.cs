@@ -37,12 +37,7 @@ namespace ATM
         Database.ATMLoginInfo recvInfo;
 
         public ATMVerify()
-        {
-            InitializeComponent();
-        }
-
-        public ATMVerify(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
             welcome1 = senderLabel.Text;

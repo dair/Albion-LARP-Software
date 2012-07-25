@@ -32,12 +32,7 @@ namespace ATM
     public partial class ATMHistory : ATMObject
     {
         public ATMHistory()
-        {
-            InitializeComponent();
-        }
-
-        public ATMHistory(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
         }

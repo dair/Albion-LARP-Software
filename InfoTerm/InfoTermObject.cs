@@ -40,12 +40,7 @@ namespace InfoTerm
         }
 
         public InfoTermObject()
-        {
-            InitializeComponent();
-        }
-
-        public InfoTermObject(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
         }

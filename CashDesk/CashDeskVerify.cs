@@ -35,12 +35,7 @@ namespace CashDesk
         private UInt64 amount;
 
         public CashDeskVerify()
-        {
-            InitializeComponent();
-        }
-
-        public CashDeskVerify(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
             welcome1 = senderLabel.Text;

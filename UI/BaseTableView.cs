@@ -49,6 +49,11 @@ namespace UI
             return database;
         }
 
+        public void setDatabase(Database.Connection db)
+        {
+            database = db;
+        }
+
         private void InitializeComponent()
         {
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();

@@ -32,12 +32,7 @@ namespace ATM
     public partial class ATMBalance : ATMObject
     {
         public ATMBalance()
-        {
-            InitializeComponent();
-        }
-
-        public ATMBalance(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
         }

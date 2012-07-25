@@ -34,12 +34,7 @@ namespace InfoTerm
         String searchString;
 
         public InfoTermTable()
-        {
-            InitializeComponent();
-        }
-
-        public InfoTermTable(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
         }

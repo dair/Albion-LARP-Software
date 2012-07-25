@@ -12,6 +12,8 @@ namespace TimeMachine
     public partial class TimeMachineControl : UserControl
     {
         protected Database.Connection db = null;
+        public bool isBlueScreen = false;
+
 
         public static UInt64 id0(Object o)
         {

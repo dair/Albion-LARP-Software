@@ -28,5 +28,6 @@ namespace UI
     public interface IDBObject
     {
         Database.Connection getDatabase();
+        void setDatabase(Database.Connection d);
     }
 }

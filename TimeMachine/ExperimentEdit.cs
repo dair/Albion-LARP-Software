@@ -96,7 +96,7 @@ namespace TimeMachine
                 DateTime to = Convert.ToDateTime(table.Rows[0]["TIME_TO"]);
                 currentEnergyRequestId = id0(table.Rows[0]["ID"]);
 
-                energyLabel.Text = "Доступно энергии: " + Convert.ToString(energy) + " с " + Convert.ToString(from) + " до " + Convert.ToString(to);
+                energyLabel.Text = "Доступно энергии: " + Convert.ToString(energy) + " с " + Convert.ToString(TimeMachineContext.realToGame(from)) + " до " + Convert.ToString(TimeMachineContext.realToGame(to));
             }
             else
             {
@@ -107,7 +107,7 @@ namespace TimeMachine
                     DateTime from = Convert.ToDateTime(table.Rows[0]["TIME_FROM"]);
                     DateTime to = Convert.ToDateTime(table.Rows[0]["TIME_TO"]);
 
-                    energyLabel.Text = "Будет доступно энергии: " + Convert.ToString(energy) + " с " + Convert.ToString(from) + " до " + Convert.ToString(to);
+                    energyLabel.Text = "Будет доступно энергии: " + Convert.ToString(energy) + " с " + Convert.ToString(TimeMachineContext.realToGame(from)) + " до " + Convert.ToString(TimeMachineContext.realToGame(to));
                 }
                 else
                 {
@@ -161,6 +161,11 @@ namespace TimeMachine
 
             db.editTimeMachineExperiment(id, project_key, nameText.Text, param_space_1, param_space_2, param_time, param_mass);
             setGood("Параметры сохранены");
+        }
+
+        private void continueButton_Click(object sender, EventArgs e)
+        {
+            (ParentForm as TimeMachineForm).setPage("LAUNCH_EXPERIMENT");
         }
     }
 }

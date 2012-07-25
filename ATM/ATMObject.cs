@@ -54,12 +54,7 @@ namespace ATM
         }
 
         public ATMObject()
-        {
-            InitializeComponent();
-        }
-
-        public ATMObject(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
         }

@@ -25,6 +25,8 @@ namespace TimeMachine
             password.Text = "";
 
             setError("");
+
+            projectKey.Focus();
         }
 
         private void SelectProject_Resize(object sender, EventArgs e)

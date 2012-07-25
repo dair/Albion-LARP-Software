@@ -38,7 +38,6 @@
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "CashDeskForm";
             this.Text = "Кассовый аппарат";
-            this.Load += new System.EventHandler(this.CashDeskForm_Load);
             this.ResumeLayout(false);
 
         }

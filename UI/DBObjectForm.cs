@@ -37,9 +37,9 @@ namespace UI
             //MessageBox.Show("This method shouldn't be called: UI.DBObjectForm.DBObjectForm()");
         }
 
-        public DBObjectForm(Database.Connection db)
+        public virtual void setDatabase(Database.Connection c)
         {
-            database = db;
+            database = c;
         }
 
         public Database.Connection getDatabase()

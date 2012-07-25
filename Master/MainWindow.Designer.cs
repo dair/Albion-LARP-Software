@@ -30,9 +30,9 @@
         {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.personPage = new System.Windows.Forms.TabPage();
-            this.personEditor = new Master.PersonEditor(getDatabase());
+            this.personEditor = new Master.PersonEditor();
             this.propPage = new System.Windows.Forms.TabPage();
-            this.propertyEditor1 = new Master.PropertyEditor(getDatabase());
+            this.propertyEditor1 = new Master.PropertyEditor();
             this.tabControl.SuspendLayout();
             this.personPage.SuspendLayout();
             this.propPage.SuspendLayout();
@@ -100,7 +100,7 @@
             this.ClientSize = new System.Drawing.Size(544, 363);
             this.Controls.Add(this.tabControl);
             this.Name = "MainWindow";
-            this.Text = "Bladerunner-1993: Мастерская v.1.1";
+            this.Text = "Заповедник Гоблинов: Мастерская v.1.1";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.tabControl.ResumeLayout(false);
             this.personPage.ResumeLayout(false);

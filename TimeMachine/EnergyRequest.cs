@@ -86,7 +86,7 @@ namespace TimeMachine
                 UInt64 recvId = Convert.ToUInt64(db.getTMStatic("gorsvet_id"));
                 db.moneyTransferFromProject(pkey, recvId, price);
                 bool ok = false;
-                db.addEnergyRequest(pkey, amount, price, from.validate(ref ok), to.validate(ref ok));
+                db.addEnergyRequest(pkey, amount, price, TimeMachineContext.gameToReal(from.validate(ref ok)), TimeMachineContext.gameToReal(to.validate(ref ok)));
                 (ParentForm as TimeMachineForm).setPage("MAIN_MENU");
             }
         }

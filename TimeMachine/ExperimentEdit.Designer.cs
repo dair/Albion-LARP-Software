@@ -30,6 +30,8 @@
         {
             this.title = new System.Windows.Forms.Label();
             this.panel = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.nameText = new System.Windows.Forms.TextBox();
             this.continueButton = new System.Windows.Forms.Button();
             this.energyLabel = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Button();
@@ -43,8 +45,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.nameText = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.error = new System.Windows.Forms.Label();
             this.panel.SuspendLayout();
             this.SuspendLayout();
@@ -78,10 +78,29 @@
             this.panel.Controls.Add(this.label3);
             this.panel.Controls.Add(this.label2);
             this.panel.Controls.Add(this.label1);
-            this.panel.Location = new System.Drawing.Point(7, 63);
+            this.panel.Location = new System.Drawing.Point(7, 51);
             this.panel.Name = "panel";
             this.panel.Size = new System.Drawing.Size(680, 332);
             this.panel.TabIndex = 14;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.Location = new System.Drawing.Point(7, 41);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(102, 24);
+            this.label6.TabIndex = 27;
+            this.label6.Text = "Название:";
+            // 
+            // nameText
+            // 
+            this.nameText.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.nameText.Location = new System.Drawing.Point(115, 38);
+            this.nameText.MaxLength = 1000;
+            this.nameText.Name = "nameText";
+            this.nameText.Size = new System.Drawing.Size(562, 29);
+            this.nameText.TabIndex = 26;
             // 
             // continueButton
             // 
@@ -92,6 +111,7 @@
             this.continueButton.TabIndex = 24;
             this.continueButton.Text = "Продолжить";
             this.continueButton.UseVisualStyleBackColor = true;
+            this.continueButton.Click += new System.EventHandler(this.continueButton_Click);
             // 
             // energyLabel
             // 
@@ -207,25 +227,6 @@
             this.label1.TabIndex = 14;
             this.label1.Text = "Подготовка к старту машины";
             // 
-            // nameText
-            // 
-            this.nameText.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.nameText.Location = new System.Drawing.Point(115, 38);
-            this.nameText.MaxLength = 1000;
-            this.nameText.Name = "nameText";
-            this.nameText.Size = new System.Drawing.Size(562, 29);
-            this.nameText.TabIndex = 26;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(7, 41);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(102, 24);
-            this.label6.TabIndex = 27;
-            this.label6.Text = "Название:";
-            // 
             // error
             // 
             this.error.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -234,7 +235,7 @@
             this.error.ForeColor = System.Drawing.Color.Red;
             this.error.Location = new System.Drawing.Point(3, 24);
             this.error.Name = "error";
-            this.error.Size = new System.Drawing.Size(712, 24);
+            this.error.Size = new System.Drawing.Size(656, 24);
             this.error.TabIndex = 15;
             this.error.Text = "Ошибка";
             this.error.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -243,11 +244,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.error);
             this.Controls.Add(this.panel);
             this.Controls.Add(this.title);
             this.Name = "ExperimentEdit";
-            this.Size = new System.Drawing.Size(718, 398);
+            this.Size = new System.Drawing.Size(690, 386);
             this.Resize += new System.EventHandler(this.ExperimentEdit_Resize);
             this.panel.ResumeLayout(false);
             this.panel.PerformLayout();

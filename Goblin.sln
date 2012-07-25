@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ean13Barcode2005", "BarCode
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeMachine", "TimeMachine\TimeMachine.csproj", "{94C1CF11-9531-41D2-BCA8-43324E3FDD1B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShellControl", "ShellControl\ShellControl.csproj", "{5338B18B-1781-418F-A1CC-9BD95A65A3BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -158,6 +160,16 @@ Global
 		{94C1CF11-9531-41D2-BCA8-43324E3FDD1B}.Release|Mixed Platforms.Build.0 = Release|x86
 		{94C1CF11-9531-41D2-BCA8-43324E3FDD1B}.Release|x86.ActiveCfg = Release|x86
 		{94C1CF11-9531-41D2-BCA8-43324E3FDD1B}.Release|x86.Build.0 = Release|x86
+		{5338B18B-1781-418F-A1CC-9BD95A65A3BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5338B18B-1781-418F-A1CC-9BD95A65A3BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5338B18B-1781-418F-A1CC-9BD95A65A3BA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5338B18B-1781-418F-A1CC-9BD95A65A3BA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5338B18B-1781-418F-A1CC-9BD95A65A3BA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5338B18B-1781-418F-A1CC-9BD95A65A3BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5338B18B-1781-418F-A1CC-9BD95A65A3BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5338B18B-1781-418F-A1CC-9BD95A65A3BA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5338B18B-1781-418F-A1CC-9BD95A65A3BA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5338B18B-1781-418F-A1CC-9BD95A65A3BA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -36,13 +36,7 @@ namespace ATM
         bool working = false;
 
         public ATMTransferProject()
-        {
-            InitializeComponent();
-            welcomeString = nameLabel.Text;
-        }
-
-        public ATMTransferProject(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
             welcomeString = nameLabel.Text;

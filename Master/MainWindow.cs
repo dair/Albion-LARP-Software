@@ -36,10 +36,11 @@ namespace Master
             InitializeComponent();
         }
 
-        public MainWindow(Database.Connection db)
-            : base(db)
+        public override void setDatabase(Database.Connection c)
         {
-            InitializeComponent();
+            base.setDatabase(c);
+            personEditor.setDatabase(c);
+            propertyEditor1.setDatabase(c);
         }
 
         private void MainWindow_Load(object sender, EventArgs e)

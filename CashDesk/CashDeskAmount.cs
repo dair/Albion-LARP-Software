@@ -33,14 +33,8 @@ namespace CashDesk
     public partial class CashDeskAmount : CashDeskObject
     {
         Int64 amount = -1;
-
         public CashDeskAmount()
-        {
-            InitializeComponent();
-        }
-
-        public CashDeskAmount(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
         }

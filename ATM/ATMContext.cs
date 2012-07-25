@@ -44,7 +44,8 @@ namespace ATM
 
             logger = new Logging();
 
-            settings = new ClientUI.ClientSettings(database);
+            settings = new ClientUI.ClientSettings();
+            settings.setDatabase(database);
 
             if (Settings.Settings.HasSettings() || settings.ShowDialog() == DialogResult.OK)
             {
@@ -74,7 +75,11 @@ namespace ATM
             database.setPort(Settings.Database.GetDBPort());
             database.setUserName(Settings.Database.GetDBUser());
 
-            mainForm = new ATMForm(database, settings, RC, logger);
+            mainForm = new ATMForm();
+            mainForm.setDatabase(database);
+            mainForm.setSettings(settings);
+            mainForm.setBarCodeReader(RC);
+            mainForm.setLogger(logger);
             mainForm.Closed += new EventHandler(mainForm_Closed);
 
             mainForm.Show();

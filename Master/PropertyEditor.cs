@@ -32,15 +32,9 @@ namespace Master
     public partial class PropertyEditor : UI.DBObjectUserControl
     {
         BindingSource bindingSource;
-
         // ----------------------------------------------------------
         public PropertyEditor()
-        {
-        }
-
-        // ----------------------------------------------------------
-        public PropertyEditor(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
 

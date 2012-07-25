@@ -34,12 +34,13 @@ namespace UI
         public DBDialog()
         {
             InitializeComponent();
+
         }
 
-        public DBDialog(Database.Connection db)
-            : base(db)
+        public override void setDatabase(Database.Connection c)
         {
-            InitializeComponent();
+            base.setDatabase(c);
+            this.settingsView1.setDatabase(c);
         }
 
         private void okButton_Click(object sender, EventArgs e)

@@ -36,8 +36,8 @@ namespace ATM
     {
         private bool ready = false;
 
-        public ATMStart(Database.Connection db)
-            : base(db)
+        public ATMStart()
+            : base()
         {
             InitializeComponent();
             escLabel.Hide();

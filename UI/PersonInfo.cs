@@ -35,12 +35,7 @@ namespace UI
         private BindingSource bindingSource = null;
 
         public PersonInfo()
-        {
-            InitializeComponent();
-        }
-
-        public PersonInfo(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
 
@@ -167,7 +162,9 @@ namespace UI
                 return;
             }
 
-            PersonPropEdit edit = new PersonPropEdit(getDatabase());
+            PersonPropEdit edit = new PersonPropEdit();
+            edit.setDatabase(getDatabase());
+
             edit.list = propList;
             DialogResult result = edit.ShowDialog();
             if (result == DialogResult.OK)
@@ -213,7 +210,8 @@ namespace UI
 
             IList<Database.PropertyInfo> propList = getUnusedProperties(true);
 
-            PersonPropEdit edit = new PersonPropEdit(getDatabase());
+            PersonPropEdit edit = new PersonPropEdit();
+            edit.setDatabase(getDatabase());
             edit.list = propList;
             edit.personProperty = selectedPersonProperty();
             DialogResult result = edit.ShowDialog();

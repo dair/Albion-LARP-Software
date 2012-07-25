@@ -46,24 +46,40 @@ namespace ClientUI
         protected Calibrate calibrateObject = null;
         private int inactivityTime = 0;
 
-        public ClientForm()
+        public ClientForm():
+            base()
         {
+            userObjects = new Dictionary<String, UserObject>();
             InitializeComponent();
         }
 
-        public ClientForm(Database.Connection db, ClientSettings s, BarCode.ReaderControl r, Logger.Logging l, int inactTime)
-            : base(db)
+        public override void setDatabase(Database.Connection c)
         {
-            userObjects = new Dictionary<String, UserObject>();
-            settings = s;
-            RC = r;
-            logger = l;
-            inactivityTime = inactTime;
-
-            InitializeComponent();
-            if (RC != null)
+            base.setDatabase(c);
+            foreach (UserObject o in userObjects.Values)
             {
+                o.setDatabase(c);
             }
+        }
+
+        public void setSettings(ClientSettings s)
+        {
+            settings = s;
+        }
+
+        public void setBarCodeReader(BarCode.ReaderControl r)
+        {
+            RC = r;
+        }
+
+        public void setLogger(Logger.Logging l)
+        {
+            logger = l;
+        }
+
+        public void setInactivityTime(int t)
+        {
+            inactivityTime = t;
         }
 
         void inactivityTimer_Tick(object sender, EventArgs e)

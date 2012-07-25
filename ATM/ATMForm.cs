@@ -34,25 +34,22 @@ namespace ATM
     public partial class ATMForm : ClientUI.ClientForm
     {
         public ATMForm()
-        {
-            InitializeComponent();
-        }
-
-        public ATMForm(Database.Connection db, ClientSettings s, BarCode.ReaderControl r, Logger.Logging logger)
-            : base(db, s, r, logger, 120000)
+            : base()
         {
             InitializeComponent();
 
-            userObjects["START"] = new ATMStart(db);
-            userObjects["PINCODE"] = new ATMPinCode(db);
-            userObjects["SELECT"] = new ATMSelect(db);
-            userObjects["BALANCE"] = new ATMBalance(db);
-            userObjects["TRANSFER"] = new ATMTransfer(db);
-            userObjects["TRANSFER_PROJECT"] = new ATMTransferProject(db);
-            userObjects["AMOUNT"] = new ATMAmount(db);
-            userObjects["VERIFY"] = new ATMVerify(db);
-            userObjects["HISTORY"] = new ATMHistory(db);
+            userObjects["START"] = new ATMStart();
+            userObjects["PINCODE"] = new ATMPinCode();
+            userObjects["SELECT"] = new ATMSelect();
+            userObjects["BALANCE"] = new ATMBalance();
+            userObjects["TRANSFER"] = new ATMTransfer();
+            userObjects["TRANSFER_PROJECT"] = new ATMTransferProject();
+            userObjects["AMOUNT"] = new ATMAmount();
+            userObjects["VERIFY"] = new ATMVerify();
+            userObjects["HISTORY"] = new ATMHistory();
             startupObjectKey = "START";
+
+            setInactivityTime(120000);
         }
 
         private void ATMForm_Load(object sender, EventArgs e)

@@ -33,12 +33,7 @@ namespace ATM
     public partial class ATMSelect : ATMObject
     {
         public ATMSelect()
-        {
-            InitializeComponent();
-        }
-
-        public ATMSelect(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
         }

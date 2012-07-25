@@ -32,12 +32,7 @@ namespace CashDesk
     public partial class CashDeskStart : CashDeskObject
     {
         public CashDeskStart()
-        {
-            InitializeComponent();
-        }
-
-        public CashDeskStart(Database.Connection db)
-            : base(db)
+            : base()
         {
             InitializeComponent();
         }

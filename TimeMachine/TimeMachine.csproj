@@ -61,6 +61,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlueScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BlueScreen.Designer.cs">
+      <DependentUpon>BlueScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExperimentProgress.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExperimentProgress.Designer.cs">
+      <DependentUpon>ExperimentProgress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExperimentLaunch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExperimentLaunch.Designer.cs">
+      <DependentUpon>ExperimentLaunch.cs</DependentUpon>
+    </Compile>
     <Compile Include="EnergyRequest.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -78,6 +96,12 @@
     </Compile>
     <Compile Include="MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RecoveryConsole.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RecoveryConsole.Designer.cs">
+      <DependentUpon>RecoveryConsole.cs</DependentUpon>
     </Compile>
     <Compile Include="SelectProject.cs">
       <SubType>UserControl</SubType>
@@ -106,6 +130,16 @@
     <Compile Include="TimeMachineForm.Designer.cs">
       <DependentUpon>TimeMachineForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TimeMachineMath.cs" />
+    <EmbeddedResource Include="BlueScreen.resx">
+      <DependentUpon>BlueScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExperimentProgress.resx">
+      <DependentUpon>ExperimentProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExperimentLaunch.resx">
+      <DependentUpon>ExperimentLaunch.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EnergyRequest.resx">
       <DependentUpon>EnergyRequest.cs</DependentUpon>
     </EmbeddedResource>
@@ -124,6 +158,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="RecoveryConsole.resx">
+      <DependentUpon>RecoveryConsole.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SelectProject.resx">
       <DependentUpon>SelectProject.cs</DependentUpon>
     </EmbeddedResource>
@@ -163,6 +200,10 @@
     <ProjectReference Include="..\Settings\Settings.csproj">
       <Project>{9857B990-F571-4BDA-8EA6-EE46CC03DDA8}</Project>
       <Name>Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShellControl\ShellControl.csproj">
+      <Project>{5338B18B-1781-418F-A1CC-9BD95A65A3BA}</Project>
+      <Name>ShellControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\UI\UI.csproj">
       <Project>{4A2CB31A-61EC-4D8B-807A-900C3316CC98}</Project>

@@ -35,8 +35,8 @@ namespace InfoTerm
     {
         private bool ready = false;
 
-        public InfoTermStart(Database.Connection db)
-            : base(db)
+        public InfoTermStart()
+            : base()
         {
             InitializeComponent();
             escLabel.Hide();

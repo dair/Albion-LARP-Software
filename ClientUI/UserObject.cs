@@ -38,13 +38,6 @@ namespace ClientUI
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
         }
 
-        public UserObject(Database.Connection db)
-            : base(db)
-        {
-            InitializeComponent();
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
-        }
-
         public event EventHandler<UserObjectEventArgs> NextObjectEvent;
 
         protected void RaiseNextObjectEvent(UserObjectEventArgs args)
