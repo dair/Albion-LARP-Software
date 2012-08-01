@@ -77,32 +77,33 @@ namespace TimeMachine
             experimentsView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
             requestsView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
         }
-
+        /*
         private void experimentsView_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == '\r')
             {
-                if (experimentsView.SelectedRows.Count == 1)
+                int rowCount = 0;
+                foreach (DataGridViewRow row in experimentsView.Rows)
                 {
-                    UInt64 id = id0(experimentsView.SelectedRows[0].Cells["ID"].Value);
-                    UInt64 key = id0(experimentsView.SelectedRows[0].Cells["PROJECT_KEY"].Value);
-//                    MessageBox.Show("experimentsView_KeyPress \"" + Convert.ToString(id) + "\"");
-                    openExperiment(id, key);
+                    if (row.Selected)
+                    {
+                        break;
+                    }
+                    rowCount++;
                 }
-            }
-        }
 
-        private void requestsView_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '\r')
-            {
-                MessageBox.Show("requestsView_KeyPress \"" + e.KeyChar + "\"");
+                UInt64 id = id0(experimentsView.Rows[rowCount].Cells["ID"].Value);
+                UInt64 key = id0(experimentsView.Rows[rowCount].Cells["PROJECT_KEY"].Value);
+                openExperiment(id, key);
             }
+
         }
+         * */
 
         private void newExperimentButton_Click(object sender, EventArgs e)
         {
             TimeMachineContext.setData("METHOD", "EXPERIMENT");
+            TimeMachineContext.setData("experiment_id", 0);
             (this.FindForm() as TimeMachineForm).setPage("SELECT_PROJECT");
         }
 
@@ -121,7 +122,17 @@ namespace TimeMachine
         {
             TimeMachineContext.setData("experiment_id", id);
             TimeMachineContext.setData("project_key", key);
-            (ParentForm as TimeMachineForm).setPage("EDIT_EXPERIMENT");
+
+            UInt64 launchId = db.getLaunchForExperiment(id);
+            if (launchId > 0)
+            {
+                TimeMachineContext.setData("launch_id", launchId);
+                (ParentForm as TimeMachineForm).setPage("FINISH_EXPERIMENT");
+            }
+            else
+            {
+                (ParentForm as TimeMachineForm).setPage("EDIT_EXPERIMENT");
+            }
         }
 
         private void newRequestButton_Click(object sender, EventArgs e)

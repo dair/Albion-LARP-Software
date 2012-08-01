@@ -40,9 +40,13 @@ namespace TimeMachine
             pages["EDIT_EXPERIMENT"] = new ExperimentEdit();
             pages["LAUNCH_EXPERIMENT"] = new ExperimentLaunch();
             pages["PROGRESS_EXPERIMENT"] = new ExperimentProgress();
+
             pages["ENERGY_REQUEST"] = new EnergyRequest();
+
             pages["BLUE_SCREEN"] = new BlueScreen();
             pages["RECOVERY_CONSOLE"] = new RecoveryConsole();
+
+            pages["FINISH_EXPERIMENT"] = new LaunchFinish();
 
             realTimeTimer.Interval = 1000;
             realTimeTimer.Tick += new EventHandler(realTimeTimer_Tick);
@@ -140,7 +144,8 @@ namespace TimeMachine
         {
             UInt64 expId = 0;
             UInt64 launchId = 0;
-            connection.unfinishedLaunch(ref launchId, ref expId);
+            UInt64 energyId = 0;
+            connection.unfinishedLaunch(ref launchId, ref expId, ref energyId);
 
             if (expId == 0)
             {
@@ -154,13 +159,14 @@ namespace TimeMachine
                 TimeMachineContext.setData("experiment_id", expId);
                 TimeMachineContext.setData("project_key", table.Rows[0]["PROJECT_KEY"]);
                 TimeMachineContext.setData("launch_id", launchId);
+                TimeMachineContext.setData("energy_id", energyId);
                 setPage("PROGRESS_EXPERIMENT");
             }
         }
 
         void update()
         {
-            Double bluescreen = connection.getTMStatic("BLUE_SCREEN");
+            Double bluescreen = connection.getTMStatic("BLUE_SCREEN2");
             if (bluescreen == 1 && !pages[currentPage].isBlueScreen)
             {
                 setPage("BLUE_SCREEN");

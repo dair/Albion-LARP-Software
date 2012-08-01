@@ -37,7 +37,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.projectKey = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.error = new System.Windows.Forms.Label();
             this.panel.SuspendLayout();
             this.SuspendLayout();
@@ -150,16 +149,6 @@
             this.label1.Text = "Код проекта:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(468, 392);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // error
             // 
             this.error.BackColor = System.Drawing.Color.Transparent;
@@ -178,7 +167,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.error);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.panel);
             this.Name = "SelectProject";
             this.Size = new System.Drawing.Size(546, 418);
@@ -201,7 +189,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button commit;
         private System.Windows.Forms.Button cancel;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label error;
 
     }

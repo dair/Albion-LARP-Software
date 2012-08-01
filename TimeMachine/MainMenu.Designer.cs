@@ -129,7 +129,6 @@
             this.experimentsView.Size = new System.Drawing.Size(389, 539);
             this.experimentsView.TabIndex = 1;
             this.experimentsView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.experimentsView_CellDoubleClick);
-            this.experimentsView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.experimentsView_KeyPress);
             // 
             // requestsView
             // 

@@ -56,11 +56,11 @@
             this.amountBox.Font = new System.Drawing.Font("Courier New", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountBox.ForeColor = System.Drawing.Color.White;
             this.amountBox.Location = new System.Drawing.Point(412, 184);
-            this.amountBox.MaxLength = 5;
+            this.amountBox.MaxLength = 20;
             this.amountBox.Name = "amountBox";
             this.amountBox.Size = new System.Drawing.Size(359, 62);
             this.amountBox.TabIndex = 15;
-            this.amountBox.Text = "88888";
+            this.amountBox.Text = "888888888";
             this.amountBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label1

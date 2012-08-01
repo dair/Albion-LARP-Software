@@ -64,6 +64,9 @@ namespace TimeMachine
             table = new DataTable();
             db.fillWithLaunch(table, launchId);
 
+            DateTime launchTime_dt = TimeMachineContext.realToGame(Convert.ToDateTime(table.Rows[0]["STARTED_AT"]));
+            launchTime.Text = Convert.ToString(launchTime_dt);
+
             setError("");
         }
 
@@ -98,6 +101,15 @@ namespace TimeMachine
         private void saveButton_Click(object sender, EventArgs e)
         {
             (ParentForm as TimeMachineForm).setPage("MAIN_MENU");
+        }
+
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            db.finishLaunch(id0(TimeMachineContext.getData("launch_id")));
+            (ParentForm as TimeMachineForm).setPage("FINISH_EXPERIMENT");
+            // записать время окончания
+            // сохранить параметры, массу2 (TODO) пока вместо неё масса1
+            // 
         }
     }
 }

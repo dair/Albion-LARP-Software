@@ -57,5 +57,10 @@ namespace TimeMachine
         public virtual void update()
         {
         }
+
+        private void TimeMachineControl_Resize(object sender, EventArgs e)
+        {
+
+        }
     }
 }

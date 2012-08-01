@@ -159,12 +159,15 @@ namespace TimeMachine
                 return;
             }
 
-            db.editTimeMachineExperiment(id, project_key, nameText.Text, param_space_1, param_space_2, param_time, param_mass);
+            id = db.editTimeMachineExperiment(id, project_key, nameText.Text, param_space_1, param_space_2, param_time, param_mass);
+            TimeMachineContext.setData("experiment_id", id);
+
             setGood("Параметры сохранены");
         }
 
         private void continueButton_Click(object sender, EventArgs e)
         {
+            saveButton_Click(sender, e);
             (ParentForm as TimeMachineForm).setPage("LAUNCH_EXPERIMENT");
         }
     }

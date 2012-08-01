@@ -192,7 +192,7 @@ namespace UILibrary
 	        private string GetTextAtPrompt()
 		{
 	            return GetCurrentLine().Substring(prompt.Length);
-        	}
+        }
 
 		private void ReplaceTextAtPrompt(string text)
 		{

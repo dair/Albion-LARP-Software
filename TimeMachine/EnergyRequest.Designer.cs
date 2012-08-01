@@ -123,6 +123,7 @@
             this.cancel.TabIndex = 21;
             this.cancel.Text = "Отмена";
             this.cancel.UseVisualStyleBackColor = true;
+            this.cancel.Click += new System.EventHandler(this.cancel_Click);
             // 
             // errorAmount
             // 

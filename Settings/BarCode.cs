@@ -40,11 +40,11 @@ namespace Settings
             UInt64 d;
             try
             {
-                d = Convert.ToUInt64(GetData(SUBKEY_BARCODE, "COMName", "COM5").Trim());
+                d = Convert.ToUInt64(GetData(SUBKEY_BARCODE, "NEW", "0").Trim());
             }
             catch (Exception)
             {
-                d = 1;
+                d = 0;
             }
 
             return d == 1;

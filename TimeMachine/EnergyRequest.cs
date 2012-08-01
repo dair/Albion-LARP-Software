@@ -25,8 +25,8 @@ namespace TimeMachine
             amountText.Focus();
 
             DateTime now = db.now();
-            from.setDate(now);
-            to.setDate(now.AddMinutes(10));
+            from.setDate(TimeMachineContext.realToGame(now));
+            to.setDate(TimeMachineContext.realToGame(now.AddMinutes(10)));
         }
 
         private void commit_Click(object sender, EventArgs e)
@@ -89,6 +89,11 @@ namespace TimeMachine
                 db.addEnergyRequest(pkey, amount, price, TimeMachineContext.gameToReal(from.validate(ref ok)), TimeMachineContext.gameToReal(to.validate(ref ok)));
                 (ParentForm as TimeMachineForm).setPage("MAIN_MENU");
             }
+        }
+
+        private void cancel_Click(object sender, EventArgs e)
+        {
+            (ParentForm as TimeMachineForm).setPage("MAIN_MENU");
         }
     }
 }

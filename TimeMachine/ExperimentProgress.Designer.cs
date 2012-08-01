@@ -30,11 +30,9 @@
         {
             this.error = new System.Windows.Forms.Label();
             this.panel = new System.Windows.Forms.Panel();
-            this.alertLabel = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.energyTotal = new System.Windows.Forms.TextBox();
-            this.energyCurrent = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.alertLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.launchTime = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -60,7 +58,7 @@
             this.error.ForeColor = System.Drawing.Color.Red;
             this.error.Location = new System.Drawing.Point(3, 24);
             this.error.Name = "error";
-            this.error.Size = new System.Drawing.Size(666, 24);
+            this.error.Size = new System.Drawing.Size(662, 24);
             this.error.TabIndex = 15;
             this.error.Text = "Ошибка";
             this.error.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -69,11 +67,9 @@
             // 
             this.panel.AutoSize = true;
             this.panel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel.Controls.Add(this.alertLabel);
-            this.panel.Controls.Add(this.label9);
-            this.panel.Controls.Add(this.energyTotal);
-            this.panel.Controls.Add(this.energyCurrent);
             this.panel.Controls.Add(this.label8);
+            this.panel.Controls.Add(this.label1);
+            this.panel.Controls.Add(this.alertLabel);
             this.panel.Controls.Add(this.label7);
             this.panel.Controls.Add(this.launchTime);
             this.panel.Controls.Add(this.label6);
@@ -89,8 +85,28 @@
             this.panel.Controls.Add(this.label2);
             this.panel.Location = new System.Drawing.Point(7, 51);
             this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(686, 406);
+            this.panel.Size = new System.Drawing.Size(686, 393);
             this.panel.TabIndex = 14;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label8.Location = new System.Drawing.Point(439, 125);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(85, 24);
+            this.label8.TabIndex = 36;
+            this.label8.Text = "Долгота";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(235, 125);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(77, 24);
+            this.label1.TabIndex = 35;
+            this.label1.Text = "Широта";
             // 
             // alertLabel
             // 
@@ -104,49 +120,11 @@
             this.alertLabel.Text = "Внимание! Идёт сеанс путешествия во времени!";
             this.alertLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label9.Location = new System.Drawing.Point(303, 255);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(31, 24);
-            this.label9.TabIndex = 33;
-            this.label9.Text = "из";
-            // 
-            // energyTotal
-            // 
-            this.energyTotal.Enabled = false;
-            this.energyTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.energyTotal.Location = new System.Drawing.Point(333, 255);
-            this.energyTotal.Name = "energyTotal";
-            this.energyTotal.Size = new System.Drawing.Size(103, 29);
-            this.energyTotal.TabIndex = 32;
-            // 
-            // energyCurrent
-            // 
-            this.energyCurrent.Enabled = false;
-            this.energyCurrent.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.energyCurrent.Location = new System.Drawing.Point(194, 255);
-            this.energyCurrent.Name = "energyCurrent";
-            this.energyCurrent.Size = new System.Drawing.Size(103, 29);
-            this.energyCurrent.TabIndex = 31;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(97, 255);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(91, 24);
-            this.label8.TabIndex = 30;
-            this.label8.Text = "Энергия:";
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(42, 221);
+            this.label7.Location = new System.Drawing.Point(42, 255);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(146, 24);
             this.label7.TabIndex = 29;
@@ -156,7 +134,7 @@
             // 
             this.launchTime.Enabled = false;
             this.launchTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.launchTime.Location = new System.Drawing.Point(194, 218);
+            this.launchTime.Location = new System.Drawing.Point(194, 252);
             this.launchTime.Name = "launchTime";
             this.launchTime.Size = new System.Drawing.Size(187, 29);
             this.launchTime.TabIndex = 28;
@@ -186,18 +164,19 @@
             this.stopButton.BackColor = System.Drawing.Color.Red;
             this.stopButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.stopButton.ForeColor = System.Drawing.Color.White;
-            this.stopButton.Location = new System.Drawing.Point(136, 304);
+            this.stopButton.Location = new System.Drawing.Point(115, 291);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(454, 99);
             this.stopButton.TabIndex = 24;
             this.stopButton.Text = "ВЕРНУТЬ ТЕМПОНАВТА";
             this.stopButton.UseVisualStyleBackColor = false;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(20, 187);
+            this.label5.Location = new System.Drawing.Point(20, 221);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(361, 24);
             this.label5.TabIndex = 22;
@@ -207,7 +186,7 @@
             // 
             this.mass.Enabled = false;
             this.mass.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.mass.Location = new System.Drawing.Point(387, 184);
+            this.mass.Location = new System.Drawing.Point(387, 218);
             this.mass.Name = "mass";
             this.mass.Size = new System.Drawing.Size(187, 29);
             this.mass.TabIndex = 21;
@@ -216,7 +195,7 @@
             // 
             this.paramTime.Enabled = false;
             this.paramTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.paramTime.Location = new System.Drawing.Point(194, 153);
+            this.paramTime.Location = new System.Drawing.Point(194, 187);
             this.paramTime.Name = "paramTime";
             this.paramTime.Size = new System.Drawing.Size(187, 29);
             this.paramTime.TabIndex = 20;
@@ -225,7 +204,7 @@
             // 
             this.paramSpace2.Enabled = false;
             this.paramSpace2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.paramSpace2.Location = new System.Drawing.Point(387, 118);
+            this.paramSpace2.Location = new System.Drawing.Point(387, 152);
             this.paramSpace2.Name = "paramSpace2";
             this.paramSpace2.Size = new System.Drawing.Size(187, 29);
             this.paramSpace2.TabIndex = 19;
@@ -234,7 +213,7 @@
             // 
             this.paramSpace1.Enabled = false;
             this.paramSpace1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.paramSpace1.Location = new System.Drawing.Point(194, 118);
+            this.paramSpace1.Location = new System.Drawing.Point(194, 152);
             this.paramSpace1.Name = "paramSpace1";
             this.paramSpace1.Size = new System.Drawing.Size(187, 29);
             this.paramSpace1.TabIndex = 18;
@@ -243,7 +222,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(77, 153);
+            this.label4.Location = new System.Drawing.Point(77, 187);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(111, 24);
             this.label4.TabIndex = 17;
@@ -253,7 +232,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(7, 121);
+            this.label3.Location = new System.Drawing.Point(7, 155);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(181, 24);
             this.label3.TabIndex = 16;
@@ -289,7 +268,7 @@
             this.Controls.Add(this.panel);
             this.Controls.Add(this.title);
             this.Name = "ExperimentProgress";
-            this.Size = new System.Drawing.Size(700, 460);
+            this.Size = new System.Drawing.Size(696, 447);
             this.Resize += new System.EventHandler(this.ExperimentEdit_Resize);
             this.panel.ResumeLayout(false);
             this.panel.PerformLayout();
@@ -316,10 +295,8 @@
         private System.Windows.Forms.Label error;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox launchTime;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox energyTotal;
-        private System.Windows.Forms.TextBox energyCurrent;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label alertLabel;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label1;
     }
 }

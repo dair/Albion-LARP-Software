@@ -91,6 +91,12 @@
     <Compile Include="ExperimentEdit.Designer.cs">
       <DependentUpon>ExperimentEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="LaunchFinish.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LaunchFinish.Designer.cs">
+      <DependentUpon>LaunchFinish.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainMenu.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -130,7 +136,6 @@
     <Compile Include="TimeMachineForm.Designer.cs">
       <DependentUpon>TimeMachineForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TimeMachineMath.cs" />
     <EmbeddedResource Include="BlueScreen.resx">
       <DependentUpon>BlueScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -145,6 +150,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExperimentEdit.resx">
       <DependentUpon>ExperimentEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LaunchFinish.resx">
+      <DependentUpon>LaunchFinish.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
@@ -166,6 +174,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TimeForm.resx">
       <DependentUpon>TimeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeMachineControl.resx">
+      <DependentUpon>TimeMachineControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TimeMachineForm.resx">
       <DependentUpon>TimeMachineForm.cs</DependentUpon>

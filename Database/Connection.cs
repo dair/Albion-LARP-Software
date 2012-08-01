@@ -997,33 +997,32 @@ namespace Database
                 return false;
             bool ret = false;
 
-            String query = "UPDATE PROJECT SET MONEY = MONEY - :amount WHERE KEY = :id AND STATUS='A'";
             try
             {
                 begin();
-
+                String query = "UPDATE PROJECT SET MONEY = MONEY - :amount WHERE KEY = :id AND STATUS='A'";
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
-                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Integer));
                 command.Parameters["id"].Value = senderId;
-                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Bigint));
                 command.Parameters["amount"].Value = amount;
                 command.ExecuteNonQuery();
 
                 query = "UPDATE MONEY SET BALANCE = BALANCE + :amount WHERE ID = :id";
                 command = new NpgsqlCommand(query, connection);
-                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters.Add(new NpgsqlParameter("id", NpgsqlTypes.NpgsqlDbType.Integer));
                 command.Parameters["id"].Value = recvId;
-                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Bigint));
                 command.Parameters["amount"].Value = amount;
                 command.ExecuteNonQuery();
 
                 query = "INSERT INTO MONEY_HISTORY (SENDER_PROJECT_KEY, RECEIVER_ID, VALUE, TDATE) VALUES (:sid, :rid, :amount, now())";
                 command = new NpgsqlCommand(query, connection);
-                command.Parameters.Add(new NpgsqlParameter("sid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters.Add(new NpgsqlParameter("sid", NpgsqlTypes.NpgsqlDbType.Integer));
                 command.Parameters["sid"].Value = senderId;
-                command.Parameters.Add(new NpgsqlParameter("rid", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters.Add(new NpgsqlParameter("rid", NpgsqlTypes.NpgsqlDbType.Integer));
                 command.Parameters["rid"].Value = recvId;
-                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Numeric));
+                command.Parameters.Add(new NpgsqlParameter("amount", NpgsqlTypes.NpgsqlDbType.Bigint));
                 command.Parameters["amount"].Value = amount;
                 command.ExecuteNonQuery();
 
@@ -1237,7 +1236,7 @@ namespace Database
 
             try
             {
-                String query = "SELECT p.name, p.money, t.person_id from project p, project_team t where p.key = t.project_key and p.key = :key and t.status = 'L'";
+                String query = "SELECT p.name, p.money, t.person_id from project p, project_team t where p.key = t.project_key and p.key = :key and t.status = 'L' and p.status = 'A'";
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
                 command.Parameters.Add("key", NpgsqlTypes.NpgsqlDbType.Numeric);
                 command.Parameters["key"].Value = key;
@@ -1635,7 +1634,7 @@ namespace Database
             }
         }
 
-        public void unfinishedLaunch(ref UInt64 launchId, ref UInt64 expId)
+        public void unfinishedLaunch(ref UInt64 launchId, ref UInt64 expId, ref UInt64 energyId)
         {
             launchId = 0;
             expId = 0;
@@ -1645,13 +1644,14 @@ namespace Database
             try
             {
                 String query;
-                query = "select id, experiment_id from tm_launch where stopped_at is null order by created_at desc limit 1";
+                query = "select id, experiment_id, energy_id from tm_launch where ended_at is null order by started_at desc limit 1";
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
                 NpgsqlDataReader rd = command.ExecuteReader();
                 while (rd.Read())
                 {
                     launchId = Convert.ToUInt64(rd["ID"]);
                     expId = Convert.ToUInt64(rd["EXPERIMENT_ID"]);
+                    energyId = Convert.ToUInt64(rd["ENERGY_ID"]);
                 }
                 rd.Close();
             }
@@ -1667,7 +1667,7 @@ namespace Database
             return;
         }
 
-        public UInt64 createLaunch(UInt64 expId, UInt64 energyId, Double power)
+        public UInt64 createLaunch(UInt64 expId, UInt64 energyId, UInt64 mass2)
         {
             if (!connect())
                 return 0;
@@ -1677,8 +1677,8 @@ namespace Database
             try
             {
                 String query;
-                query = "INSERT INTO tm_launch (experiment_id, energy_id, power) " +
-                    "values (:experiment_id, :energy_id, :power) returning id";
+                query = "INSERT INTO tm_launch (experiment_id, energy_id, mass2) " +
+                    "values (:experiment_id, :energy_id, :mass2) returning id";
 
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
                 command.Parameters.Add("experiment_id", NpgsqlTypes.NpgsqlDbType.Integer);
@@ -1687,8 +1687,8 @@ namespace Database
                 command.Parameters.Add("energy_id", NpgsqlTypes.NpgsqlDbType.Integer);
                 command.Parameters["energy_id"].Value = energyId;
 
-                command.Parameters.Add("power", NpgsqlTypes.NpgsqlDbType.Double);
-                command.Parameters["power"].Value = power;
+                command.Parameters.Add("mass2", NpgsqlTypes.NpgsqlDbType.Bigint);
+                command.Parameters["mass2"].Value = mass2;
 
                 NpgsqlDataReader rd = command.ExecuteReader();
                 while (rd.Read())
@@ -1696,19 +1696,6 @@ namespace Database
                     ret = Convert.ToUInt64(rd[0]);
                 }
                 rd.Close();
-
-                query = "INSERT INTO tm_launch_progress (launch_id, energy, mass) " +
-                    "(select :launch_id, :power, param_mass from tm_experiment where id = :exp_id)";
-                command = new NpgsqlCommand(query, connection);
-                command.Parameters.Add("launch_id", NpgsqlTypes.NpgsqlDbType.Integer);
-                command.Parameters["launch_id"].Value = ret;
-
-                command.Parameters.Add("exp_id", NpgsqlTypes.NpgsqlDbType.Integer);
-                command.Parameters["exp_id"].Value = expId;
-
-                command.Parameters.Add("power", NpgsqlTypes.NpgsqlDbType.Double);
-                command.Parameters["power"].Value = power;
-                command.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -1729,9 +1716,9 @@ namespace Database
             table.Columns.Add("ID", Type.GetType("System.UInt64"));
             table.Columns.Add("EXPERIMENT_ID", Type.GetType("System.UInt64"));
             table.Columns.Add("ENERGY_ID", Type.GetType("System.UInt64"));
-            table.Columns.Add("POWER", Type.GetType("System.Double"));
-            table.Columns.Add("CREATED_AT", Type.GetType("System.DateTime"));
-            table.Columns.Add("STOPPED_AT", Type.GetType("System.DateTime"));
+            table.Columns.Add("MASS2", Type.GetType("System.UInt64"));
+            table.Columns.Add("STARTED_AT", Type.GetType("System.DateTime"));
+            table.Columns.Add("ENDED_AT", Type.GetType("System.DateTime"));
 
             if (!connect())
                 return;
@@ -1739,7 +1726,7 @@ namespace Database
             try
             {
                 String query;
-                query = "select id, experiment_id, energy_id, power, created_at, stopped_at from tm_launch";
+                query = "select id, experiment_id, energy_id, mass2, started_at, ended_at from tm_launch";
                 if (launchId > 0)
                 {
                     query += " where id = :id";
@@ -1754,7 +1741,7 @@ namespace Database
                 NpgsqlDataReader rd = command.ExecuteReader();
                 while (rd.Read())
                 {
-                    table.Rows.Add(rd["id"], rd["experiment_id"], rd["energy_id"], rd["power"], rd["created_at"], rd["stopped_at"]);
+                    table.Rows.Add(rd["id"], rd["experiment_id"], rd["energy_id"], rd["mass2"], rd["started_at"], rd["ended_at"]);
                 }
                 rd.Close();
             }
@@ -1778,7 +1765,7 @@ namespace Database
             try
             {
                 String query;
-                query = "select id from tm_launch where stopped_at is not null and status = 'F' order by stopped_at desc limit 1";
+                query = "select id from tm_launch where ended_at is not null order by ended_at desc limit 1";
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
 
                 NpgsqlDataReader rd = command.ExecuteReader();
@@ -1802,6 +1789,140 @@ namespace Database
                 fillWithLaunch(table, id);
             }
         }
-    }
 
+        public void finishLaunch(UInt64 id)
+        {
+            if (!connect())
+                return;
+
+            try
+            {
+                String query;
+                query = "UPDATE tm_launch set ended_at = now() where id = :id";
+
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("id", NpgsqlTypes.NpgsqlDbType.Integer);
+                command.Parameters["id"].Value = id;
+                command.ExecuteNonQuery();
+
+                query = "UPDATE tm_experiment set status = 'H' where id in (select experiment_id from tm_launch where id = :id)";
+
+                command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("id", NpgsqlTypes.NpgsqlDbType.Integer);
+                command.Parameters["id"].Value = id;
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public UInt64 getLaunchForExperiment(UInt64 expId)
+        {
+            if (!connect())
+                return 0;
+
+            UInt64 id = 0;
+
+            try
+            {
+                String query;
+                query = "select id from tm_launch where experiment_id = :exp_id";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("exp_id", NpgsqlTypes.NpgsqlDbType.Integer);
+                command.Parameters["exp_id"].Value = expId;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    id = Convert.ToUInt64(rd[0]);
+                }
+                rd.Close();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return id;
+        }
+
+        public void fillWithConsoleLines(DataTable table)
+        {
+            table.Clear();
+            table.Columns.Clear();
+            table.Columns.Add("ID", Type.GetType("System.UInt64"));
+            table.Columns.Add("LINE");
+            table.Columns.Add("RESPONSE");
+
+            if (!connect())
+                return;
+
+            try
+            {
+                String query;
+                query = "select id, line, response from tm_console order by id asc";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    table.Rows.Add(rd["id"], rd["line"], rd["response"]);
+                }
+                rd.Close();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+        }
+
+        public UInt64 addConsoleLine(String line)
+        {
+            if (!connect())
+                return 0;
+
+            UInt64 ret = 0;
+
+            try
+            {
+                String query;
+                query = "INSERT INTO tm_console (line) values (:line) returning id";
+
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.Add("line", NpgsqlTypes.NpgsqlDbType.Varchar);
+                command.Parameters["line"].Value = line;
+
+                NpgsqlDataReader rd = command.ExecuteReader();
+                while (rd.Read())
+                {
+                    ret = Convert.ToUInt64(rd[0]);
+                }
+                rd.Close();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                disconnect();
+            }
+
+            return ret;
+        }
+    }
 }

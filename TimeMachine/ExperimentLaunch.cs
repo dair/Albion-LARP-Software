@@ -13,7 +13,7 @@ namespace TimeMachine
     {
         UInt64 projectKey = 0;
         UInt64 currentEnergyRequestId = 0;
-        UInt64 currentEnergy = 0;
+        UInt64 massValue = 0;
         int updateCounter = 0;
 
         public ExperimentLaunch() :
@@ -61,7 +61,8 @@ namespace TimeMachine
                     paramSpace1.Text = Convert.ToString(table.Rows[0]["PARAM_SPACE_1"]);
                     paramSpace2.Text = Convert.ToString(table.Rows[0]["PARAM_SPACE_2"]);
                     paramTime.Text = Convert.ToString(table.Rows[0]["PARAM_TIME"]);
-                    mass.Text = Convert.ToString(table.Rows[0]["PARAM_MASS"]);
+                    massValue = Convert.ToUInt64(table.Rows[0]["PARAM_MASS"]);
+                    mass.Text = Convert.ToString(massValue);
                 }
 
             }
@@ -88,7 +89,6 @@ namespace TimeMachine
             DataTable table = new DataTable();
             db.fillWithProperEnergyRequests(table, projectKey, 1);
             currentEnergyRequestId = 0;
-            currentEnergy = 0;
 
             if (table.Rows.Count > 0)
             {
@@ -96,7 +96,6 @@ namespace TimeMachine
                 DateTime from = Convert.ToDateTime(table.Rows[0]["TIME_FROM"]);
                 DateTime to = Convert.ToDateTime(table.Rows[0]["TIME_TO"]);
                 currentEnergyRequestId = id0(table.Rows[0]["ID"]);
-                currentEnergy = energy;
                 energyLabel.Text = "Доступно энергии: " + Convert.ToString(energy) + " с " + Convert.ToString(from) + " до " + Convert.ToString(to);
             }
             else
@@ -145,10 +144,9 @@ namespace TimeMachine
             }
             UInt64 id = id0(TimeMachineContext.getData("experiment_id"));
 
-            UInt64 launchId = db.createLaunch(id, currentEnergyRequestId, currentEnergy);
+            UInt64 launchId = db.createLaunch(id, currentEnergyRequestId, massValue);
             TimeMachineContext.setData("launch_id", launchId);
             (ParentForm as TimeMachineForm).setPage("PROGRESS_EXPERIMENT");
         }
     }
 }
-

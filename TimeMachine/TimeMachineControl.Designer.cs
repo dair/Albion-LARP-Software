@@ -28,8 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // TimeMachineControl
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Name = "TimeMachineControl";
+            this.Resize += new System.EventHandler(this.TimeMachineControl_Resize);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
