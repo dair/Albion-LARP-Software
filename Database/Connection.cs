@@ -2770,6 +2770,7 @@ namespace Database
                     command = new NpgsqlCommand(query, connection);
                     command.Parameters.Add("rid", NpgsqlTypes.NpgsqlDbType.Numeric);
                     command.Parameters["rid"].Value = reqId;
+                    rd = command.ExecuteReader();
                     while (rd.Read())
                     {
                         quote = Convert.ToUInt64(rd["PRICE"]);

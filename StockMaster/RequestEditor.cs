@@ -150,7 +150,6 @@ namespace StockMaster
                 }
             }
 
-
             // Цикл 3: Подсчитываем, сколько кому акций достанется
             foreach (DataRow row in table.Rows)
             {
