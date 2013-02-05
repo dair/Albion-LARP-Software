@@ -36,9 +36,12 @@ namespace ClientUI
         protected String currentObjectKey = null;
         protected ClientSettings settings = null;
         protected BarCode.ReaderControl RC = null;
+        protected BarCode.HIDScanner HID = null;
+
         protected Logger.Logging logger = null;
         protected Timer inactivityTimer = null;
 
+        protected Calibrate calibrateObject = null;
 
         public ClientForm()
         {
@@ -120,6 +123,23 @@ namespace ClientUI
                 !userObjects.ContainsKey(startupObjectKey))
                 return;
 
+            string startKey;
+
+            if (RC != null)
+            {
+                RC.Reload();
+                startKey = startupObjectKey;
+                RC.BarCodeObject.BarCodeEvent += new EventHandler<BarCode.BarCodeEventArgs>(HandleBarCodeEvent);
+            }
+            else
+            {
+                HID = BarCode.HIDScanner.getHIDScanner();
+                calibrateObject = new Calibrate(startupObjectKey);
+                userObjects["BASE_CALIBRATE"] = calibrateObject;
+                startKey = "BASE_CALIBRATE";
+                HID.BarCodeEvent += new EventHandler<BarCode.BarCodeEventArgs>(HandleBarCodeEvent);
+            }
+
             foreach (String key in userObjects.Keys)
             {
                 UserObject obj = userObjects[key];
@@ -136,7 +156,7 @@ namespace ClientUI
                 RC.Reload();
             }
 
-            SetCurrentKey(startupObjectKey, null);
+            SetCurrentKey(startKey, null);
         }
 
         void SetCurrentKey(String newKey, UserObjectEventArgs e)
@@ -178,6 +198,20 @@ namespace ClientUI
                 {
                     inactivityTimer.Start();
                 }
+            }
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            bool processed = false;
+            if (HID != null)
+            {
+                processed = HID.ProcessMessage(m);
+            }
+
+            if (!processed)
+            {
+                base.WndProc(ref m);
             }
         }
     }

@@ -50,7 +50,7 @@ namespace ClientUI
         private void okButton_Click(object sender, EventArgs e)
         {
             dbSettingsView.SaveSettings();
-            bsSettingsView.SaveSettings();
+            advancedBarcodeSettingsView.SaveSettings();
 
             Settings.CashDesk.SetPersonId(Convert.ToUInt64(codeBox.Text));
 

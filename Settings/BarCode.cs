@@ -35,6 +35,32 @@ namespace Settings
             return HasSettings(SUBKEY_BARCODE);
         }
 
+        public static bool NewType()
+        {
+            UInt64 d;
+            try
+            {
+                d = Convert.ToUInt64(GetData(SUBKEY_BARCODE, "NEW", "0").Trim());
+            }
+            catch (Exception)
+            {
+                d = 0;
+            }
+
+            return d == 1;
+        }
+
+        public static void SetNewType(bool t)
+        {
+            UInt64 d;
+            if (t)
+                d = 1;
+            else
+                d = 0;
+
+            SetData(SUBKEY_BARCODE, "NEW", Convert.ToString(d));
+        }
+
         public static string Name()
         {
             String str = GetData(SUBKEY_BARCODE, "COMName", "COM5").Trim();

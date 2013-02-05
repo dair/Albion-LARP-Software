@@ -61,7 +61,7 @@ namespace BarCode
 
         public event EventHandler<BarCodeEventArgs> BarCodeEvent;
 
-        static private UInt64 StringCodeToInt(string s)
+        static public UInt64 StringCodeToInt(string s)
         {
             UInt64 ret = 0;
             try

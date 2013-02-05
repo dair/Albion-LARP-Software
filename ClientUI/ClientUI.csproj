@@ -59,6 +59,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calibrate.cs" />
+    <Compile Include="Calibrate.designer.cs">
+      <DependentUpon>Calibrate.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClientForm.cs">
       <SubType>Form</SubType>
     </Compile>
