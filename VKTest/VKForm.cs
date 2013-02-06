@@ -35,12 +35,14 @@ namespace VKTest
         public VKForm()
         {
             InitializeComponent();
+            disableScanner = true;
         }
 
         public VKForm(Database.Connection db, ClientSettings s, Logger.Logging logger)
             : base(db, s, null, logger, 0)
         {
             InitializeComponent();
+            disableScanner = true;
 
             userObjects["START"] = new VKStart(db, verticalProgressBar);
             userObjects["QUESTION"] = new VKQuestion(db, verticalProgressBar);

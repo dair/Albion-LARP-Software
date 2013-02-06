@@ -59,7 +59,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calibrate.cs" />
+    <Compile Include="Calibrate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Calibrate.designer.cs">
       <DependentUpon>Calibrate.cs</DependentUpon>
     </Compile>

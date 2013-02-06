@@ -43,6 +43,8 @@ namespace ClientUI
 
         protected Calibrate calibrateObject = null;
 
+        public bool disableScanner = false;
+
         public ClientForm()
         {
             InitializeComponent();
@@ -63,7 +65,7 @@ namespace ClientUI
             }
 
             InitializeComponent();
-            if (RC != null)
+            if (RC != null || disableScanner)
             {
                 RC.BarCodeObject.BarCodeEvent += new EventHandler<BarCode.BarCodeEventArgs>(HandleBarCodeEvent);
             }
@@ -123,21 +125,24 @@ namespace ClientUI
                 !userObjects.ContainsKey(startupObjectKey))
                 return;
 
-            string startKey;
+            string startKey = startupObjectKey;
 
-            if (RC != null)
+            if (!disableScanner)
             {
-                RC.Reload();
-                startKey = startupObjectKey;
-                RC.BarCodeObject.BarCodeEvent += new EventHandler<BarCode.BarCodeEventArgs>(HandleBarCodeEvent);
-            }
-            else
-            {
-                HID = BarCode.HIDScanner.getHIDScanner();
-                calibrateObject = new Calibrate(startupObjectKey);
-                userObjects["BASE_CALIBRATE"] = calibrateObject;
-                startKey = "BASE_CALIBRATE";
-                HID.BarCodeEvent += new EventHandler<BarCode.BarCodeEventArgs>(HandleBarCodeEvent);
+                if (RC != null)
+                {
+                    RC.Reload();
+//                    startKey = startupObjectKey;
+                    RC.BarCodeObject.BarCodeEvent += new EventHandler<BarCode.BarCodeEventArgs>(HandleBarCodeEvent);
+                }
+                else
+                {
+                    HID = BarCode.HIDScanner.getHIDScanner();
+                    calibrateObject = new Calibrate(startupObjectKey);
+                    userObjects["BASE_CALIBRATE"] = calibrateObject;
+                    startKey = "BASE_CALIBRATE";
+                    HID.BarCodeEvent += new EventHandler<BarCode.BarCodeEventArgs>(HandleBarCodeEvent);
+                }
             }
 
             foreach (String key in userObjects.Keys)

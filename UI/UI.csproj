@@ -51,7 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdvancedBarcodeSettingsView.cs" />
+    <Compile Include="AdvancedBarcodeSettingsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="AdvancedBarcodeSettingsView.designer.cs">
       <DependentUpon>AdvancedBarcodeSettingsView.cs</DependentUpon>
     </Compile>
